@@ -1,1 +1,1 @@
-export * from './lib/menuItem.module';
+export * from './lib/menu-item/menuItem.module';
