@@ -15,7 +15,7 @@ export interface IMenuItem {
 
 export type ICreateMenuItem = Pick<
     IMenuItem,
-    'name' | 'description' | 'price' | 'item_type' | 'ingredients' | 'allergens'
+    'name' | 'description' | 'price' | 'item_type' | 'ingredients' | 'allergens' | 'img_url'
 >;
 export type IUpdateMenuItem = Partial<Omit<IMenuItem, 'id'>>;
 export type IUpsertMenuItem = IMenuItem;

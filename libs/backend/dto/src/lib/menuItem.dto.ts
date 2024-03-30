@@ -60,6 +60,7 @@ export class UpsertMenuItemDto implements IUpsertMenuItem {
     @IsOptional()
     _id!: Id;
 
+
     @IsString()
     @IsNotEmpty()
     item_type!: string;
@@ -98,7 +99,6 @@ export class UpsertMenuItemDto implements IUpsertMenuItem {
 
 export class UpdateMenuItemDto implements IUpdateMenuItem {
     @IsMongoId()
-    @IsOptional()
     _id?: Id;
 
     @IsString()
