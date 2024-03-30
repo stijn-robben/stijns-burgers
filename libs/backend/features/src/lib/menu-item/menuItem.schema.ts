@@ -1,5 +1,5 @@
-import { IMenuItem, IReview } from "@herkansing-cswp/shared/api";
-import mongoose, { Document } from 'mongoose';
+import { IMenuItem, Review } from "@herkansing-cswp/shared/api";
+import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsMongoId, IsString, IsNumber, IsArray } from 'class-validator';
 export type MenuItemDocument = MenuItem & Document;
@@ -38,13 +38,9 @@ export class MenuItem implements IMenuItem {
     @Prop({ required: true })
     img_url!: string;
 
-    @IsArray()
-    @Prop({
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Review',
-        required: false,
-      })
-      reviews!: IReview[];
+      @Prop({ type: [Review], required: false })
+  reviews!: Review[];
+
 }
 
 export const MenuItemSchema = SchemaFactory.createForClass(MenuItem);

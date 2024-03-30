@@ -50,9 +50,10 @@ export class CreateMenuItemDto implements ICreateMenuItem {
     img_url!: string;
 
     @IsArray()
+    @IsOptional()
     @ValidateNested({ each: true })
     @Type(() => Review)
-    reviews!: IReview[];
+    reviews: IReview[] | undefined;
 }
   
 export class UpsertMenuItemDto implements IUpsertMenuItem {

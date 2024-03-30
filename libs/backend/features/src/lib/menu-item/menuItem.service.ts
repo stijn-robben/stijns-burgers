@@ -1,8 +1,7 @@
 import { Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { MenuItemModule } from "./menuItem.module";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { MenuItemDocument } from "./menuItem.schema";
+import { MenuItem, MenuItemDocument } from "./menuItem.schema";
 import { CreateMenuItemDto, UpdateMenuItemDto } from "@herkansing-cswp/backend/dto";
 import { IMenuItem, IReview } from "@herkansing-cswp/shared/api";
 
@@ -12,7 +11,7 @@ export class MenuItemService {
     private readonly logger: Logger = new Logger(MenuItemService.name);
 
     constructor(
-        @InjectModel(MenuItemModule.name)
+        @InjectModel(MenuItem.name)
         private menuItemModel: Model<MenuItemDocument>,
     
       ) {}

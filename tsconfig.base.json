@@ -19,7 +19,8 @@
       "@herkansing-cswp/backend/features": [
         "libs/backend/features/src/index.ts"
       ],
-      "@herkansing-cswp/shared/api": ["libs/shared/api/src/index.ts"]
+      "@herkansing-cswp/shared/api": ["libs/shared/api/src/index.ts"],
+      "@herkansing-cswp/shared/util-env": ["libs/shared/util-env/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
