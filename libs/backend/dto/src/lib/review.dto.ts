@@ -23,6 +23,10 @@ export class CreateReviewDto implements ICreateReview {
     @IsString()
     @IsNotEmpty()
     description!: string;
+
+    @IsMongoId()
+    @IsOptional()
+    _id_user!: Id;
 }
 
 export class UpsertReviewDto implements IUpsertReview {
@@ -38,6 +42,10 @@ export class UpsertReviewDto implements IUpsertReview {
   @IsString()
   @IsNotEmpty()
   description!: string;
+
+  @IsMongoId()
+    @IsOptional()
+    _id_user!: Id;
 }
 
 export class UpdateReviewDto implements IUpdateReview {
@@ -53,4 +61,6 @@ export class UpdateReviewDto implements IUpdateReview {
   @IsString()
   @IsNotEmpty()
   description!: string;
+
+  
 }

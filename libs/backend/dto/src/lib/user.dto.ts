@@ -12,15 +12,14 @@ import {
 import { Type } from 'class-transformer';
 
 //models
-import { CartItem, ICartItem, ICreateUser, IOrder, IUpdateUser, IUpsertUser, Order, UserRole } from '@herkansing-cswp/shared/api';
-import { Id } from 'libs/shared/api/src/lib/models/id.type';
-
+import { CartItem, ICartItem, ICreateUser, IOrder, IUpdateUser, IUpsertUser, Id, Order, UserRole } from '@herkansing-cswp/shared/api';
 
 export class CreateUserDto implements ICreateUser {
     @IsNotEmpty()
     @IsMongoId()
-    _id?: Id;
+    _id!: Id;
 
+    
     @IsNotEmpty()
     @IsString()
     firstName!: string;
@@ -37,7 +36,6 @@ export class CreateUserDto implements ICreateUser {
     @IsString()
     password!: string;
 
-    @IsNotEmpty()
     @IsDate()
     birthdate!: Date;
 
@@ -70,6 +68,12 @@ export class CreateUserDto implements ICreateUser {
     @ValidateNested({ each: true })
     @Type(() => Order)
     orders!: IOrder[];
+
+    @IsArray()
+    @IsMongoId({ each: true })
+    reviews!: Id[];
+
+    
 }
 
 export class UpsertUserDto implements IUpsertUser {
@@ -126,6 +130,10 @@ export class UpsertUserDto implements IUpsertUser {
     @ValidateNested({ each: true })
     @Type(() => Order)
     orders!: IOrder[];
+
+    @IsArray()
+    @IsMongoId({ each: true })
+    reviews!: Id[];
 }
 
 export class UpdateUserDto implements IUpdateUser {
@@ -182,4 +190,8 @@ export class UpdateUserDto implements IUpdateUser {
     @ValidateNested({ each: true })
     @Type(() => Order)
     orders!: IOrder[];
+
+    @IsArray()
+    @IsMongoId({ each: true })
+    reviews!: Id[];
 }

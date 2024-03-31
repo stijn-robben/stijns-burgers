@@ -1,8 +1,28 @@
-import { IMenuItem, Review } from "@herkansing-cswp/shared/api";
+import { IMenuItem, IReview} from "@herkansing-cswp/shared/api";
 import { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsMongoId, IsString, IsNumber, IsArray } from 'class-validator';
 export type MenuItemDocument = MenuItem & Document;
+export type ReviewDocument = Review & Document;
+
+@Schema()
+export class Review implements IReview{
+    @IsMongoId()
+    _id!: string;
+
+    @IsNumber()
+    @Prop({ required: true })
+    score!: number;
+
+    @IsString()
+    @Prop({ required: true })
+    description!: string;
+
+    @IsMongoId()
+    @Prop({ required: true })
+    _id_user!: string;
+}
+
 
 @Schema()
 export class MenuItem implements IMenuItem {
@@ -42,5 +62,5 @@ export class MenuItem implements IMenuItem {
   reviews!: Review[];
 
 }
-
+export const ReviewSchema = SchemaFactory.createForClass(Review);
 export const MenuItemSchema = SchemaFactory.createForClass(MenuItem);

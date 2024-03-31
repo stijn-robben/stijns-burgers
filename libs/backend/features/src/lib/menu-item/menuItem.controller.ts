@@ -1,17 +1,18 @@
-import { Controller, Put, Delete, HttpStatus, HttpCode } from '@nestjs/common';
+import { Controller, Put, Delete, HttpStatus, HttpCode, UseGuards, Req} from '@nestjs/common';
 import { Get, Param, Post, Body } from '@nestjs/common';
 import { UpdateMenuItemDto } from '@herkansing-cswp/backend/dto';
 import { CreateMenuItemDto } from '@herkansing-cswp/backend/dto';
 import { IMenuItem, IReview } from '@herkansing-cswp/shared/api';
 import { MenuItemService } from './menuItem.service';
 import { ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-
+import { JwtAuthGuard } from '../auth/jwtAuth.guard';
+import { UserService } from '../user/user.service';
 @ApiTags('menu-item')
 
 @Controller('menu-item')
 export class MenuItemController {
-  constructor(private menuItemService: MenuItemService) {}
-
+  constructor(private menuItemService: MenuItemService, private userService: UserService) {}
+  
   @Get('')
   @ApiOperation({ summary: 'Get all menuitems'})
   @ApiOkResponse({ description: 'Returned all menuitems.' })
@@ -55,19 +56,26 @@ export class MenuItemController {
     return { message: 'menu item updated successfully', menuItem: updatedMenuItem };
   }
 
-  @Put(':id/reviews')
-  @ApiOperation({ summary: 'Update reviews in a menuitem' })
-  @ApiOkResponse({ description: 'The menuitem (review) has been successfully updated.' })
-  @ApiBody({ type: UpdateMenuItemDto })
+  @Post(':id/review')
+@UseGuards(JwtAuthGuard)
+@ApiOperation({ summary: 'Update reviews in a menuitem' })
+@ApiOkResponse({ description: 'The menuitem (review) has been successfully updated.' })
+@ApiBody({ type: UpdateMenuItemDto })
+async createReview(
+  @Param('id') menuItemId: string,
+  @Body() review: IReview,
+  @Req() req: any
+): Promise<IMenuItem> {
+  const loggedInUserId = req.user.sub; // Get the user ID from req.user.sub
 
-    async createReview(
-    @Param('id') menuItemId: string,
-    @Body() review: IReview
-    ): Promise<IMenuItem> {
-    const menuItemWithReview = await this.menuItemService.createReview(menuItemId, review);
-    return menuItemWithReview;
-    }
+  const { menuItem, review: createdReview } = await this.menuItemService.createReview(menuItemId, review, loggedInUserId);
 
+  // Add the review ID to the user
+  await this.userService.addReviewToUser(loggedInUserId, createdReview._id);
+
+  return menuItem;
+}
+  
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Delete an menuitem' })

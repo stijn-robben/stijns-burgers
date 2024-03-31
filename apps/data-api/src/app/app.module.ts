@@ -4,7 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { environment } from '@herkansing-cswp/shared/util-env';
 import { MongooseModule } from '@nestjs/mongoose';
-import { MenuItemModule } from '@herkansing-cswp/backend/features';
+import { FeaturesBackendModule } from '@herkansing-cswp/backend/features';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { MenuItemModule } from '@herkansing-cswp/backend/features';
     }
 
     }),
-    MenuItemModule
+    FeaturesBackendModule
   ],
   controllers: [AppController],
   providers: [AppService],

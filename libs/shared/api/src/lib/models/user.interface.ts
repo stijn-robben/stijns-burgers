@@ -21,6 +21,7 @@ export interface IUser {
     token?: string | undefined;
     cart: ICartItem[];
     orders: IOrder[];
+    reviews: Id[];
 }
 
 export type ICreateUser = Pick<

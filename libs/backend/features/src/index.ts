@@ -1,1 +1,1 @@
-export * from './lib/menu-item/menuItem.module';
+export * from './lib/features-backend-module';
