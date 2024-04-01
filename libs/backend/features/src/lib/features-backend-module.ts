@@ -9,7 +9,7 @@ import { MenuItemController } from "./menu-item/menuItem.controller";
 import { MenuItemService } from "./menu-item/menuItem.service";
 import { UserController } from "./user/user.controller";
 import { UserService } from "./user/user.service";
-import { Review } from "@herkansing-cswp/shared/api";
+import { Order, Review } from "@herkansing-cswp/shared/api";
 @Module({
 
     imports: [
@@ -20,7 +20,7 @@ import { Review } from "@herkansing-cswp/shared/api";
         {name: User.name, schema: UserSchema },
         {name: MenuItem.name, schema: MenuItemSchema },
         {name: Review.name, schema: ReviewSchema },
-      
+        
     ])
     ],
     controllers: [

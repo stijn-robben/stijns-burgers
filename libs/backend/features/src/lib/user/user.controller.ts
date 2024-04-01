@@ -1,6 +1,6 @@
-import { CreateCartItemDto, CreateUserDto, UpdateCartItemDto, UpdateUserDto } from "@herkansing-cswp/backend/dto";
-import { ICartItem, IUser, Id } from "@herkansing-cswp/shared/api";
-import { Controller, Get, UseGuards, Param, Req, BadRequestException, Post, Body, Put, ForbiddenException, Delete, UnauthorizedException } from "@nestjs/common";
+import { CreateCartItemDto, CreateOrderDto, CreateUserDto, UpdateCartItemDto, UpdateUserDto } from "@herkansing-cswp/backend/dto";
+import { ICartItem, IOrder, IUser, Id, Order, Status } from "@herkansing-cswp/shared/api";
+import { Controller, Get, UseGuards, Param, Req, BadRequestException, Post, Body, Put, ForbiddenException, Delete, UnauthorizedException, NotFoundException } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse, ApiOkResponse, ApiBadRequestResponse, ApiNotFoundResponse, ApiCreatedResponse, ApiBody } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../auth/jwtAuth.guard";
 import { Roles } from "../auth/role.decorator";
@@ -171,4 +171,90 @@ async update(@Param('id') id: string, @Body() data: UpdateUserDto, @Req() req: a
 
       return this.userService.getCartItems(userId);
     }
+
+    @Delete(':id/cart')
+@UseGuards(JwtAuthGuard)
+@ApiOperation({ summary: 'Delete all cart items from a user\'s cart' })
+@ApiOkResponse({ description: 'The cart items have been successfully deleted.' })
+async deleteCartItems(
+  @Param('id') userId: string,
+  @Req() req: any
+): Promise<void> {
+  const loggedInUserId = req.user.sub; // Get the user ID from req.user.sub
+
+  // Check if the logged in user is the same as the user we're trying to delete the cart items for
+  if (loggedInUserId !== userId) {
+    throw new UnauthorizedException();
+  }
+
+  return this.userService.deleteCartItems(userId);
+}
+
+// @Post(':id/order')
+// @UseGuards(JwtAuthGuard)
+// @ApiOperation({ summary: 'Create a new order and clear the cart' })
+// @ApiCreatedResponse({ description: 'The order has been successfully created.', type: Order })
+// @ApiBadRequestResponse({ description: 'Bad request. Invalid data.' })
+// @ApiBody({ type: CreateOrderDto })
+// async createOrderAndClearCart(
+//   @Param('id') userId: string,
+//   @Req() req: any,
+//   @Body() data: CreateOrderDto
+// ): Promise<{ user: IUser, order: IOrder }> {
+//   const loggedInUserId = req.user.sub; // Get the user ID from req.user.sub
+
+//   // Check if the logged in user is the same as the user we're trying to create the order for
+//   if (loggedInUserId !== userId) {
+//     throw new UnauthorizedException();
+//   }
+
+//   await this.userService.deleteCartItems(userId);
+//   return this.userService.createOrder(userId, data, loggedInUserId);
+// }
+
+@Post(':id/order')
+@UseGuards(JwtAuthGuard)
+@ApiOperation({ summary: 'Create a new order and clear the cart' })
+@ApiCreatedResponse({ description: 'The order has been successfully created.', type: Order })
+@ApiBadRequestResponse({ description: 'Bad request. Invalid data.' })
+@ApiBody({ type: CreateOrderDto })
+async createOrderAndClearCart(
+  @Param('id') userId: string,
+  @Req() req: any
+): Promise<{ user: IUser, order: IOrder }> {
+  const loggedInUserId = req.user.sub; // Get the user ID from req.user.sub
+
+  // Check if the logged in user is the same as the user we're trying to create the order for
+  if (loggedInUserId !== userId) {
+    throw new UnauthorizedException();
+  }
+
+  // Fetch the user and their cart
+  const user = await this.userService.findOne(userId);
+
+  // Check if user is not null
+  if (!user) {
+    throw new NotFoundException(`User with id ${userId} not found`);
+  }
+
+  const cart = user.cart;
+
+  // Create the orderDto with all required properties
+  const orderDto: CreateOrderDto = {
+    _id_user: userId,
+    order_date: new Date(),
+    status: Status.pending, // or any other default status
+    total_amount: cart.reduce((sum, item) => sum + item.price, 0), // calculate total amount
+    est_delivery_time: new Date(Date.now() + 20 * 60 * 1000), // 20 minutes from now
+    cart: cart
+  };
+
+  // Create the order with the orderDto
+  const order = await this.userService.createOrder(userId, orderDto, loggedInUserId);
+
+  // Clear the user's cart
+  await this.userService.deleteCartItems(userId);
+
+  return order;
+}
 }

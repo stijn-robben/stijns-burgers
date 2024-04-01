@@ -4,6 +4,7 @@ import { IsMongoId, IsString, IsArray, IsNotEmpty, IsNumber } from 'class-valida
 import { ICartItem, IOrder, IReview, IUser, Id, Order, Review, UserRole } from '@herkansing-cswp/shared/api';
 import { ApiProperty } from '@nestjs/swagger';
 export type UserDocument = User & Document;
+export type OrderDocument = Order & Document;
 
 @Schema()
 export class CartItem implements ICartItem{
@@ -108,3 +109,4 @@ export class User implements IUser {
     @Prop({ type: [{ type: [Review] }], required: false })
     reviews!: IReview[];
 }export const UserSchema = SchemaFactory.createForClass(User);
+export const CartItemSchema = SchemaFactory.createForClass(CartItem);
