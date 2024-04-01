@@ -7,6 +7,8 @@ import { MenuItemService } from './menuItem.service';
 import { ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwtAuth.guard';
 import { UserService } from '../user/user.service';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/role.decorator';
 @ApiTags('menu-item')
 
 @Controller('menu-item')
@@ -29,6 +31,8 @@ export class MenuItemController {
     return await this.menuItemService.getOne(id);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   @Post('')
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create a new menuitem' })
@@ -41,6 +45,8 @@ export class MenuItemController {
     return createdMenuItem;
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   @Put(':id')
   @ApiOperation({ summary: 'Update a menuitem' })
   @ApiOkResponse({ description: 'The menuitem has been successfully updated.' })
@@ -75,7 +81,9 @@ async createReview(
 
   return menuItem;
 }
-  
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Delete an menuitem' })
