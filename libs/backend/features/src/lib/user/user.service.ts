@@ -2,7 +2,7 @@ import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { User, UserDocument } from "./user.schema";
 import { Model, Types } from "mongoose";
-import { ICartItem, IUser, Id } from "@herkansing-cswp/shared/api";
+import { ICartItem, IUser, Id, Review } from "@herkansing-cswp/shared/api";
 import { CreateUserDto, UpdateUserDto } from "@herkansing-cswp/backend/dto";
 import { MenuItem, MenuItemDocument } from "../menu-item/menuItem.schema";
 
@@ -72,8 +72,8 @@ export class UserService {
         }
     }
 
-    async addReviewToUser(userId: string, reviewId: string): Promise<IUser> {
-        this.logger.log(`Adding review ${reviewId} to user ${userId}`);
+    async addReviewToUser(userId: string, review: Review): Promise<IUser> {
+        this.logger.log(`Adding review ${review._id} to user ${userId}`);
       
         const user = await this.userModel.findById(userId).exec();
       
@@ -83,7 +83,7 @@ export class UserService {
         }
       
         // Add the review ID to the user's reviews array
-        user.reviews.push(reviewId);
+        user.reviews.push(review);
       
         const updatedUser = await user.save();
         return updatedUser;

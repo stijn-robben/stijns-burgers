@@ -12,7 +12,7 @@ import {
 import { Type } from 'class-transformer';
 
 //models
-import { CartItem, ICartItem, ICreateUser, IOrder, IUpdateUser, IUpsertUser, Id, Order, UserRole } from '@herkansing-cswp/shared/api';
+import { CartItem, ICartItem, ICreateUser, IOrder, IReview, IUpdateUser, IUpsertUser, Id, Order, Review, UserRole } from '@herkansing-cswp/shared/api';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto implements ICreateUser {
@@ -82,8 +82,9 @@ export class CreateUserDto implements ICreateUser {
 
     @ApiProperty({ description: 'The reviews of the user'})
     @IsArray()
-    @IsMongoId({ each: true })
-    reviews!: Id[];
+    @ValidateNested({ each: true })
+    @Type(() => Review)
+    reviews!: IReview[];
 
     
 }
@@ -155,8 +156,9 @@ export class UpsertUserDto implements IUpsertUser {
 
     @ApiProperty({ description: 'The reviews of the user'})
     @IsArray()
-    @IsMongoId({ each: true })
-    reviews!: Id[];
+    @ValidateNested({ each: true })
+    @Type(() => Review)
+    reviews!: IReview[];
 
 }
 
@@ -227,7 +229,8 @@ export class UpdateUserDto implements IUpdateUser {
 
     @ApiProperty({ description: 'The reviews of the user'})
     @IsArray()
-    @IsMongoId({ each: true })
-    reviews!: Id[];
+    @ValidateNested({ each: true })
+    @Type(() => Review)
+    reviews!: IReview[];
 
 }

@@ -1,7 +1,7 @@
 import mongoose, { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsMongoId, IsString, IsArray, IsNotEmpty, IsNumber } from 'class-validator';
-import { ICartItem, IOrder, IUser, Id, Order, UserRole } from '@herkansing-cswp/shared/api';
+import { ICartItem, IOrder, IReview, IUser, Id, Order, Review, UserRole } from '@herkansing-cswp/shared/api';
 import { ApiProperty } from '@nestjs/swagger';
 export type UserDocument = User & Document;
 
@@ -103,8 +103,8 @@ export class User implements IUser {
     @Prop({ type: [Order], required: false})
     orders!: IOrder[];
 
-    @ApiProperty({ description: 'The reviews of the user', type: [String] })
+    @ApiProperty({ description: 'The reviews of the user', type: [Review] })
     @IsArray()
-    @Prop({ type: [{ type: String }], required: false })
-    reviews!: string[];
+    @Prop({ type: [{ type: [Review] }], required: false })
+    reviews!: IReview[];
 }export const UserSchema = SchemaFactory.createForClass(User);

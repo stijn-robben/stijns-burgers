@@ -77,7 +77,7 @@ async createReview(
   const { menuItem, review: createdReview } = await this.menuItemService.createReview(menuItemId, review, loggedInUserId);
 
   // Add the review ID to the user
-  await this.userService.addReviewToUser(loggedInUserId, createdReview._id);
+  await this.userService.addReviewToUser(loggedInUserId, createdReview);
 
   return menuItem;
 }

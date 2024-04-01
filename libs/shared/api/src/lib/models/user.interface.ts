@@ -1,6 +1,7 @@
 import { Id } from './id.type';
 import { ICartItem } from './cart-item.interface';
 import { IOrder } from './order.interface';
+import { IReview } from './review.interface';
 
 export enum UserRole {
     admin = 'admin',
@@ -21,7 +22,7 @@ export interface IUser {
     token?: string | undefined;
     cart: ICartItem[];
     orders: IOrder[];
-    reviews: Id[];
+    reviews: IReview[];
 }
 
 export type ICreateUser = Pick<
