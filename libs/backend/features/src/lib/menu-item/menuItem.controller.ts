@@ -1,6 +1,6 @@
 import { Controller, Put, Delete, HttpStatus, HttpCode, UseGuards, Req} from '@nestjs/common';
 import { Get, Param, Post, Body } from '@nestjs/common';
-import { UpdateMenuItemDto } from '@herkansing-cswp/backend/dto';
+import { CreateReviewDto, UpdateMenuItemDto } from '@herkansing-cswp/backend/dto';
 import { CreateMenuItemDto } from '@herkansing-cswp/backend/dto';
 import { IMenuItem, IReview } from '@herkansing-cswp/shared/api';
 import { MenuItemService } from './menuItem.service';
@@ -58,9 +58,9 @@ export class MenuItemController {
 
   @Post(':id/review')
 @UseGuards(JwtAuthGuard)
-@ApiOperation({ summary: 'Update reviews in a menuitem' })
+@ApiOperation({ summary: 'Add reviews to a menuitem' })
 @ApiOkResponse({ description: 'The menuitem (review) has been successfully updated.' })
-@ApiBody({ type: UpdateMenuItemDto })
+@ApiBody({ type: CreateReviewDto })
 async createReview(
   @Param('id') menuItemId: string,
   @Body() review: IReview,

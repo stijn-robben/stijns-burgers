@@ -2,8 +2,9 @@ import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { User, UserDocument } from "./user.schema";
 import { Model, Types } from "mongoose";
-import { IUser, Id } from "@herkansing-cswp/shared/api";
+import { ICartItem, IUser, Id } from "@herkansing-cswp/shared/api";
 import { CreateUserDto, UpdateUserDto } from "@herkansing-cswp/backend/dto";
+import { MenuItem, MenuItemDocument } from "../menu-item/menuItem.schema";
 
 @Injectable()
 export class UserService {
@@ -12,6 +13,7 @@ export class UserService {
 
     constructor(
         @InjectModel(User.name) private userModel: Model<UserDocument>,
+        @InjectModel(MenuItem.name) private menuItemModel: Model<MenuItemDocument>
     ) {}
 
     async findAll(): Promise<IUser[]> {
@@ -87,5 +89,107 @@ export class UserService {
         return updatedUser;
       }
 
+      async addToCart(userId: string, cartItem: ICartItem): Promise<IUser> {
+        this.logger.log(`Adding cart item to user ${userId}`);
+    
+        const user = await this.userModel.findById(userId).exec();
+    
+        if (!user) {
+            this.logger.debug('User not found');
+            throw new NotFoundException(`User with id ${userId} not found`);
+        }
+    
+        // Check if the cart item already exists in the user's cart
+        const existingCartItem = user.cart.find(item => item.menuItemId === cartItem.menuItemId);
+    
+        if (existingCartItem) {
+            // If the cart item already exists, increase the quantity and aggregate the price
+            existingCartItem.quantity += cartItem.quantity;
+            existingCartItem.price += cartItem.price * cartItem.quantity; // Multiply price by quantity
+        } else {
+            // If the cart item does not exist, add it to the cart
+            cartItem.price *= cartItem.quantity; // Multiply price by quantity
+            user.cart.push(cartItem);
+        }
+    
+        const updatedUser = await user.save();
+        return updatedUser;
+    }
+    async removeFromCart(userId: string, cartItemId: string): Promise<{ deleted: boolean; message?: string }> {
+      try {
+          const user = await this.userModel.findById(userId).exec();
+          if (!user) {
+              this.logger.debug(`No user found with id: ${userId}`);
+              return { deleted: false, message: 'No user found with that ID' };
+          }
+  
+          const cartItemIndex = user.cart.findIndex(item => item._id.toString() === cartItemId);
+          if (cartItemIndex === -1) {
+              this.logger.debug(`No cart item found with id: ${cartItemId}`);
+              return { deleted: false, message: 'No cart item found with that ID' };
+          }
+  
+          user.cart.splice(cartItemIndex, 1);
+          await user.save();
+  
+          this.logger.log(`Deleted cart item with id: ${cartItemId}`);
+          return { deleted: true };
+      } catch (error) {
+          this.logger.error(`Error deleting cart item with id ${cartItemId}: ${error}`);
+          throw error;
+      }
+  }
+
+  async getUnitPrice(menuItemId: string): Promise<number> {
+    const menuItem = await this.menuItemModel.findById(menuItemId).exec();
+
+    if (!menuItem) {
+        this.logger.debug('Menu item not found');
+        throw new NotFoundException(`Menu item with id ${menuItemId} not found`);
+    }
+
+    return menuItem.price;
+}
+
+  async updateCartItem(userId: string, cartItemId: string, quantity: number): Promise<IUser> {
+    this.logger.log(`Updating cart item for user ${userId}`);
+
+    const user = await this.userModel.findById(userId).exec();
+
+    if (!user) {
+        this.logger.debug('User not found');
+        throw new NotFoundException(`User with id ${userId} not found`);
+    }
+
+    // Find the cart item in the user's cart array
+    const cartItem = user.cart.find(item => item._id.toString() === cartItemId);
+
+    if (!cartItem) {
+        this.logger.debug('Cart item not found');
+        throw new NotFoundException(`Cart item with id ${cartItemId} not found`);
+    }
+
+    // Update the quantity of the cart item
+    cartItem.quantity = quantity;
+
+    // Recalculate the price of the cart item
+    const unitPrice = await this.getUnitPrice(cartItem.menuItemId);
+    cartItem.price = unitPrice * quantity;
+
+    const updatedUser = await user.save();
+    return updatedUser;
+}
+
+      async getCartItems(userId: string): Promise<ICartItem[]> {
+        this.logger.log(`Getting cart items for user ${userId}`);
       
+        const user = await this.userModel.findById(userId).exec();
+      
+        if (!user) {
+          this.logger.debug('User not found');
+          throw new NotFoundException(`User with id ${userId} not found`);
+        }
+      
+        return user.cart;
+      }
 }
