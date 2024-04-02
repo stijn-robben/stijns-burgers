@@ -15,12 +15,18 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@herkansing-cswp/auth": ["libs/stijns-burgers/auth/src/index.ts"],
       "@herkansing-cswp/backend/dto": ["libs/backend/dto/src/index.ts"],
       "@herkansing-cswp/backend/features": [
         "libs/backend/features/src/index.ts"
       ],
+      "@herkansing-cswp/common": ["libs/stijns-burgers/common/src/index.ts"],
+      "@herkansing-cswp/features": [
+        "libs/stijns-burgers/features/src/index.ts"
+      ],
       "@herkansing-cswp/shared/api": ["libs/shared/api/src/index.ts"],
-      "@herkansing-cswp/shared/util-env": ["libs/shared/util-env/src/index.ts"]
+      "@herkansing-cswp/shared/util-env": ["libs/shared/util-env/src/index.ts"],
+      "@herkansing-cswp/ui": ["libs/stijns-burgers/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

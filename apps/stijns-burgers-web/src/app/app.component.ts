@@ -1,14 +1,17 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import { RouterLinkActive } from '@angular/router';
+import { UiModule } from '@herkansing-cswp/ui';
+import { FeaturesModule } from '@herkansing-cswp/features';
+
 
 @Component({
   standalone: true,
-  imports: [NxWelcomeComponent, RouterModule],
-  selector: 'app-root',
+  imports: [RouterModule, FeaturesModule, UiModule, RouterLinkActive],
+  selector: 'stijns-burgers-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
   title = 'stijns-burgers-web';
-}
+} 

@@ -2,7 +2,7 @@
   "name": "stijns-burgers-web",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "app",
+  "prefix": "stijns-burgers",
   "sourceRoot": "apps/stijns-burgers-web/src",
   "tags": [],
   "targets": {
@@ -19,8 +19,8 @@
           "apps/stijns-burgers-web/src/favicon.ico",
           "apps/stijns-burgers-web/src/assets"
         ],
-        "styles": ["apps/stijns-burgers-web/src/styles.css"],
-        "scripts": []
+        "styles": ["./node_modules/bootstrap/dist/css/bootstrap.min.css", "apps/stijns-burgers-web/src/styles.css"],
+        "scripts": ["./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"]
       },
       "configurations": {
         "production": {

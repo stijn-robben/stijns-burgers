@@ -1,1 +1,395 @@
+/*@tailwind base;
+@tailwind components;
+@tailwind utilities;*/
+
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@font-face {
+    font-family: 'Cubano';
+    src: url(./assets/fonts/Cubano.ttf);
+}
+
+img {
+    pointer-events: none;
+}
+
+
+:root {
+    --font1: 'Inter';
+    --font2: 'Cubano';
+    --color1: #ECD9C3;
+    --color2: #22646D;
+    --color3: #B84141;
+    --color4: #F2BEAE;
+    --color5: #3F2511;
+    --color6: #EF8784;
+    --color7: #EDC16E;
+    --color8: #7B8DC8;
+    --color9: #A4C6B1;
+}
+
+body {
+    margin: 0;
+}
+
+h1 {
+    color: #ECD9C3;
+    font-size: calc(100% + 3vw + 3vh);
+}
+
+h2 {
+    color: var(--color3) !important;
+    font-family: var(--font2);
+    font-size: 4em !important;
+}
+
+h3 {
+    color: var(--color5);
+    font-family: var(--font2);
+    font-size: 2.2em;
+}
+
+h4 {
+    color: var(--color5);
+    font-family: var(--font2);
+    font-size: 1.8em;
+}
+
+
+* {
+    list-style: none;
+    scroll-behavior: smooth;
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color5);
+}
+
+.container {
+    --bs-gutter-x: 17% !important;
+}
+
+.text-font1 {
+    font-family: var(--font1);
+}
+
+.text-font2 {
+    font-family: var(--font2);
+}
+
+.bg-default {
+    background-color: var(--color1) !important;
+}
+
+.bg-pink {
+    background-color: var(--color6) !important;
+}
+
+.bg-light-yellow {
+    background-color: var(--color1) !important;
+}
+
+.bg-dark-yellow {
+    background-color: var(--color7) !important;
+}
+
+.bg-red {
+    background-color: var(--color3) !important;
+}
+
+.bg-light-pink {
+    background-color: var(--color4) !important;
+}
+
+.bg-blue {
+    background-color: var(--color8) !important;
+}
+
+.bg-green {
+    background-color: var(--color9) !important;
+}
+
+.full-vh {
+    min-height: 100vh !important;
+}
+
+.jumbotron-vh {
+    min-height: calc(100vh - 12vh - 50px);
+}
+
+.text-secondary {
+    color: var(--color3) !important;
+    font-family: var(--font1);
+    font-weight: 700;
+    font-size: 23px;
+}
+
+.navbar-nav p:hover{
+    color: var(--color6) !important;
+}
+
+.navbar {
+    min-height: 12vh;
+}
+.padding-brand, .text-nav{
+    padding-right:3rem;
+}
+
+.bi-list {
+    color: var(--color3);
+}
+
+.navbar-toggler {
+    border-width: 0px;
+}
+
+.btn-primary:hover {
+    background-color:var(--color5);
+    border-color: var(--color1);
+    transition: 0.4s;
+}
+
+p {
+    margin-bottom: 0 !important;
+}
+
+button {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    outline: none;
+    border: 0;
+    vertical-align: middle;
+    text-decoration: none;
+    font-size: inherit;
+    font-family: inherit;
+}
+
+button.btn-secondary {
+    color: var(--color5);
+    padding: 0.63em 1em;
+    background: var(--color1);
+    border: 2px solid var(--color5);
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    font-size:20px;
+    font-family: var(--font2);
+    --bs-btn-active-bg: transparent !important;
+    --bs-btn-active-border-color: var(--color1) !important;
+}
+button.btn-secondary:hover {
+    color: var(--color1);
+    padding: 0.63em 1em;
+    background: var(--color1);
+    border: 2px solid var(--color5);
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    font-size:20px;
+    font-family: var(--font2);
+    --bs-btn-active-bg: transparent !important;
+    --bs-btn-active-border-color: var(--color1) !important;
+    background: var(--color5);
+}
+
+button.btn-third{
+    color: var(--color1);
+    padding: 0.63em 1em;
+    background: var(--color5);
+    border: 2px solid var(--color5);
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    font-size:20px;
+    font-family: var(--font2);
+    --bs-btn-active-bg: transparent !important;
+    --bs-btn-active-border-color: var(--color1) !important;
+}
+button.btn-third:hover {
+    color: var(--color5);
+    padding: 0.63em 1em;
+    background: var(--color1);
+    border: 2px solid var(--color5);
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    font-size:20px;
+    font-family: var(--font2);
+    --bs-btn-active-bg: transparent !important;
+    --bs-btn-active-border-color: var(--color1) !important;
+    background: var(--color1);
+}
+/*button top layer*/
+button.btn-primary {
+    font-weight: 600;
+    color: var(--color5);
+    text-transform: uppercase;
+    padding: 0.63em 1em;
+    background: var(--color1);
+    border: 2px solid var(--color5);
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    font-size:22px;
+    font-family: var(--font2);
+    --bs-btn-active-bg: transparent !important;
+    --bs-btn-active-border-color: var(--color1) !important;
+}
+/*add bottom layer*/
+button.btn-primary::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--color5);
+    border-radius: inherit;
+    transform: translate3d(0, 0.75em, -1em);
+    transition: 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+/*transformation when hover/activating*/
+button.btn-primary:hover::before {
+    transform: translate3d(0, 0.5em, -1em);
+}
+button.btn-primary:active {
+    transform: translate(0em, 0.75em);
+}
+button.btn-primary:active::before {
+    transform: translate3d(0, 0, -1em);
+}
+
+.bg-bridge {
+    background-image: url(./assets/img/bridge.jpg);
+    background-size:auto;
+    height: 50px;
+}
+
+.bg-bridge-2 {
+    background-image: url(./assets/img/bridge-2.jpg);
+    background-size:auto;
+    height: 229px;
+}
+
+.bg-bridge-3 {
+    background-image: url(./assets/img/bridge-3.jpg);
+    background-size:auto;
+    height: 50px;
+}
+
+.bg-bridge-4 {
+    background-image: url(./assets/img/bridge-4.jpg);
+    background-size:auto;
+    height: 50px;
+}
+
+.bg-bridge-5 {
+    background-image: url(./assets/img/bridge-5.jpg);
+    background-size:auto;
+    height: 50px;
+}
+
+
+.story p, .menu p, .form-label{
+    color: var(--color5);
+    font-family: var(--font1);
+    font-size: 1.3em;
+    font-weight:600;
+}
+
+.form-label{
+    color: var(--color5);
+    font-family: var(--font1);
+    font-size: 1.0em;
+    font-weight:600;
+}
+
+.form-component{
+    border-color:var(--color5); 
+    border-width: 2px;
+    background-color: var(--color1);
+}
+
+
+/*top layer*/
+.card {
+    background-color: var(--color1);
+    min-height: 300px;
+    color: var(--color5);
+    padding: 0.63em 1em;
+    background: var(--color1);
+    border: 2px solid var(--color5);
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    
+}
+/*add bottom layer*/
+.card::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 1;
+    right: 1;
+    bottom: 1;
+    background: var(--color5);
+    border-radius: inherit;
+    transform: translate3d(0, 0.75em, -1em);
+    transition: 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+.card-without-bottom {
+    background-color: var(--color1);
+    color: var(--color5);
+    padding: 0.63em 1em;
+    background: var(--color1);
+    border: 2px solid var(--color5);
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    
+}
+
+
+.card-body p {
+    overflow-wrap: break-word; /* Allow the text to break into multiple lines */
+    white-space: pre-line;
+    margin-bottom: 10px; /* Add margin to separate paragraphs */
+
+}
+
+.stop-overflowing{
+    overflow-wrap: break-word; /* Allow the text to break into multiple lines */
+    white-space: pre-line;
+}
+.card-jumbotron {
+    min-height:0;
+}
+
+.map {
+    filter:saturate(1.6);
+}
+
+/* Voeg een border toe aan alle tabellen en hun cellen */
+.table-bordered {
+    background: var(--color1);
+    border-radius: 0.75em;
+    font-size: 17px;
+    font-family: var(--font1);
+    width:100% !important;
+  }
+
+  .table-striped {
+    background: var(--color1);
+    border-radius: 0.75em;
+    font-size: 20px;
+    font-family: var(--font1);
+    width:100% !important;
+  }
+  
+  /*Verander de kleur van de tabelkop (thead) */
+  .table-bordered thead {
+    background-color: var(--color5) !important;
+    color: var(--color1) !important;
+  }
