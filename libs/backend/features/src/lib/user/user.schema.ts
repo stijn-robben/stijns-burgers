@@ -1,7 +1,7 @@
 import mongoose, { Document } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsMongoId, IsString, IsArray, IsNotEmpty, IsNumber } from 'class-validator';
-import { ICartItem, IOrder, IReview, IUser, Id, Order, Review, UserRole } from '@herkansing-cswp/shared/api';
+import { ICartItem, IOrder, IReview, IUser, Id, Review, UserRole } from '@herkansing-cswp/shared/api';
 import { ApiProperty } from '@nestjs/swagger';
 export type UserDocument = User & Document;
 export type OrderDocument = Order & Document;
@@ -36,6 +36,30 @@ export class CartItem implements ICartItem{
     @Prop({ required: true })
     productImageUrl!: string;
 
+}
+
+@Schema()
+export class Order {
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
+  _id!: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true })
+  _id_user!: string;
+
+  @Prop({ required: true })
+  order_date!: Date;
+
+  @Prop({ required: true })
+  status!: string;
+
+  @Prop({ required: true })
+  total_amount!: number;
+
+  @Prop({ required: true })
+  est_delivery_time!: Date;
+
+  @Prop({ type: [CartItem], required: true })
+  cart!: CartItem[];
 }
 
 
@@ -110,3 +134,4 @@ export class User implements IUser {
     reviews!: IReview[];
 }export const UserSchema = SchemaFactory.createForClass(User);
 export const CartItemSchema = SchemaFactory.createForClass(CartItem);
+export const OrderSchema = SchemaFactory.createForClass(Order);

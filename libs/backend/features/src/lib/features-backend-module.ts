@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { MongooseModule } from "@nestjs/mongoose";
-import { User, UserSchema } from "./user/user.schema";
+import { OrderSchema, User, UserSchema } from "./user/user.schema";
 import { MenuItem, MenuItemSchema, ReviewSchema } from "./menu-item/menuItem.schema";
 import { AuthController } from "./auth/auth.controller";
 import { AuthService } from "./auth/auth.service";
@@ -20,7 +20,7 @@ import { Order, Review } from "@herkansing-cswp/shared/api";
         {name: User.name, schema: UserSchema },
         {name: MenuItem.name, schema: MenuItemSchema },
         {name: Review.name, schema: ReviewSchema },
-        
+        {name: Order.name, schema: OrderSchema}
     ])
     ],
     controllers: [

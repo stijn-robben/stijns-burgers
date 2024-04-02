@@ -2,7 +2,7 @@ import { Injectable, Logger, NotFoundException, UnauthorizedException } from "@n
 import { InjectModel } from "@nestjs/mongoose";
 import { OrderDocument, User, UserDocument } from "./user.schema";
 import mongoose, { Model, Types } from "mongoose";
-import { ICartItem, IOrder, IUser, Id, Order, Review, Status } from "@herkansing-cswp/shared/api";
+import { ICartItem, IOrder, IUpdateOrder, IUser, Id, Order, Review, Status } from "@herkansing-cswp/shared/api";
 import { CreateOrderDto, CreateUserDto, UpdateUserDto } from "@herkansing-cswp/backend/dto";
 import { MenuItem, MenuItemDocument } from "../menu-item/menuItem.schema";
 
@@ -14,6 +14,8 @@ export class UserService {
     constructor(
         @InjectModel(User.name) private userModel: Model<UserDocument>,
         @InjectModel(MenuItem.name) private menuItemModel: Model<MenuItemDocument>,
+        @InjectModel(Order.name) private readonly orderModel: Model<IOrder>,
+
     ) {}
 
     async findAll(): Promise<IUser[]> {
@@ -204,34 +206,40 @@ export class UserService {
 
     async createOrder(userId: string, orderDto: CreateOrderDto, loggedInUserId: string): Promise<{ user: IUser, order: IOrder }> {
         const existingUser = await this.userModel.findById(userId).exec();
-    
+      
         if (!existingUser) {
             throw new NotFoundException(`User with id ${userId} not found`);
         }
-    
+      
         // Check if the logged in user is the same as the user we're trying to create the order for
         if (loggedInUserId !== userId) {
             throw new UnauthorizedException();
         }
-    
+      
         const { order_date, ...restOrderDto } = orderDto;
-
-const order: IOrder = {
-    _id: new mongoose.Types.ObjectId().toString(), // convert ObjectId to string
-    order_date: new Date(), // corrected from userts
-    ...restOrderDto,
-    _id_user: loggedInUserId,
-};
-    
+      
+        const order: IOrder = {
+            _id: new mongoose.Types.ObjectId().toString(), // convert ObjectId to string
+            order_date: new Date(), // corrected from userts
+            ...restOrderDto,
+            _id_user: loggedInUserId,
+        };
+      
         // Add the order to the orders array
         existingUser.orders.push(order);
-    
+      
         const updatedUser = await existingUser.save();
-    
+      
+        // Create a new order in the 'Order' document
+        const newOrderDocument = new this.orderModel(order);
+        await newOrderDocument.save();
+      
         // Get the last order (the one just added)
         const newOrder = updatedUser.orders[updatedUser.orders.length - 1];
-        
+      
         // Return the updated user and the new order
         return { user: updatedUser, order: newOrder };
-    }
+      }
+
+
 }

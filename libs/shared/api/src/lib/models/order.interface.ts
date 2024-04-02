@@ -44,5 +44,5 @@ export type ICreateOrder = Pick<
     IOrder,
     '_id_user' | 'order_date' | 'status' | 'total_amount' | 'est_delivery_time' | 'cart'
 >;
-export type IUpdateOrder = Partial<Omit<IOrder, 'id'>>;
+export type IUpdateOrder = Partial<IOrder>;
 export type IUpsertOrder = IOrder; 

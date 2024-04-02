@@ -1,5 +1,5 @@
 import { CreateCartItemDto, CreateOrderDto, CreateUserDto, UpdateCartItemDto, UpdateUserDto } from "@herkansing-cswp/backend/dto";
-import { ICartItem, IOrder, IUser, Id, Order, Status } from "@herkansing-cswp/shared/api";
+import { ICartItem, IOrder, IUpdateOrder, IUser, Id, Order, Status } from "@herkansing-cswp/shared/api";
 import { Controller, Get, UseGuards, Param, Req, BadRequestException, Post, Body, Put, ForbiddenException, Delete, UnauthorizedException, NotFoundException } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiResponse, ApiOkResponse, ApiBadRequestResponse, ApiNotFoundResponse, ApiCreatedResponse, ApiBody } from "@nestjs/swagger";
 import { JwtAuthGuard } from "../auth/jwtAuth.guard";
@@ -257,4 +257,5 @@ async createOrderAndClearCart(
 
   return order;
 }
+
 }
