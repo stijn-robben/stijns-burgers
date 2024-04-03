@@ -22,12 +22,13 @@ export class MenuItemListComponent implements OnInit, OnDestroy {
       
   
     ngOnInit(): void {
-        this.subscription = this.menuitemService.list().subscribe((results) => {
-            console.log(results);
-            this.menuitem = results;
-            this.loading = false;
-        });
-    }
+      this.menuitemService.list().subscribe(
+        data => {
+          this.menuitem = data;
+          console.log("Menuitems fetched for api:" + this.menuitem); // Log the data
+        },
+        error => console.error('Error:', error)
+      );  }
     deleteMenuItem(menuitemId: string): void {
       if (confirm('Weet je zeker dat je deze sportclub wilt verwijderen?')) {
         this.menuitemService.delete(menuitemId).pipe(

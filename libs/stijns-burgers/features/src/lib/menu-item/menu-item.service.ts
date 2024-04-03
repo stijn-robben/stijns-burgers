@@ -9,6 +9,6 @@ import { AuthService } from '@herkansing-cswp/auth';
 })
 export class MenuItemService extends GenericService<IMenuItem> {
   constructor(http: HttpClient,authService: AuthService) {
-    super(http, '/menuitem',authService);
+    super(http, '/menu-item',authService);
   }
 }

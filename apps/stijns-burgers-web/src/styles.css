@@ -348,9 +348,19 @@ button.btn-primary:active::before {
     border: 2px solid var(--color5);
     border-radius: 0.75em;
     transform-style: preserve-3d;
-    
+
 }
 
+.menuitem-image-container {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+  }
+  
+  .menuitem-image-container .img-fluid {
+    object-fit: cover;
+    height: 100%;
+  }
 
 .card-body p {
     overflow-wrap: break-word; /* Allow the text to break into multiple lines */

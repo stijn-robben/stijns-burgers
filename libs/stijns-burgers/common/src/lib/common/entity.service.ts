@@ -38,16 +38,21 @@ export class GenericService<T> {
     //         );
     // }
     public list(options?: any): Observable<T[] | null> {
-        console.log(`list ${this.endpoint}`);
-        const headers = this.getAuthHeader(); // Get the headers with the auth token
-        return this.http
-          .get<ApiResponse<T[]>>(this.endpoint, { headers, ...options })
-          .pipe(
-            map((response: any) => response.results as T[]),
-            tap(console.log),
-            catchError(this.handleError)
-          );
+      console.log(`list ${this.endpoint}`); // Log the endpoint URL
+      const headers = this.getAuthHeader(); // Get the headers with the auth token
+      return this.http
+        .get<ApiResponse<T[]>>(this.endpoint, { headers, ...options })
+        .pipe(
+          map((response: any) => {
+            console.log("Response: ", response); // Log the server response
+            return response as T[]; // Change this line
+          }),
+          tap(console.log),
+          catchError(this.handleError)
+        );
     }
+    
+    
     public read(id: string | null, options?: any): Observable<T> {
         const url = this.endpoint + '/' + id?.toString();
         const headers = this.getAuthHeader();
