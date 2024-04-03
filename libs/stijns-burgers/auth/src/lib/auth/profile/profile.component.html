@@ -1,5 +1,7 @@
 <div class="bg-dark-yellow">
     <div class="py-5 heading text-center">
       <h2>Profile</h2>
+      <p *ngIf="currentUser">Welcome, {{currentUser.firstName}}!</p>
+
     </div>
   </div>
