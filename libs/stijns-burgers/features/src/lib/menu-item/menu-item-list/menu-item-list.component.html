@@ -5,7 +5,7 @@
     </div>
     <div class="container col-md-12 story pb-5">
             <div class="col-lg-12 col-md-12 col-sm-12 pt-4">
-                <a [routerLink]="['./new/']" routerLinkActive="active">
+                <a [routerLink]="['./new/']" routerLinkActive="active" *ngIf="isAdmin$">
                 <button style="width: 100%; "class="btn-third">Add a new menu item!</button>
                 </a>
             </div>

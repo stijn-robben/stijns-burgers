@@ -134,7 +134,7 @@ a {
 .navbar {
     min-height: 12vh;
 }
-.padding-brand, .text-nav{
+.padding-brand{
     padding-right:3rem;
 }
 

@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { RouterLinkActive } from '@angular/router';
 import { UiModule } from '@herkansing-cswp/ui';
 import { FeaturesModule } from '@herkansing-cswp/features';
-import { AuthModule } from '@herkansing-cswp/auth';
+import { AuthModule, AuthService } from '@herkansing-cswp/auth';
 
 
 @Component({
@@ -15,4 +15,11 @@ import { AuthModule } from '@herkansing-cswp/auth';
 })
 export class AppComponent {
   title = 'stijns-burgers-web';
+
+  constructor(private authService: AuthService) {} // Inject AuthService
+
+  ngOnInit() {
+    console.log('checking if there is a user in local storage')
+    this.authService.checkUserInLocalStorage(); // Check for user in local storage
+  }
 } 

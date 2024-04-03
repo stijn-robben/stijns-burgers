@@ -9,19 +9,26 @@ import { AuthService } from '@herkansing-cswp/auth';
     templateUrl: './menu-item-list.component.html',
 })
 export class MenuItemListComponent implements OnInit, OnDestroy {
-    menuitem: IMenuItem[] | null = null;
-    subscription: Subscription | undefined = undefined;
-    isAdmin$: Observable<boolean> | undefined;
-    loading = true;
-    constructor(private menuitemService: MenuItemService, private authService:AuthService) {
-        this.isAdmin$ = this.authService.isAdmin$();
-    }
+  menuitem: IMenuItem[] | null = null;
+  subscription: Subscription | undefined = undefined;
+  isAdmin$!: boolean;  // Updated this line
+  loading = true;
+  
+  constructor(private menuitemService: MenuItemService, private authService:AuthService) {
+    this.authService.isAdmin$().subscribe(isAdmin => {
+      this.isAdmin$ = isAdmin;
+      console.log("isAdmin$:" + this.isAdmin$);
+    });
+
+    
+  }
 
 
 
       
   
     ngOnInit(): void {
+      
       this.menuitemService.list().subscribe(
         data => {
           this.menuitem = data;

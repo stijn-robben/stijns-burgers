@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { isPlatformBrowser } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { IUser } from '@herkansing-cswp/shared/api';
-import { BehaviorSubject, Observable, catchError, map, of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, of, tap, throwError } from 'rxjs';
 import { environment } from '@herkansing-cswp/shared/util-env';
 @Injectable({
   providedIn: 'root',
@@ -52,21 +52,41 @@ export class AuthService {
   
   login(emailAddress: string, password: string): Observable<IUser | null> {
     return this.http
-      .post<{ results: { access_token: { user: IUser, token: string } } }>(
+      .post<{ access_token: { user: IUser, token: string } }>(
         `${this.endpoint}/login`,
         { emailAddress, password },
         { headers: this.headers }
       )
       .pipe(
-        map(response => {
-          console.log('Login response:', response);
-          const userWithToken = response.results.access_token;
-          const user = userWithToken.user;
-          const token = user.token;
-          console.log('token: ' + token);
+        catchError((error: HttpErrorResponse) => {
+          let errorMessage = 'Inloggen mislukt. Controleer uw inloggegevens.';
+          if (error.error && error.error.message) {
+            errorMessage = error.error.message;
+          }
+          console.error(errorMessage);
+          return throwError(() => new Error(errorMessage));
+        }),
+    map(response => {
+      console.log('Login response:', response);
+  
+      console.log('Accessing user from response...');
+      const user = response.access_token.user;  // Corrected line
+      console.log('User:', user);
+  
+      console.log('Accessing token from response...');
+      const token = response.access_token.token;  // Corrected line
+      console.log('Token:', token);
+          console.log('Assigning token to user...');
           user.token = token;
+          console.log('User after assigning token:', user);
+          
+          console.log('Saving user to storage...');
           this.saveUserToStorage(user);
+          
+          console.log('Updating currentUserSubject...');
           this.currentUserSubject.next(user);
+          
+          console.log('Returning user...');
           return user;
         }),
         catchError(error => {
@@ -98,54 +118,65 @@ export class AuthService {
   }
 
   // Validate user token
+  // Validate user token
   validateToken(userData: IUser): Observable<IUser | null> {
-    console.log('validateToken binnen VlaidateToken', userData.token);
-    const url = `${this.endpoint}/profile`;
+    this.logout();
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + userData.token,
-      }),
-    };
+    return of(null);
+
+    // if (!userData || !userData.token || typeof userData.token !== 'string') {
+    //   console.error('Invalid user data or token');
+    //   this.logout();
+    //   return of(null);
+    // }
   
-    console.log('Starting token validation for user:', userData);
+    // console.log('validateToken binnen VlaidateToken', userData.token);
+    // const url = `${this.endpoint}/profile`;
   
-    return this.http.get<IUser>(url, httpOptions).pipe(
-      map((response) => {
-        console.log('Token validation successful, user data:', userData);
-        console.log('Token validation successful, response data:', response);
-        return userData;
-      }),
-      catchError((error: any) => {
-        console.error('Token validation failed:', error.message);
-        this.logout();
-        console.log('User has been logged out due to token validation failure.');
-        return of(null);
-      })
-    );
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     'Content-Type': 'application/json',
+    //     Authorization: 'Bearer ' + userData.token,
+    //   }),
+    // };
+  
+    // console.log('Starting token validation for user:', userData);
+  
+    // return this.http.get<IUser>(url, httpOptions).pipe(
+    //   map((response) => {
+    //     console.log('Token validation successful, user data:', userData);
+    //     console.log('Token validation successful, response data:', response);
+    //     return userData;
+    //   }),
+    //   catchError((error: any) => {
+    //     console.error('Token validation failed:', error.message);
+    //     this.logout();
+    //     console.log('User has been logged out due to token validation failure.');
+    //     return of(null);
+    //   })
+    // );
   }
   
 
   // Retrieve user from storage
   public getUserFromStorage(): IUser | null {
     if (isPlatformBrowser(this.platformId)) {
-      const storedUser = sessionStorage.getItem(this.storageKey);
+      const storedUser = localStorage.getItem('currentUser');
       console.log('storedUser:', JSON.parse(storedUser!));
       return storedUser ? JSON.parse(storedUser) : null;
     }
-    // If not in a browser environment, gracefully handle the absence of sessionStorage
     return null;
   }
 
   // Save user to storage
-  protected saveUserToStorage(user: IUser): void {
-    sessionStorage.setItem(this.storageKey, JSON.stringify(user));
+  saveUserToStorage(user: IUser): void {
+    console.log('saveUserToStorage called with:', user);
+    localStorage.setItem('currentUser', JSON.stringify(user));
   }
 
   // Log out the current user
   logout(): void {
-    sessionStorage.removeItem(this.storageKey);
+    localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
     this.router.navigate(['/']).then(() => {
       window.location.reload();
@@ -155,8 +186,11 @@ export class AuthService {
 
   // Check if the current user is an admin
   isAdmin$(): Observable<boolean> {
+    console.log('isAdmin$ called')
     return this.currentUserSubject.asObservable().pipe(
       map(user => user?.role === 'admin'),
+      tap(isAdmin => console.log('Is user admin?', isAdmin))
+
     );
   }
 
@@ -186,16 +220,31 @@ export class AuthService {
     const currentUser = this.getCurrentUser();
     return !!currentUser && (currentUser._id === userId || currentUser.role === 'admin');
   }
-  // Check if the user is logged in
-  public isLoggedIn$: Observable<boolean> = this.currentUser$.pipe(
-    map(user => !!user)
-  );
+
+  isLoggedIn$(): Observable<boolean> {
+    console.log('isLoggedIn$ called')
+    return this.currentUserSubject.asObservable().pipe(
+      map(user => !!user)
+
+    );
+  }
+
   forceValidateCurrentUser(): void {
     const user = this.getUserFromStorage();
     if (user) {
       this.validateToken(user).subscribe(validatedUser => {
         this.currentUserSubject.next(validatedUser ? user : null);
       });
+    }
+  }
+  checkUserInLocalStorage() {
+    const userItem = localStorage.getItem('currentUser');
+    console.log('UserItem:', userItem);
+    if (userItem !== null) {
+      const user = JSON.parse(userItem);
+      if (user) {
+        this.currentUserSubject.next(user);
+      }
     }
   }
 }

@@ -1,0 +1,43 @@
+<div class="bg-dark-yellow">
+    <div class="py-5 heading text-center">
+      <h2>Login</h2>
+      <div class="container">
+        <div class="col-lg-12 col-md-12 col-sm-12 py-4 pb-5">
+          <div class="row pt-4 pb-5">
+            <div class="col-lg-2 col-md-12 col-sm-12">
+            </div>
+            <div class="col-lg-8 col-md-12 col-sm-12">
+                <div *ngIf="errorMessage">
+                    <p class="text-secondary" style="font-size: 14px;">The password and/or email are incorect.</p>
+                  </div>
+                  
+              <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+                <div class="mb-3">
+                  <input
+                    type="text"
+                    class="form-control form-component form-label"
+                    id="emailAdress"
+                    placeholder="Email adress:"
+                    formControlName="emailAddress"
+                  />
+                  <div *ngIf="loginForm.controls['emailAddress'].invalid && loginForm.controls['emailAddress'].touched" class="text-danger">
+                    <p class="text-secondary" style="font-size: 14px;">Email adress is required.</p>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <input
+                    type="password"
+                    class="form-control form-component form-label"
+                    id="password"
+                    placeholder="Password:"
+                    formControlName="password"
+                  />
+                </div>
+                <button type="submit" class="btn btn-secondary" [disabled]="loginForm.invalid">Login</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
