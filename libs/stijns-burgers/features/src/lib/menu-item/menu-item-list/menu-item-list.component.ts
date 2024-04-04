@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuItemService } from '../menu-item.service';
 import { IMenuItem } from '@herkansing-cswp/shared/api';
-import { Observable, Subscription, of, switchMap } from 'rxjs';
+import { Observable, Subject, Subscription, of, switchMap, takeUntil } from 'rxjs';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { AuthService } from '@herkansing-cswp/auth';
 @Component({
@@ -13,7 +13,9 @@ export class MenuItemListComponent implements OnInit, OnDestroy {
   subscription: Subscription | undefined = undefined;
   isAdmin$!: boolean;  // Updated this line
   loading = true;
-  
+  private unsubscribe$ = new Subject<void>();
+  currentUserRole: string | null = 'user';
+
   constructor(private menuitemService: MenuItemService, private authService:AuthService) {
     this.authService.isAdmin$().subscribe(isAdmin => {
       this.isAdmin$ = isAdmin;
@@ -35,7 +37,17 @@ export class MenuItemListComponent implements OnInit, OnDestroy {
           console.log("Menuitems fetched for api:" + this.menuitem); // Log the data
         },
         error => console.error('Error:', error)
-      );  }
+      ), this.authService.getCurrentUserRole()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(role => {
+        this.currentUserRole = role;
+      }), this.authService.getCurrentUserRole()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(role => {
+        this.currentUserRole = role;
+      });
+    }
+
     deleteMenuItem(menuitemId: string): void {
       if (confirm('Weet je zeker dat je deze sportclub wilt verwijderen?')) {
         this.menuitemService.delete(menuitemId).pipe(
@@ -58,8 +70,8 @@ export class MenuItemListComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         if (this.subscription) this.subscription.unsubscribe();
     }
-    getCurrentUserRole(): string {
-      return this.authService.getCurrentUserRole();
+    getCurrentUserRole(): string | null {
+      return this.currentUserRole;
     }
   
   }

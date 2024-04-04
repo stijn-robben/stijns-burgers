@@ -51,11 +51,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.authService) { // Check if this.authService is not null
-      const user = this.authService.getUserFromStorage(); // Get the user directly
-      if (user) {
-        console.log('User already logged in > to profile', user.emailAddress);
-      }
-      this.subs.add(this.authService.currentUser$.subscribe({
+      this.authService.checkUserAuthentication(); // Check the user's authentication status
+  
+      this.subs.add(this.authService.getCurrentUser().subscribe({
         next: (user: IUser | null) => {
           if (user && user._id) { // Check if user and user._id are not null
             this.userId = user._id; // Set this.userId

@@ -2,6 +2,6 @@
     <div class="py-5 heading text-center">
       <h2>Profile</h2>
       <p *ngIf="currentUser">Welcome, {{currentUser.firstName}}!</p>
-
+      <button type="button" class="btn btn-secondary" (click)="logout()">Logout</button>
     </div>
   </div>

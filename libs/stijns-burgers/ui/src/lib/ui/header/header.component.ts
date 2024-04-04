@@ -17,7 +17,7 @@ export class HeaderComponent {
     });
 
     this.authService.isLoggedIn$().subscribe(isLoggedIn => {
-      this.isLoggedIn$ = !isLoggedIn;
+      this.isLoggedIn$ = isLoggedIn;
       console.log("isLoggedIn$:" + this.isLoggedIn$);
     });
   }

@@ -1,19 +1,33 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { AuthService } from "../auth.service";
 import { IUser } from '@herkansing-cswp/shared/api';
 
 @Component({
-    selector: '@stijns-burgers-profile',
-    templateUrl: './profile.component.html',
+  selector: '@stijns-burgers-profile',
+  templateUrl: './profile.component.html',
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   currentUser: IUser | null | undefined;
+  private unsubscribe$ = new Subject<void>();
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.currentUser$.subscribe(user => {
-      this.currentUser = user;
-    });
+    this.authService.getCurrentUser()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(user => {
+        this.currentUser = user;
+      });
+  }
+
+  logout(): void {
+    this.authService.logout();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

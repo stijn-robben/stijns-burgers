@@ -20,6 +20,6 @@ export class AppComponent {
 
   ngOnInit() {
     console.log('checking if there is a user in local storage')
-    this.authService.checkUserInLocalStorage(); // Check for user in local storage
+    this.authService.checkUserAuthentication();
   }
 } 
