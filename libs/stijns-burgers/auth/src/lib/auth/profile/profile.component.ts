@@ -10,6 +10,8 @@ import { IUser } from '@herkansing-cswp/shared/api';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   currentUser: IUser | null | undefined;
+  selectedOption = 'user';
+  isEditable = false;
   private unsubscribe$ = new Subject<void>();
 
   constructor(private authService: AuthService) {}
@@ -18,6 +20,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.authService.getCurrentUser()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(user => {
+        console.log('User:', user); // Log the user object
         this.currentUser = user;
       });
   }

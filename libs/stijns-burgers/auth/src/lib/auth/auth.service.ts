@@ -74,7 +74,9 @@ export class AuthService {
 
   // Method to get the current user
   getCurrentUser(): Observable<IUser | null> {
-    return this.currentUserSubject.asObservable();
+    return this.currentUserSubject.asObservable().pipe(
+      map(token => token ? (token as any).access_token.user : null)
+    );
   }
 
   getCurrentUserRole(): Observable<string | null> {

@@ -39,7 +39,7 @@ h1 {
 }
 
 h2 {
-    color: var(--color3) !important;
+    color: var(--color3) ;
     font-family: var(--font2);
     font-size: 4em !important;
 }
@@ -112,13 +112,106 @@ a {
     background-color: var(--color9) !important;
 }
 
+.bg-tarqoise {
+    background-color: var(--color2) !important;
+}
+
 .full-vh {
-    min-height: 100vh !important;
+    min-height: 70.5vh !important;
 }
 
 .jumbotron-vh {
     min-height: calc(100vh - 12vh - 50px);
 }
+
+input[type="radio"] {
+    visibility: hidden;
+    height: 0;
+    width: 0;
+  }
+  
+  .label-radio {
+    display: inline-block;
+    font-weight: 600;
+    color: var(--color5);
+    text-transform: uppercase;
+    padding: 0.5em 0.8em;
+    background: var(--color1);
+    border: 2px solid var(--color5);
+    border-radius: 0.6em;
+    font-size:18px;
+    font-family: var(--font2);
+    --bs-btn-active-bg: transparent !important;
+    --bs-btn-active-border-color: var(--color1) !important;
+    cursor: pointer;
+    position: relative;
+    transform-style: preserve-3d;
+    margin-top: 2.5em;
+    transition: background 150ms cubic-bezier(0, 0, 0.58, 1), color 150ms cubic-bezier(0, 0, 0.58, 1);
+    padding: 0.3em 3.6em; /* Increase the right and left padding to make the buttons wider */
+    border-radius: 0; /* Remove the border radius */
+  
+  }
+  
+
+  
+
+  input[type="radio"]:first-of-type + .label-radio {
+    border-top-left-radius: 0.6em;
+    border-bottom-left-radius: 0.6em;
+  }
+  
+  input[type="radio"]:last-of-type + .label-radio {
+    border-top-right-radius: 0.6em;
+    border-bottom-right-radius: 0.6em;
+  }
+
+  .label-radio::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--color1);
+    border-radius: inherit;
+    transform: translate3d(0, 0, -1em);
+    transition: 150ms cubic-bezier(0, 0, 0.58, 1);
+  }
+  
+  .label-radio:hover {
+    color: var(--color1);
+    background: var(--color5);
+  }
+  
+  .label-radio:hover::before {
+    background: var(--color1);
+  }
+  
+  .label-radio:active {
+    transform: none;
+  }
+  
+  .label-radio:active::before {
+    transform: translate3d(0, 0, -1em);
+  }
+  
+  input[type="radio"]:not(:first-of-type):not(:last-of-type) + .label-radio {
+    border-left: none;
+    border-right: none;
+  }
+
+  input[type="radio"]:checked + .label-radio {
+    color: var(--color1);
+    background: var(--color5);
+  }
+  
+  input[type="radio"]:checked + .label-radio::before {
+    background: var(--color1);
+  }
+
 
 .text-secondary {
     color: var(--color3) !important;
@@ -146,15 +239,18 @@ a {
     border-width: 0px;
 }
 
+
+
+p {
+    margin-bottom: 0 !important;
+}
+
 .btn-primary:hover {
     background-color:var(--color5);
     border-color: var(--color1);
     transition: 0.4s;
 }
 
-p {
-    margin-bottom: 0 !important;
-}
 
 button {
     position: relative;
@@ -170,7 +266,7 @@ button {
 
 button.btn-secondary {
     color: var(--color5);
-    padding: 0.63em 1em;
+    padding: 0.33em 1em;
     background: var(--color1);
     border: 2px solid var(--color5);
     border-radius: 0.75em;
@@ -182,7 +278,7 @@ button.btn-secondary {
 }
 button.btn-secondary:hover {
     color: var(--color1);
-    padding: 0.63em 1em;
+    padding: 0.33em 1em;
     background: var(--color1);
     border: 2px solid var(--color5);
     border-radius: 0.75em;
@@ -264,6 +360,12 @@ button.btn-primary:active::before {
     background-image: url(./assets/img/bridge.jpg);
     background-size:auto;
     height: 50px;
+}
+
+.bg-bridge-6 {
+    background-image: url(./assets/img/bridge-7.jpg);
+    background-size:auto;
+    height: 25px;
 }
 
 .bg-bridge-2 {

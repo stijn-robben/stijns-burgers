@@ -1,7 +1,73 @@
-<div class="bg-dark-yellow">
-    <div class="py-5 heading text-center">
-      <h2>Profile</h2>
-      <p *ngIf="currentUser">Welcome, {{currentUser.firstName}}!</p>
-      <button type="button" class="btn btn-secondary" (click)="logout()">Logout</button>
+    <div class="bg-green">
+    <div class="py-5 heading text-center bg-green">
+        <div class="bg-green">
+      <h2 style="padding-left: 25px;">Profiel</h2>
+  
+      <div class="btn-group btn-group-toggle mb-5" data-toggle="buttons">
+        <input type="radio" name="options" id="option1" autocomplete="off" checked (click)="selectedOption = 'user'">
+        <label class="label-radio primary-button-text" for="option1">Gebruiker</label>
+        
+        <input type="radio" name="options" id="option2" autocomplete="off" (click)="selectedOption = 'reviews'">
+        <label class="label-radio primary-button-text" for="option2">Reviews</label>
+        
+        <input type="radio" name="options" id="option3" autocomplete="off" (click)="selectedOption = 'orders'">
+        <label class="label-radio primary-button-text" for="option3">Orders</label>
+      </div>
+        </div>
     </div>
-  </div>
+      <div class="row">
+        <div class="col-lg-4"></div> <!-- Adjusted from col-lg-2 to col-lg-4 -->
+    
+        <div class="col-lg-4"> <!-- Adjusted from col-lg-5 to col-lg-4 -->
+            <div *ngIf="selectedOption === 'user'">
+                <div class="card-without-bottom container card-text story">
+                    <div>
+                    </div>
+        
+                    <div class="row">
+                        <div class="col-lg-4 col-md-3 col-sm-3">
+                            <p>Naam:</p>
+                        </div>
+                        <div class="col-lg-8 col-md-6 col-sm-6 d-flex justify-content-between">
+                            <p *ngIf="currentUser">{{currentUser.firstName}} {{currentUser.lastName}}</p>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square mt-1" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                              </svg>
+                                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-3 col-sm-3">
+                            <p>Email adress:</p>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <p *ngIf="currentUser">{{currentUser.emailAddress}}</p>
+
+                        </div>
+                    </div>
+
+
+                    <div class="card-body"></div>
+                </div>
+                
+            </div>
+            <div *ngIf="selectedOption === 'reviews'">
+                <div class="card-without-bottom container">
+                    <div class="card-body"></div>
+                </div>
+            </div>
+            <div *ngIf="selectedOption === 'orders'">
+                <div class="card-without-bottom container">
+                    <div class="card-body"></div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-lg-4"></div> <!-- Adjusted from col-lg-2 to col-lg-4 -->
+    </div>
+
+        <!-- <div class="text-center">
+            <button type="button" class="btn btn-secondary" (click)="logout()">Logout</button>
+          </div>     -->
+      </div>

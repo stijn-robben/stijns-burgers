@@ -1,4 +1,4 @@
-<div class="bg-dark-yellow">
+<div class="bg-dark-yellow full-vh">
     <div class="py-5 heading text-center">
       <h2>Login</h2>
       <div class="container">
@@ -33,11 +33,27 @@
                     formControlName="password"
                   />
                 </div>
-                <button type="submit" class="btn btn-secondary" [disabled]="loginForm.invalid">Login</button>
+                <div class="text-start">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                      <button type="submit" class="btn btn-secondary w-100" [disabled]="loginForm.invalid">Login</button>
+
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-6">
+                      <button type="submit" class="btn btn-secondary w-100">Registreren</button>
+
+                    </div>
+                  </div>
+                </div>              
               </form>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+
+  </div>
+  <div class="bg-bridge-5">
+
   </div>
