@@ -108,8 +108,7 @@
                 <div class="card-without-bottom container" *ngFor="let review of currentUser.reviews; let i = index">
                     <div class="row card-text story">
                       <div class="col-lg-10">
-                        <form (ngSubmit)="updateUser(i)">
-                          <div class="row">
+                        <form (ngSubmit)="updateUser(currentUser)">                          <div class="row">
                             <div class="col-lg-4 col-md-3 col-sm-3">
                               <p>Review:</p>
                             </div>

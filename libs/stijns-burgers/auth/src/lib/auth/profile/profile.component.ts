@@ -41,6 +41,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
       .subscribe(user => {
         console.log('User:', user); // Log the user object
         if (user) {
+          user.reviews = user.reviews.flat();
           this.currentUser = user;
         }
       });
@@ -50,15 +51,17 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.authService.logout();
   }
 
-  updateUser(user: any): void {
-    this.profileService.updateUser(this.currentUser._id, user)
-      .subscribe(updatedUser => {
-        console.log('Updated user:', updatedUser);
-        this.currentUser = updatedUser;
-        this.editMode = false;
-      });
-      
-  }
+  
+
+  updateUser(user: IUser): void {
+  console.log('Profile component:' + user)
+  this.profileService.updateUser(this.currentUser._id, this.currentUser)
+    .subscribe(updatedUser => {
+      console.log('Updated user:', updatedUser);
+      this.currentUser = updatedUser;
+      this.editMode = false;
+    });
+}
 
   ngOnDestroy(): void {
     this.unsubscribe$.next();
