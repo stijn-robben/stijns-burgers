@@ -1,4 +1,4 @@
-    <div class="bg-green">
+<div class="bg-green">
     <div class="py-5 heading text-center bg-green">
         <div class="bg-green">
       <h2 style="padding-left: 25px;">Profiel</h2>
@@ -16,58 +16,146 @@
         </div>
     </div>
       <div class="row">
-        <div class="col-lg-4"></div> <!-- Adjusted from col-lg-2 to col-lg-4 -->
+        <div class="col-lg-4 col-md-2"></div> <!-- Adjusted from col-lg-2 to col-lg-4 -->
     
-        <div class="col-lg-4"> <!-- Adjusted from col-lg-5 to col-lg-4 -->
-            <div *ngIf="selectedOption === 'user'">
+        <div class="col-lg-4 col-md-8" > <!-- Adjusted from col-lg-5 to col-lg-4 -->
+                <div *ngIf="selectedOption === 'user'">
                 <div class="card-without-bottom container card-text story">
-                    <div>
-                    </div>
-        
                     <div class="row">
-                        <div class="col-lg-4 col-md-3 col-sm-3">
-                            <p>Naam:</p>
+                        <div class="col-lg-10">
+                            <form #userForm="ngForm" (ngSubmit)="updateUser(userForm.value)">                                <div class="row">
+                                    <div class="col-lg-4 col-md-3 col-sm-3">
+                                        <p>Naam:</p>
+                                    </div>
+                                    <div class="col-lg-8 col-md-6 col-sm-6">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <input type="text" class="form-control form-component-edit form-label-edit" *ngIf="editMode" [(ngModel)]="currentUser.firstName" name="firstName" required>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <input type="text" class="form-control form-component-edit form-label-edit" *ngIf="editMode" [(ngModel)]="currentUser.lastName" name="lastName" required>
+                                            </div>
+                                        </div>
+                                        <p *ngIf="!editMode">{{currentUser.firstName}} {{currentUser.lastName}}</p>
+                                    </div>                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-3 col-sm-3">
+                                        <p>Email adress:</p>
+                                    </div>
+                                    <div class="col-lg-8 col-md-6 col-sm-6">
+                                        <input type="email" class="form-control form-component-edit form-label-edit" *ngIf="editMode" [(ngModel)]="currentUser.emailAddress" name="emailAddress" required>
+                                        <p *ngIf="!editMode">{{currentUser.emailAddress}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-3 col-sm-3">
+                                        <p>Birthdate:</p>
+                                    </div>
+                                    <div class="col-lg-8 col-md-6 col-sm-6">
+                                        <input type="date" class="form-control form-component-edit form-label-edit" *ngIf="editMode" [(ngModel)]="currentUser.birthdate" name="birthdate" required>
+                                        <p *ngIf="!editMode">{{currentUser.birthdate | date}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-3 col-sm-3">
+                                        <p>Postal Code:</p>
+                                    </div>
+                                    <div class="col-lg-8 col-md-6 col-sm-6">
+                                        <input type="text" class="form-control form-component-edit form-label-edit" *ngIf="editMode" [(ngModel)]="currentUser.postalCode" name="postalCode" required>
+                                        <p *ngIf="!editMode">{{currentUser.postalCode}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-3 col-sm-3">
+                                        <p>House Nr.:</p>
+                                    </div>
+                                    <div class="col-lg-8 col-md-6 col-sm-6">
+                                        <input type="text" class="form-control form-component-edit form-label-edit" *ngIf="editMode" [(ngModel)]="currentUser.houseNumber" name="houseNumber" required>
+                                        <p *ngIf="!editMode">{{currentUser.houseNumber}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-3 col-sm-3">
+                                        <p>Telephone:</p>
+                                    </div>
+                                    <div class="col-lg-8 col-md-6 col-sm-6">
+                                        <input type="tel" class="form-control form-component-edit form-label-edit" *ngIf="editMode" [(ngModel)]="currentUser.phoneNumber" name="phoneNumber" required>
+                                        <p *ngIf="!editMode">{{currentUser.phoneNumber}}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-3 col-sm-3 mt-3">
+                                        <button type="submit" *ngIf="editMode" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill mb-1" viewBox="0 0 16 16">
+                                            <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001"/>
+                                          </svg>
+                                          Edit</button>
+                                    </div>
+                                </div>
+                                                        </form>
                         </div>
-                        <div class="col-lg-8 col-md-6 col-sm-6 d-flex justify-content-between">
-                            <p *ngIf="currentUser">{{currentUser.firstName}} {{currentUser.lastName}}</p>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square mt-1" viewBox="0 0 16 16">
+                        <div class="col-lg-2 d-flex justify-content-end align-items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-pencil-square mt-1" viewBox="0 0 16 16" (click)="editMode = !editMode">
                                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
-                              </svg>
-                                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-4 col-md-3 col-sm-3">
-                            <p>Email adress:</p>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <p *ngIf="currentUser">{{currentUser.emailAddress}}</p>
-
+                            </svg>
                         </div>
                     </div>
-
-
                     <div class="card-body"></div>
                 </div>
-                
             </div>
+        
             <div *ngIf="selectedOption === 'reviews'">
-                <div class="card-without-bottom container">
-                    <div class="card-body"></div>
-                </div>
-            </div>
-            <div *ngIf="selectedOption === 'orders'">
+                <div class="card-without-bottom container" *ngFor="let review of currentUser.reviews; let i = index">
+                    <div class="row card-text story">
+                      <div class="col-lg-10">
+                        <form (ngSubmit)="updateUser(i)">
+                          <div class="row">
+                            <div class="col-lg-4 col-md-3 col-sm-3">
+                              <p>Review:</p>
+                            </div>
+                            <div class="col-lg-8 col-md-6 col-sm-6">
+                              <textarea class="form-control form-component-edit form-label-edit" *ngIf="editMode" [(ngModel)]="review.description" name="reviewText" required></textarea>
+                              <p *ngIf="!editMode">{{review.description}}</p>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-4 col-md-3 col-sm-3">
+                              <p>Score:</p>
+                            </div>
+                            <div class="col-lg-8 col-md-6 col-sm-6">
+                              <select class="form-control form-component-edit form-label-edit" *ngIf="editMode" [(ngModel)]="review.score" name="reviewScore" required>
+                                <option *ngFor="let score of [1, 2, 3, 4, 5]" [value]="score">{{score}}</option>
+                              </select>
+                              <p *ngIf="!editMode">{{review.score}}</p>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-lg-4 col-md-3 col-sm-3 mt-3">
+                              <button type="submit" *ngIf="editMode" class="btn btn-secondary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill mb-1" viewBox="0 0 16 16">
+                                  <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001"/>
+                                </svg>
+                                Edit
+                              </button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                      <div class="col-lg-2 d-flex justify-content-end align-items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-pencil-square mt-1" viewBox="0 0 16 16" (click)="editMode = !editMode">
+                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>              </div>            <div *ngIf="selectedOption === 'orders'">
                 <div class="card-without-bottom container">
                     <div class="card-body"></div>
                 </div>
             </div>
         </div>
     
-        <div class="col-lg-4"></div> <!-- Adjusted from col-lg-2 to col-lg-4 -->
+        <div class="col-lg-4 col-md-2"></div> <!-- Adjusted from col-lg-2 to col-lg-4 -->
     </div>
 
-        <!-- <div class="text-center">
-            <button type="button" class="btn btn-secondary" (click)="logout()">Logout</button>
-          </div>     -->
       </div>

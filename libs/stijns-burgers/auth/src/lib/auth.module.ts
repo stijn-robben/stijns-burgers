@@ -7,7 +7,7 @@ import { AuthService } from './auth/auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProfileComponent } from './auth/profile/profile.component';
 import { MatRadioModule } from '@angular/material/radio';
-
+import { ProfileService } from './auth/profile/profile.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -18,8 +18,8 @@ import { MatRadioModule } from '@angular/material/radio';
   ],
   declarations: [LoginComponent, ProfileComponent], 
   exports: [LoginComponent, ProfileComponent], 
-  providers: [AuthService],
+  providers: [AuthService, ProfileService],
 })
 export class AuthModule { }
 
-export { AuthService };
+export { AuthService, ProfileService };

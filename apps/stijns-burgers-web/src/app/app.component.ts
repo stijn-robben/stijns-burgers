@@ -5,7 +5,6 @@ import { UiModule } from '@herkansing-cswp/ui';
 import { FeaturesModule } from '@herkansing-cswp/features';
 import { AuthModule, AuthService } from '@herkansing-cswp/auth';
 
-
 @Component({
   standalone: true,
   imports: [RouterModule, FeaturesModule, UiModule, RouterLinkActive, AuthModule],

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '@herkansing-cswp/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'stijns-burgers-header',
@@ -10,7 +11,7 @@ export class HeaderComponent {
 
   isAdmin$!: boolean;
   isLoggedIn$!: boolean;
-  constructor(private authService:AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
     this.authService.isAdmin$().subscribe(isAdmin => {
       this.isAdmin$ = isAdmin;
       console.log("isAdmin$:" + this.isAdmin$);
@@ -22,6 +23,11 @@ export class HeaderComponent {
     });
   }
 
+  logout(): void {
+    this.authService.logout();
+  }
 
-
+  profile(): void {
+    this.router.navigate(['/profile']);
+  }
 }

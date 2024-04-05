@@ -35,6 +35,7 @@ export class AuthService {
     return null;
   }
 
+
   login(emailAddress: string, password: string): Observable<IUser> {
     return this.http.post<IUser>(`${this.endpoint}/login`, { emailAddress, password }, { headers: this.headers })
       .pipe(
@@ -79,6 +80,13 @@ export class AuthService {
     );
   }
 
+  getCurrentUserReviews(): Observable<any> {
+    return this.currentUserSubject.asObservable().pipe(
+      tap(user => console.log('User:', user)), // Log the entire user object
+      map((user: any) => user !== null ? user.access_token.user.reviews : null)
+    );
+  }
+
   getCurrentUserRole(): Observable<string | null> {
     return this.currentUserSubject.asObservable().pipe(
       map(user => user ? user.role : null)
@@ -93,13 +101,15 @@ export class AuthService {
     }
   }
 
-  getToken(): string | null {
-    const userJson = localStorage.getItem(this.storageKey);
-    if (userJson) {
-      const user = JSON.parse(userJson) as IUser;
-      return user.token ? user.token : null;
-    }
-    return null;
+  getToken(): Observable<string | null> {
+    return this.currentUserSubject.asObservable().pipe(
+      tap(user => console.log('User:', user)), // Log the entire user object
+      map((user: any) => {
+        const token = user !== null && user.access_token.user.token ? user.access_token.user.token : null;
+        console.log('Token:', token); // Log the token
+        return token;
+      }) 
+    );
   }
 
   isLoggedIn$(): Observable<boolean> {

@@ -28,6 +28,9 @@ img {
     --color8: #7B8DC8;
     --color9: #A4C6B1;
 }
+.no-caret::after {
+    display: none;
+}
 
 body {
     margin: 0;
@@ -266,7 +269,7 @@ button {
 
 button.btn-secondary {
     color: var(--color5);
-    padding: 0.33em 1em;
+    padding: 0.3em 0.73em;
     background: var(--color1);
     border: 2px solid var(--color5);
     border-radius: 0.75em;
@@ -276,9 +279,16 @@ button.btn-secondary {
     --bs-btn-active-bg: transparent !important;
     --bs-btn-active-border-color: var(--color1) !important;
 }
+
+.dropdown-styling{
+    border: 2px solid var(--color5);
+    border-radius: 0.75em;
+
+}
+
 button.btn-secondary:hover {
     color: var(--color1);
-    padding: 0.33em 1em;
+    padding: 0.3em 0.73em;
     background: var(--color1);
     border: 2px solid var(--color5);
     border-radius: 0.75em;
@@ -292,7 +302,7 @@ button.btn-secondary:hover {
 
 button.btn-third{
     color: var(--color1);
-    padding: 0.63em 1em;
+    padding: 0.33em 1.33em;
     background: var(--color5);
     border: 2px solid var(--color5);
     border-radius: 0.75em;
@@ -304,7 +314,7 @@ button.btn-third{
 }
 button.btn-third:hover {
     color: var(--color5);
-    padding: 0.63em 1em;
+    padding: 0.33em 1.33em;
     background: var(--color1);
     border: 2px solid var(--color5);
     border-radius: 0.75em;
@@ -413,6 +423,23 @@ button.btn-primary:active::before {
     background-color: var(--color1);
 }
 
+.form-label-edit{
+    color: var(--color5);
+    font-family: var(--font1);
+    font-size: 1.0em;
+    font-weight:600;
+}
+
+.form-component-edit{
+    border-color:var(--color5); 
+    border-width: 2px;
+    background-color: var(--color1);
+    padding: 1px;;
+}
+
+.form-control:focus {
+    box-shadow:  rgba(255, 0, 0, 0.25);
+}
 
 /*top layer*/
 .card {
@@ -478,6 +505,8 @@ button.btn-primary:active::before {
 .card-jumbotron {
     min-height:0;
 }
+
+
 
 .map {
     filter:saturate(1.6);
