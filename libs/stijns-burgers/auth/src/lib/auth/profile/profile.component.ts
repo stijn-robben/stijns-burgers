@@ -3,7 +3,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from "../auth.service";
 import { IUser, UserRole } from '@herkansing-cswp/shared/api';
-import { ProfileService } from "./profile.service";
+import { Router } from "@angular/router";
+
 @Component({
   selector: '@stijns-burgers-profile',
   templateUrl: './profile.component.html',
@@ -15,7 +16,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   editMode = false;
   private unsubscribe$ = new Subject<void>();
 
-  constructor(private authService: AuthService, private profileService: ProfileService) {
+  constructor(private authService: AuthService, private router: Router) {
     // Initialize currentUser with default values
     this.currentUser = {
       _id: '', // You may want to handle this differently
@@ -35,34 +36,44 @@ export class ProfileComponent implements OnInit, OnDestroy {
     };
   }
 
-  ngOnInit(): void {
-    this.authService.getCurrentUser()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(user => {
-        console.log('User:', user); // Log the user object
-        if (user) {
-          user.reviews = user.reviews.flat();
-          this.currentUser = user;
-        }
-      });
-  }
+  // ProfileComponent
+ngOnInit(): void {
+  this.authService.getProfile()
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe(user => {
+      console.log('User:', user); // Log the user object
+      if (user && Array.isArray(user.reviews)) {
+        user.reviews = user.reviews.flat();
+        this.currentUser = user;
+      }
+    });
+}
 
   logout(): void {
     this.authService.logout();
   }
 
-  
-
   updateUser(user: IUser): void {
-  console.log('Profile component:' + user)
-  this.profileService.updateUser(this.currentUser._id, this.currentUser)
-    .subscribe(updatedUser => {
-      console.log('Updated user:', updatedUser);
-      this.currentUser = updatedUser;
-      this.editMode = false;
-    });
-}
+    console.log('Profile component:' + user)
+    // Update currentUser immediately
+    this.currentUser = { ...this.currentUser, ...user };
+    this.authService.updateUser(this.currentUser._id, this.currentUser)
+      .subscribe(updatedUser => {
+        console.log('Updated user:', updatedUser);
+        // Refresh currentUser with the data from the server
+        this.currentUser = updatedUser;
+        this.editMode = false;
+      });
+      //here
+      this.forceRefresh();
 
+  }
+
+  forceRefresh(): void {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/profile']);
+    });
+  }  
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();

@@ -12,7 +12,7 @@ export class HeaderComponent {
   isAdmin$!: boolean;
   isLoggedIn$!: boolean;
   constructor(private authService: AuthService, private router: Router) {
-    this.authService.isAdmin$().subscribe(isAdmin => {
+    this.authService.isAdmin().subscribe(isAdmin => {
       this.isAdmin$ = isAdmin;
       console.log("isAdmin$:" + this.isAdmin$);
     });

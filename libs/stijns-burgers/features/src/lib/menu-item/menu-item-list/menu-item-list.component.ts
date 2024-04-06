@@ -17,7 +17,7 @@ export class MenuItemListComponent implements OnInit, OnDestroy {
   currentUserRole: string | null = 'user';
 
   constructor(private menuitemService: MenuItemService, private authService:AuthService) {
-    this.authService.isAdmin$().subscribe(isAdmin => {
+    this.authService.isAdmin().subscribe(isAdmin => {
       this.isAdmin$ = isAdmin;
       console.log("isAdmin$:" + this.isAdmin$);
     });

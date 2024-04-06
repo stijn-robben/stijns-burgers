@@ -2,15 +2,17 @@ import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError, switchMap } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '@herkansing-cswp/shared/util-env';
 import { IUser } from '@herkansing-cswp/shared/api';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   endpoint = `${environment.dataApiUrl}` + '/auth';
+  userEndpoint = `${environment.dataApiUrl}` + '/user';
   private storageKey = 'currentUser';
   private currentUserSubject: BehaviorSubject<IUser | null>;
 
@@ -27,7 +29,7 @@ export class AuthService {
   }
 
   // Initialize user from storage upon service creation
-   getUserFromStorage(): IUser | null {
+  getUserFromStorage(): IUser | null {
     if (isPlatformBrowser(this.platformId)) {
       const user = localStorage.getItem(this.storageKey);
       return user ? JSON.parse(user) : null;
@@ -35,15 +37,31 @@ export class AuthService {
     return null;
   }
 
+  getToken(): Observable<string> {
+    const currentUser: any = this.currentUserSubject.value;
+    if (currentUser && currentUser.access_token && currentUser.access_token.user && currentUser.access_token.user.token) {
+      return of(currentUser.access_token.user.token);
+    } else {
+      return throwError('No token found');
+    }
+  }  isAdmin(): Observable<boolean> {
+    return this.currentUserSubject.asObservable().pipe(
+      map(user => user ? user.role === 'admin' : false)
+    );
+  }
+
+  isLoggedIn$(): Observable<boolean> {
+    return this.currentUserSubject.asObservable().pipe(
+      map(user => !!user)
+    );
+  }
 
   login(emailAddress: string, password: string): Observable<IUser> {
     return this.http.post<IUser>(`${this.endpoint}/login`, { emailAddress, password }, { headers: this.headers })
       .pipe(
         tap(user => {
           if (user) { // Check if user is not undefined
-            if (isPlatformBrowser(this.platformId)) {
-              localStorage.setItem(this.storageKey, JSON.stringify(user));
-            }
+            localStorage.setItem(this.storageKey, JSON.stringify(user));
             this.currentUserSubject.next(user);
           }
         }),
@@ -54,12 +72,9 @@ export class AuthService {
       );
   }
 
-  isAdmin$(): Observable<boolean> {
-    return this.currentUserSubject.asObservable().pipe(
-      tap(user => console.log('User:', user)), // Log the entire user object
-      map((user: any) => user !== null && user.access_token.user.role === 'admin')    );
+  checkUserAuthentication(): boolean {
+    return !!this.getUserFromStorage();
   }
-
   logout(): void {
     // Remove user from local storage
     if (isPlatformBrowser(this.platformId)) {
@@ -73,48 +88,64 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  // Method to get the current user
   getCurrentUser(): Observable<IUser | null> {
     return this.currentUserSubject.asObservable().pipe(
-      map(token => token ? (token as any).access_token.user : null)
+      map((data: any) => data && data.access_token ? data.access_token.user : null)
     );
   }
-
+  
   getCurrentUserReviews(): Observable<any> {
     return this.currentUserSubject.asObservable().pipe(
-      tap(user => console.log('User:', user)), // Log the entire user object
-      map((user: any) => user !== null ? user.access_token.user.reviews : null)
+      tap((data: any) => console.log('Data:', data)), // Log the entire data object
+      map((data: any) => data && data.access_token && data.access_token.user && data.access_token.user.reviews ? data.access_token.user.reviews.flat() : [])
     );
-  }
-
-  getCurrentUserRole(): Observable<string | null> {
+  }  getCurrentUserRole(): Observable<string | null> {
     return this.currentUserSubject.asObservable().pipe(
       map(user => user ? user.role : null)
     );
   }
 
-  checkUserAuthentication(): void {
-    const userJson = localStorage.getItem(this.storageKey);
-    if (userJson) {
-      const user = JSON.parse(userJson) as IUser;
-      this.currentUserSubject.next(user);
-    }
-  }
-
-  getToken(): Observable<string | null> {
-    return this.currentUserSubject.asObservable().pipe(
-      tap(user => console.log('User:', user)), // Log the entire user object
-      map((user: any) => {
-        const token = user !== null && user.access_token.user.token ? user.access_token.user.token : null;
-        console.log('Token:', token); // Log the token
-        return token;
-      }) 
+  getUser(id: string): Observable<any> {
+    return this.getToken().pipe(
+      switchMap(token => {
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+        return this.http.get(`${this.userEndpoint}/${id}`, { headers });
+      })
     );
   }
 
-  isLoggedIn$(): Observable<boolean> {
-    return this.currentUserSubject.asObservable().pipe(
-      map(user => !!user)
+  updateUser(id: string, user: any): Observable<IUser> {
+    return this.getToken().pipe(
+      tap(token => console.log('Token:', token)), // Log the token
+      switchMap(token => {
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+        return this.http.put<IUser>(`${this.userEndpoint}/${id}`, user, { headers }).pipe(
+          switchMap(() => {
+            const headers = new HttpHeaders({
+              'Authorization': `Bearer ${token}`
+            });
+            return this.http.get<IUser>(`${this.endpoint}/profile`, { headers });
+          })
+        );
+      }),
+      tap(updatedUser => {
+        // Update currentUserSubject with the updated user
+        this.currentUserSubject.next(updatedUser);
+      })
     );
   }
-}
+  getProfile(): Observable<IUser> {
+    return this.getToken().pipe(
+      tap(token => console.log('Token:', token)), // Log the token
+      switchMap(token => {
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+        return this.http.get<IUser>(`${this.endpoint}/profile`, { headers });
+      })
+    );
+  }}
