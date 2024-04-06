@@ -7,7 +7,7 @@ import { AuthModule, AuthService } from '@herkansing-cswp/auth';
 
 @Component({
   standalone: true,
-  imports: [RouterModule, FeaturesModule, UiModule, RouterLinkActive, AuthModule],
+  imports: [RouterModule, FeaturesModule, UiModule, RouterLinkActive, AuthModule, ],
   selector: 'stijns-burgers-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],

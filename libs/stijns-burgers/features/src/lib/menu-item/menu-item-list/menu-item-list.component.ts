@@ -49,7 +49,7 @@ export class MenuItemListComponent implements OnInit, OnDestroy {
     }
 
     deleteMenuItem(menuitemId: string): void {
-      if (confirm('Weet je zeker dat je deze sportclub wilt verwijderen?')) {
+      if (confirm('Are you sure you want to delete this menu item?')) {
         this.menuitemService.delete(menuitemId).pipe(
           switchMap(() => {
             if (this.menuitem) {
@@ -60,9 +60,9 @@ export class MenuItemListComponent implements OnInit, OnDestroy {
           })
         ).subscribe(updatedMenuItem => {
           this.menuitem = updatedMenuItem;
-          console.log(`Deleted sportclub with ID: ${menuitemId}`);
+          console.log(`Deleted menu item with ID: ${menuitemId}`);
         }, error => {
-          console.error(`Error deleting menuitem: ${error}`);
+          console.error(`Error deleting menu item: ${error}`);
         });
       }
     }

@@ -1,0 +1,73 @@
+
+<div class="bg-dark-yellow">
+    
+    <div class="container col-md-12 story full-vh">
+        <div class="row pt-5">
+            <div class="col-lg-8 col-md-8 col-sm-8 pb-4">
+                <div>
+                    <div class="card-body">
+                        
+                        <img src={{menuitem?.img_url}} width="80%" class="rounded-3">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="pt-4 col-lg-4 col-md-4 col-sm-4 pb-4">
+                <div class="card-without-bottom">
+                    <div class="card-body">
+                        
+                        <h4 class="pt-2 card-title">{{menuitem?.name}} </h4>
+                        <p>€{{menuitem?.price}} </p>
+                        <br>
+                        <p>{{menuitem?.description}} </p>
+                        <br>
+                        <p>Ingredients: {{replaceArrayCommasWithSpaces(menuitem?.ingredients)}}</p>
+                        <br>
+                        <p>Allergens: {{replaceAllergensWithSymbols(menuitem?.allergens)}} </p>
+                        <br>
+                        <button class="btn-secondary">🛒 Add to cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg-bridge">
+
+    </div>
+    <div class="bg-pink">
+        <h2 style="color: #EDC16E" class="pt-5 text-center">Reviews</h2>
+
+        <div class="container col-md-12 story pb-5">
+            <a [routerLink]="['./new/']" routerLinkActive="active">
+                <button style="width: 100%; "class="btn-fourth">Add a review!</button>
+                </a>
+                <ng-template #noReviews>
+                    <p class="text-center pt-5" style="color: #EDC16E;">There are no reviews for this menu item yet.</p>
+                </ng-template>
+                <div *ngIf="menuitem && menuitem.reviews && menuitem.reviews.length > 0; else noReviews" class="row">
+                    <div *ngFor="let review of menuitem?.reviews" class="col-lg-6 col-md-12 col-sm-12 pt-4">
+                    <div class="card-without-bottom">
+                        <div class="card-body">
+                            <h4 class="pt-2 card-title">{{userNames.get(review._id_user)}} </h4>
+                                                        <p>{{review.description}}</p>
+                            <div>
+                                <ng-container *ngFor="let i of [1, 2, 3, 4, 5]">
+                                  <ng-container *ngIf="i <= review.score; else notFilledStar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                                      <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                    </svg>
+                                  </ng-container>
+                                  <ng-template #notFilledStar>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                                      <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/>
+                                    </svg>
+                                  </ng-template>
+                                </ng-container>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </div>
+</div>

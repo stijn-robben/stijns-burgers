@@ -325,6 +325,32 @@ button.btn-third:hover {
     --bs-btn-active-border-color: var(--color1) !important;
     background: var(--color1);
 }
+
+button.btn-fourth{
+    color: var(--color6);
+    padding: 0.33em 1.33em;
+    background: var(--color7);
+    border: 2px solid var(--color7);
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    font-size:20px;
+    font-family: var(--font2);
+    --bs-btn-active-bg: transparent !important;
+    --bs-btn-active-border-color: var(--color1) !important;
+}
+button.btn-fourth:hover {
+    color: var(--color7);
+    padding: 0.33em 1.33em;
+    background: var(--color6);
+    border: 2px solid var(--color7);
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    font-size:20px;
+    font-family: var(--font2);
+    --bs-btn-active-bg: transparent !important;
+    --bs-btn-active-border-color: var(--color1) !important;
+}
+
 /*button top layer*/
 button.btn-primary {
     font-weight: 600;

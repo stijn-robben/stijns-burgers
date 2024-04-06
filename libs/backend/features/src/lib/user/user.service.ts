@@ -74,6 +74,16 @@ export class UserService {
         }
     }
 
+    async findNameById(_id: Id): Promise<string | null> {
+        this.logger.log(`Finding name of user with id ${_id}`);
+        const user = await this.userModel.findById(_id, 'firstName lastName').exec();
+        if (!user) {
+            this.logger.debug('User not found');
+            return null;
+        }
+        return `${user.firstName} ${user.lastName}`;
+    }
+
     async addReviewToUser(userId: string, review: Review): Promise<IUser> {
         this.logger.log(`Adding review ${review._id} to user ${userId}`);
       

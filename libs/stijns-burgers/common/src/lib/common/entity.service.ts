@@ -54,21 +54,20 @@ export class GenericService<T> {
     
     
     public read(id: string | null, options?: any): Observable<T> {
-        const url = this.endpoint + '/' + id?.toString();
-        const headers = this.getAuthHeader();
-        console.log(`read ${url}`);
-        return this.http
-            .get<ApiResponse<T>>(url, {
-                headers,
-                ...options,
-            })
-            .pipe(
-                tap(console.log),
-                map((response: any) => response.results as T),
-                catchError(this.handleError)
-            );
-    }
-    public create(item: T): Observable<T> {
+      const url = this.endpoint + '/' + id?.toString();
+      const headers = this.getAuthHeader();
+      console.log(`read ${url}`);
+      return this.http
+        .get<ApiResponse<T>>(url, {
+          headers,
+          ...options,
+        })
+        .pipe(
+          tap(console.log),
+          map((response: any) => response as T),
+          catchError(this.handleError)
+        );
+    }    public create(item: T): Observable<T> {
         console.log(`Creating a new item in ${this.endpoint}`);
         const url = this.endpoint + '/' + 'create';
          // Clone the object to avoid side effects

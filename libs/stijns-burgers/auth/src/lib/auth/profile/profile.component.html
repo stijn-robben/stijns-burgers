@@ -171,7 +171,7 @@
 
                                     </div>
                                     <div class="col-lg-1">
-                                      <p>{{item.price}}</p>
+                                      <p>€{{item.price}}</p>
                                     </div>
                                   </div>
                                   <hr>
@@ -206,10 +206,10 @@
                             </div>
                             <div class="row">
                               <div class="col-lg-3 col-md-3 col-sm-3">
-                                <p>Total €:</p>
+                                <p>Total:</p>
                               </div>
                               <div class="col-lg-8 col-md-6 col-sm-6">
-                                <p *ngIf="!editMode">{{order.total_amount | number:'1.2-2'}}</p>
+                                <p *ngIf="!editMode">€{{order.total_amount | number:'1.2-2'}}</p>
                               </div>
                             </div>
 

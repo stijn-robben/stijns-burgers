@@ -258,4 +258,25 @@ async createOrderAndClearCart(
   return order;
 }
 
+@Get(':id/name')
+@ApiOperation({ summary: 'Get user name by ID' })
+@ApiOkResponse({ description: 'Successfully retrieved user name' })
+@ApiBadRequestResponse({ description: 'Invalid user ID' })
+@ApiNotFoundResponse({ description: 'User not found' })
+async getName(@Param('id') id: Id, @Req() req:any): Promise<string | null> {
+    const requester = req.user;
+
+    if ((!id)) {
+      throw new BadRequestException('Invalid user ID');
+    }
+
+
+    const name = await this.userService.findNameById(id);
+    if (!name) {
+      throw new NotFoundException('User not found');
+    }
+
+    return name;
+}
+
 }
