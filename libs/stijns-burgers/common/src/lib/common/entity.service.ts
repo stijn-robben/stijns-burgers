@@ -19,7 +19,7 @@ export class GenericService<T> {
     constructor(
         protected readonly http: HttpClient,
         @Inject(ENDPOINT_SUFFIX) endpointSuffix: string,
-        private authService:AuthService
+        public authService:AuthService
         
     ) {
         this.endpoint = `${environment.dataApiUrl}${endpointSuffix}`;

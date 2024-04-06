@@ -39,12 +39,14 @@ export class AuthService {
 
   getToken(): Observable<string> {
     const currentUser: any = this.currentUserSubject.value;
+    console.log('Current user:', currentUser);  // Log the current user
     if (currentUser && currentUser.access_token && currentUser.access_token.user && currentUser.access_token.user.token) {
+      console.log('Token getToken:', currentUser.access_token.user.token);  // Log the token
       return of(currentUser.access_token.user.token);
     } else {
       return throwError('No token found');
     }
-  }  
+  }
   
   isAdmin(): Observable<boolean> {
     return this.currentUserSubject.asObservable().pipe(

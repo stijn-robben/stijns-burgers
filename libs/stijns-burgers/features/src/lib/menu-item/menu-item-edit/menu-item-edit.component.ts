@@ -10,7 +10,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 })
 export class MenuItemEditComponent implements OnInit, OnDestroy {
   menuitem: IMenuItem | null = null;
-
+  routeUrl = this.route.snapshot.url.join('/');
   subscription: Subscription | undefined = undefined;
     imageError = false;
   constructor(private route: ActivatedRoute, private menuitemService: MenuItemService, private router: Router) {}
@@ -36,10 +36,9 @@ export class MenuItemEditComponent implements OnInit, OnDestroy {
           this.menuitem = menuItemData;
           console.log('Editing menuitem:', this.menuitem);
         } else {
-          this.initializeNewMenuItem();
+          console.log('Menu item not found, new menuitem');
         }
-      });
-  }
+      });  }
 
    initializeNewMenuItem(): void {
     this.menuitem = {
@@ -76,14 +75,25 @@ export class MenuItemEditComponent implements OnInit, OnDestroy {
       this.menuitem.img_url = newUrl;
     }
     this.imageError = false;
-  }  save() {
+  }  
+  
+  save() {
     console.log('Hier komt de save actie');
     const jsonText = this.convertToJson();
     console.log('JSON Text:', jsonText);
-    // You can now send the jsonText to your API or perform other actions as needed
-    this.router.navigate(['/menu']);
+    console.log('Route URL:', this.routeUrl)
+    
+    if (this.routeUrl.includes('new')) {
+      console.log('Creating new menuitem');
+      // Do the creation logic here
+    } else if (this.routeUrl.includes('edit') && this.menuitem && this.menuitem._id) {
+      console.log('Updating menuitem');
+      this.menuitemService.updateMenuItem(this.menuitem._id, JSON.parse(jsonText)).subscribe(updatedMenuItem => {
+        console.log('Updated menuitem:', updatedMenuItem);
+        this.router.navigate(['/menu']);
+      });
+    }
   }
-
 
   cancel() {
     this.router.navigate(['/menu']);  }
