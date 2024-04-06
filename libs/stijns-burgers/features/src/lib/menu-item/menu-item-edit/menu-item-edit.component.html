@@ -1,0 +1,123 @@
+<div class="bg-dark-yellow">
+    <div class="container">
+      <div class="col-lg-12 col-md-12 col-sm-12 py-4 pb-5">
+        <div class="row pt-4 pb-5">
+          <div class="col-lg-8 col-md-12 col-sm-12">
+            <form #menuForm="ngForm" (ngSubmit)="save()" novalidate>
+              <div class="mb-3">
+                <input
+                  type="text"
+                  class="form-control form-component form-label"
+                  id="name"
+                  placeholder="Name:"
+                  [(ngModel)]="menuitem!.name"
+                  name="name"
+                  required
+                />
+                <div *ngIf="menuForm.controls['name'] && menuForm.controls['name'].invalid && (menuForm.controls['name'].dirty || menuForm.controls['name'].touched)">
+                  <div *ngIf="menuForm.controls['name'].hasError('required')" class="text-danger">
+                    Name is required.
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <textarea
+                  class="form-control form-component form-label"
+                  id="description"
+                  placeholder="Description:"
+                  rows="4"
+                  [(ngModel)]="menuitem!.description"
+                  name="description"
+                ></textarea>
+              </div>
+              <div class="mb-3">
+                <input
+                  type="number"
+                  class="form-control form-component form-label"
+                  id="price"
+                  placeholder="Price:"
+                  [(ngModel)]="menuitem!.price"
+                  name="price"
+                  required
+                />
+                <div *ngIf="menuForm.controls['price'] && menuForm.controls['price'].invalid && (menuForm.controls['price'].dirty || menuForm.controls['price'].touched)">
+                  <div *ngIf="menuForm.controls['price'].hasError('required')" class="text-danger">
+                    Price is required.
+                  </div>
+                </div>
+              </div>
+              <select
+                class="form-component form-select form-label mb-3"
+                [(ngModel)]="menuitem!.item_type"
+                name="type"
+                required
+              >
+                <option selected disabled>Select a type</option>
+                <option value="burger">Burger</option>
+                <option value="side">Side</option>
+                <option value="drink">Drink</option>
+              </select>
+              <div class="mb-3">
+                <input
+                type="url"
+                class="form-control form-component form-label"
+                id="img_url"
+                placeholder="Image URL:"
+                [(ngModel)]="menuitem!.img_url"
+                (ngModelChange)="updateImageUrl($event)"
+                name="img_url"
+                required
+              />                <div *ngIf="menuForm.controls['img_url'] && menuForm.controls['img_url'].invalid && (menuForm.controls['img_url'].dirty || menuForm.controls['img_url'].touched)">
+                  <div *ngIf="menuForm.controls['img_url'].hasError('required')" class="text-danger">
+                    Image URL is required.
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <textarea
+                  class="form-control form-component form-label"
+                  id="ingredients"
+                  placeholder="Ingredients: (separate every ingredient with a comma. e.g 'lettuce,tomato')"
+                  rows="2"
+                  [(ngModel)]="menuitem!.ingredients"
+                  name="ingredients"
+                  required
+                ></textarea>
+                <div *ngIf="menuForm.controls['ingredients'] && menuForm.controls['ingredients'].invalid && (menuForm.controls['ingredients'].dirty || menuForm.controls['ingredients'].touched)">
+                  <div *ngIf="menuForm.controls['ingredients'].hasError('required')" class="text-danger">
+                    Ingredients are required.
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <textarea
+                  class="form-control form-component form-label"
+                  id="allergens"
+                  placeholder="Allergens: (separate every allergen with a comma. e.g 'dairy,egg')"
+                  rows="2"
+                  [(ngModel)]="menuitem!.allergens"
+                  name="allergens"
+                  required
+                ></textarea>
+                <div *ngIf="menuForm.controls['allergens'] && menuForm.controls['allergens'].invalid && (menuForm.controls['allergens'].dirty || menuForm.controls['allergens'].touched)">
+                  <div *ngIf="menuForm.controls['allergens'].hasError('required')" class="text-danger">
+                    Allergens are required.
+                  </div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-secondary" [disabled]="menuForm.invalid">Submit</button>
+              <button type="button" class="btn btn-secondary mx-3" (click)="cancel()">Cancel</button>
+            </form>
+          </div>
+          <div class="col-lg-4 col-md-12 col-sm-12">
+            <div class="card-without-bottom card-text story">
+                <p class="">Preview of the image:</p>
+                <img *ngIf="menuitem?.img_url && !imageError" style="width:100%;" src="{{menuitem?.img_url}}" (error)="onImageError()">
+                <p style="color: #B84141;" *ngIf="imageError || !menuitem?.img_url">The image URL is invalid</p>            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-bridge-5"></div>
+  </div>
+  
