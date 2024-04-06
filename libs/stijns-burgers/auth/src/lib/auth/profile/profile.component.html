@@ -147,16 +147,77 @@
                         </svg>
                       </div>
                     </div>
-                  </div>              </div>            
+                  </div>              
+                </div>            
                   
                   <div *ngIf="selectedOption === 'orders'">
-                <div class="card-without-bottom container">
-                    <div class="card-body"></div>
-                </div>
-            </div>
+                    <div class="card-without-bottom container mb-3" *ngFor="let order of currentUser.orders; let i = index">
+                      <div class="row card-text story">
+                        <div class="col-lg-12">
+                          <div class="row">
+
+                              <div class="col-lg-3 col-md-3 col-sm-3">
+                                <p>Order:</p>
+                              </div>
+                              <div class="col-lg-8 col-md-6 col-sm-6">
+                                <div *ngFor="let item of order.cart">
+                                  <div class="row">
+                                    <div class="col-lg-4">
+                                      <img style="height:80px" [src]="item.productImageUrl">                                    
+                                    </div>
+                                    <div class="col-lg-7">
+                                      <p>{{item.nameProduct}}</p>
+                                      <p>{{item.quantity}}x</p>
+
+                                    </div>
+                                    <div class="col-lg-1">
+                                      <p>{{item.price}}</p>
+                                    </div>
+                                  </div>
+                                  <hr>
+
+                                </div>
+                                
+                                </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-lg-3 col-md-3 col-sm-3">
+                                <p>Deliver time:</p>
+                              </div>
+                              <div class="col-lg-8 col-md-6 col-sm-6">
+                                <p *ngIf="!editMode">{{order.est_delivery_time | date:'shortTime'}}</p>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-lg-3 col-md-3 col-sm-3">
+                                <p>Order date:</p>
+                              </div>
+                              <div class="col-lg-8 col-md-6 col-sm-6">
+                                <p *ngIf="!editMode">{{order.order_date | date:'shortDate'}}</p>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-lg-3 col-md-3 col-sm-3">
+                                <p>Status:</p>
+                              </div>
+                              <div class="col-lg-8 col-md-6 col-sm-6">
+                                <p *ngIf="!editMode">{{order.status}}</p>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-lg-3 col-md-3 col-sm-3">
+                                <p>Total €:</p>
+                              </div>
+                              <div class="col-lg-8 col-md-6 col-sm-6">
+                                <p *ngIf="!editMode">{{order.total_amount | number:'1.2-2'}}</p>
+                              </div>
+                            </div>
+
+                        </div>
+                      </div>
+                    </div>  
+                  </div>
         </div>
     
         <div class="col-lg-4 col-md-2"></div> <!-- Adjusted from col-lg-2 to col-lg-4 -->
     </div>
-
-      </div>

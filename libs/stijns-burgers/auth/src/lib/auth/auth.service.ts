@@ -44,12 +44,19 @@ export class AuthService {
     } else {
       return throwError('No token found');
     }
-  }  isAdmin(): Observable<boolean> {
+  }  
+  
+  isAdmin(): Observable<boolean> {
     return this.currentUserSubject.asObservable().pipe(
-      map(user => user ? user.role === 'admin' : false)
+      tap(user => console.log('User isAdmin:', user)), // Log the user object
+      map((user: any) => {
+        const isAdmin = user && user.access_token && user.access_token.user ? user.access_token.user.role === 'admin' : false;
+        console.log('Is Admin:', isAdmin); // Log the isAdmin value
+        return isAdmin;
+      })
     );
-  }
-
+  }  
+  
   isLoggedIn$(): Observable<boolean> {
     return this.currentUserSubject.asObservable().pipe(
       map(user => !!user)

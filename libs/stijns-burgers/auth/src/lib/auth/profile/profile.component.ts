@@ -14,6 +14,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   selectedOption = 'user';
   isEditable = false;
   editMode = false;
+  selectedOrderIndex: number | null = null;
   private unsubscribe$ = new Subject<void>();
 
   constructor(private authService: AuthService, private router: Router) {
