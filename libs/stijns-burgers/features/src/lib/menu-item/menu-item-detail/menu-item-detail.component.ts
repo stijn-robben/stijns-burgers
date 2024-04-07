@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuItemService } from '../menu-item.service';
 import { IMenuItem } from '@herkansing-cswp/shared/api';
-import { Subscription, switchMap, tap } from 'rxjs';
+import { Observable, Subscription, switchMap, tap } from 'rxjs';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@herkansing-cswp/shared/util-env';
-
+import { AuthService } from '@herkansing-cswp/auth';
 @Component({
     selector: 'stijns-burgers-menuitem-list',
     templateUrl: './menu-item-detail.component.html',
@@ -14,7 +14,7 @@ export class MenuItemDetailComponent implements OnInit, OnDestroy {
     menuitem: IMenuItem | null = null;
     subscription: Subscription | undefined = undefined;
     userNames = new Map<string, string>();
-    constructor(private route: ActivatedRoute, private menuitemService: MenuItemService, private http: HttpClient) {}
+    constructor(private route: ActivatedRoute, private menuitemService: MenuItemService, private http: HttpClient, private authService: AuthService) {}
 
     ngOnInit(): void {
       this.route.paramMap.subscribe(params => {
@@ -35,9 +35,30 @@ export class MenuItemDetailComponent implements OnInit, OnDestroy {
       });
     }
     
+    isAdmin$(): Observable<boolean> {
+      return this.authService.isAdmin()
+        .pipe(
+          tap(isAdmin => console.log('User is admin:', isAdmin))
+        );
+    }
     
     
     
+
+    updateCurrentMenuItem(data: any): void {
+      if (this.menuitem && this.menuitem._id) {
+        this.menuitemService.updateMenuItem(this.menuitem._id, data)
+          .subscribe(updatedMenuItem => {
+            console.log('Updated menu item:', updatedMenuItem);
+            // Update the local menuitem with the updated data
+            this.menuitem = updatedMenuItem;
+          }, error => {
+            console.error('Error updating menu item:', error);
+          });
+      } else {
+        console.error('Menu item or menu item ID is undefined');
+      }
+    }
     
     ngOnDestroy(): void {
         if (this.subscription) this.subscription.unsubscribe();

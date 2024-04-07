@@ -179,6 +179,19 @@ export class AuthService {
   }
 
 
+  deleteReview(reviewId: string, userId: string): Observable<any> {
+    return this.getToken().pipe(
+      switchMap(token => {
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+  
+        return this.http.delete(`${this.menuitemEndpoint}/reviews/${reviewId}/${userId}`, { headers });
+      })
+    );
+  }
+
+  
 
   getProfile(): Observable<IUser> {
     return this.getToken().pipe(

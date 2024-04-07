@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
 import { AuthService } from "../auth.service";
 import { IReview, IUser, IUserReviews, Review, UserRole } from '@herkansing-cswp/shared/api';
 import { Router } from "@angular/router";
@@ -79,6 +79,30 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   }
 
+  deleteUserReview(reviewId: string): void {
+    if (this.currentUser && this.currentUser._id) {
+      this.authService.deleteReview(reviewId, this.currentUser._id)
+        .subscribe(() => {
+          console.log('Deleted review:', reviewId);
+          // Remove the deleted review from userReviews
+          if (this.userReviews && this.userReviews.reviews) {
+            const index = this.userReviews.reviews.findIndex(r => r._id === reviewId);
+            if (index !== -1) {
+              this.userReviews.reviews.splice(index, 1);
+            }
+          }
+        });
+    } else {
+      console.error('Current user or user ID is undefined');
+    }
+  }
+  
+  isAdmin(): Observable<boolean> {
+    return this.authService.isAdmin()
+      .pipe(
+        tap((isAdmin: any) => console.log('User is admin:', isAdmin))
+      );
+  }
   updateReview(review: Review): void {
     if (review && review._id) {
       this.authService.updateReview(review._id, review)
