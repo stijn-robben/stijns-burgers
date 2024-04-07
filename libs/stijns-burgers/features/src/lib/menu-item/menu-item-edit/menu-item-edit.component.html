@@ -1,4 +1,4 @@
-<div class="bg-dark-yellow">
+<div class="bg-dark-yellow" *ngIf="menuitem">
     <div class="container">
       <div class="col-lg-12 col-md-12 col-sm-12 py-4 pb-5">
         <div class="row pt-4 pb-5">
@@ -10,7 +10,7 @@
                   class="form-control form-component form-label"
                   id="name"
                   placeholder="Name:"
-                  [(ngModel)]="menuitem!.name"
+                  [(ngModel)]="menuitem.name"
                   name="name"
                   required
                 />
@@ -26,7 +26,7 @@
                   id="description"
                   placeholder="Description:"
                   rows="4"
-                  [(ngModel)]="menuitem!.description"
+                  [(ngModel)]="menuitem.description"
                   name="description"
                 ></textarea>
               </div>
@@ -36,7 +36,7 @@
                   class="form-control form-component form-label"
                   id="price"
                   placeholder="Price:"
-                  [(ngModel)]="menuitem!.price"
+                  [(ngModel)]="menuitem.price"
                   name="price"
                   required
                 />
@@ -48,7 +48,7 @@
               </div>
               <select
                 class="form-component form-select form-label mb-3"
-                [(ngModel)]="menuitem!.item_type"
+                [(ngModel)]="menuitem.item_type"
                 name="type"
                 required
               >
@@ -63,7 +63,7 @@
                 class="form-control form-component form-label"
                 id="img_url"
                 placeholder="Image URL:"
-                [(ngModel)]="menuitem!.img_url"
+                [(ngModel)]="menuitem.img_url"
                 (ngModelChange)="updateImageUrl($event)"
                 name="img_url"
                 required
@@ -79,7 +79,7 @@
                   id="ingredients"
                   placeholder="Ingredients: (separate every ingredient with a comma. e.g 'lettuce,tomato')"
                   rows="2"
-                  [(ngModel)]="menuitem!.ingredients"
+                  [(ngModel)]="menuitem.ingredients"
                   name="ingredients"
                   required
                 ></textarea>
@@ -95,7 +95,7 @@
                   id="allergens"
                   placeholder="Allergens: (separate every allergen with a comma. e.g 'dairy,egg')"
                   rows="2"
-                  [(ngModel)]="menuitem!.allergens"
+                  [(ngModel)]="menuitem.allergens"
                   name="allergens"
                   required
                 ></textarea>
@@ -112,7 +112,7 @@
           <div class="col-lg-4 col-md-12 col-sm-12">
             <div class="card-without-bottom card-text story">
                 <p class="">Preview of the image:</p>
-                <img *ngIf="menuitem?.img_url && !imageError" style="width:100%;" src="{{menuitem?.img_url}}" (error)="onImageError()">
+                <img *ngIf="menuitem?.img_url && !imageError" style="width:100%;" src="{{menuitem.img_url}}" (error)="onImageError()">
                 <p style="color: #B84141;" *ngIf="imageError || !menuitem?.img_url">The image URL is invalid</p>            </div>
         </div>
         </div>

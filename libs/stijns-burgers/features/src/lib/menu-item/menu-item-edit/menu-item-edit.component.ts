@@ -79,13 +79,31 @@ export class MenuItemEditComponent implements OnInit, OnDestroy {
   
   save() {
     console.log('Hier komt de save actie');
+    this.menuitem = {
+      _id: this.menuitem?._id || '', 
+      item_type: this.menuitem?.item_type || '', 
+      description: this.menuitem?.description || '', 
+      name: this.menuitem?.name || '', 
+      price: this.menuitem?.price || 0, 
+      ingredients: this.menuitem?.ingredients || [], 
+      allergens: this.menuitem?.allergens || [], 
+      img_url: this.menuitem?.img_url || '',
+      reviews: this.menuitem?.reviews || [], 
+      ...this.menuitem,
+    };
+  
     const jsonText = this.convertToJson();
     console.log('JSON Text:', jsonText);
     console.log('Route URL:', this.routeUrl)
     
     if (this.routeUrl.includes('new')) {
       console.log('Creating new menuitem');
-      // Do the creation logic here
+      this.menuitemService.createMenuItem(JSON.parse(jsonText)).subscribe(createMenuItem => {
+        console.log('Updated menuitem:', createMenuItem);
+        this.router.navigate(['/menu']);
+      });
+
+      
     } else if (this.routeUrl.includes('edit') && this.menuitem && this.menuitem._id) {
       console.log('Updating menuitem');
       this.menuitemService.updateMenuItem(this.menuitem._id, JSON.parse(jsonText)).subscribe(updatedMenuItem => {
@@ -94,7 +112,6 @@ export class MenuItemEditComponent implements OnInit, OnDestroy {
       });
     }
   }
-
   cancel() {
     this.router.navigate(['/menu']);  }
 }
