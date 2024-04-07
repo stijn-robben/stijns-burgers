@@ -1,0 +1,35 @@
+<div class="bg-dark-yellow" *ngIf="review">
+    <div class="container">
+      <div class="col-lg-12 col-md-12 col-sm-12 py-4 pb-5">
+        <div class="row pt-4 pb-5">
+          <div class="col-lg-8 col-md-12 col-sm-12">
+            <form #menuForm="ngForm" (ngSubmit)="save()" novalidate>
+              <div class="mb-3">
+                <input
+                  type="text"
+                  class="form-control form-component form-label"
+                  id="score"
+                  placeholder="Score:"
+                  [(ngModel)]="review.score"
+                  name="score"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <textarea
+                  class="form-control form-component form-label"
+                  id="description"
+                  placeholder="Description:"
+                  rows="4"
+                  [(ngModel)]="review.description"
+                  name="description"
+                ></textarea>
+              </div>
+              
+              <button type="submit" class="btn btn-secondary" [disabled]="menuForm.invalid">Submit</button>
+              <button type="button" class="btn btn-secondary mx-3" (click)="cancel()">Cancel</button>
+            </form>
+          </div>
+  </div>
+      
+  

@@ -10,20 +10,24 @@ import { MenuItemDetailComponent } from './menu-item/menu-item-detail/menu-item-
 import { MenuItemEditComponent } from './menu-item/menu-item-edit/menu-item-edit.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatChipsModule } from '@angular/material/chips';
+import { MenuItemNewReviewComponent } from './menu-item/menu-item-new-review/menu-item-new-review.component';
+
 @NgModule({
   imports: [CommonModule, HttpClientModule, RouterModule, FormsModule, MatFormFieldModule, MatChipsModule],
   declarations: [
     HomeComponent,
     MenuItemListComponent,
     MenuItemDetailComponent,
-    MenuItemEditComponent
+    MenuItemEditComponent,
+    MenuItemNewReviewComponent
   ],
   providers: [MenuItemService],
   exports: [
     HomeComponent,
     MenuItemListComponent,
     MenuItemDetailComponent,
-    MenuItemEditComponent
+    MenuItemEditComponent,
+    MenuItemNewReviewComponent
   ],
 })
 export class FeaturesModule {}

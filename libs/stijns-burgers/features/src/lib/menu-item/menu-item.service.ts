@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IMenuItem } from '@herkansing-cswp/shared/api';
+import { IMenuItem, IReview } from '@herkansing-cswp/shared/api';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@herkansing-cswp/common';
 // eslint-disable-next-line @nx/enforce-module-boundaries
@@ -57,6 +57,23 @@ export class MenuItemService extends GenericService<IMenuItem> {
           .subscribe(
             () => {
               observer.next();
+              observer.complete();
+            },
+            error => observer.error(error)
+          );
+      }, error => observer.error(error));
+    });
+  }
+
+  createReview(menuItemId: string, review: Omit<IReview, '_id'>): Observable<IMenuItem> {
+    return new Observable<IMenuItem>(observer => {
+      this.authService.getToken().subscribe(token => {
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        const { description, score } = review;  // Directly access description and score from review
+        this.http.post<IMenuItem>(`${environment.dataApiUrl}/menu-item/${menuItemId}/reviews`, {description, score}, { headers })
+          .subscribe(
+            menuItem => {
+              observer.next(menuItem);
               observer.complete();
             },
             error => observer.error(error)

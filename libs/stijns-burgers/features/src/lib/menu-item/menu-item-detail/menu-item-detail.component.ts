@@ -6,6 +6,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@herkansing-cswp/shared/util-env';
 import { AuthService } from '@herkansing-cswp/auth';
+
 @Component({
     selector: 'stijns-burgers-menuitem-list',
     templateUrl: './menu-item-detail.component.html',
