@@ -47,4 +47,21 @@ export class MenuItemService extends GenericService<IMenuItem> {
       }, error => observer.error(error));
     });
   }
+
+  deleteMenuItem(id: string): Observable<void> {
+    return new Observable<void>(observer => {
+      this.authService.getToken().subscribe(token => {
+
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        this.http.delete<void>(`${environment.dataApiUrl}/menu-item/${id}`, { headers })
+          .subscribe(
+            () => {
+              observer.next();
+              observer.complete();
+            },
+            error => observer.error(error)
+          );
+      }, error => observer.error(error));
+    });
+  }
 }

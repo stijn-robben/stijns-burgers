@@ -50,7 +50,7 @@ export class MenuItemListComponent implements OnInit, OnDestroy {
 
     deleteMenuItem(menuitemId: string): void {
       if (confirm('Are you sure you want to delete this menu item?')) {
-        this.menuitemService.delete(menuitemId).pipe(
+        this.menuitemService.deleteMenuItem(menuitemId).pipe(
           switchMap(() => {
             if (this.menuitem) {
               return of(this.menuitem.filter(menuitem => menuitem._id !== menuitemId));
