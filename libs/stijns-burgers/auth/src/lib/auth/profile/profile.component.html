@@ -104,17 +104,18 @@
                 </div>
             </div>
         
-            <div *ngIf="selectedOption === 'reviews'">
-                <div class="card-without-bottom container mb-3">
+            <div *ngIf="selectedOption === 'reviews' && userReviews">
+              <div class="card-without-bottom container mb-3" *ngFor="let review of userReviews.reviews; let i = index">
+            
                     <div class="row card-text story">
                       <div class="col-lg-10">
-                        <form (ngSubmit)="updateUser(currentUser)">                          <div class="row">
+                        <form (ngSubmit)="updateReview(review)">                          <div class="row">
                             <div class="col-lg-4 col-md-3 col-sm-3">
                               <p>Review:</p>
                             </div>
                             <div class="col-lg-8 col-md-6 col-sm-6">
-                              <!-- <textarea class="form-control form-component-edit form-label-edit" *ngIf="editMode" [(ngModel)]="review.description" name="reviewText" required></textarea> -->
-                              <!-- <p *ngIf="!editMode">{{review.description}}</p> -->
+                              <textarea class="form-control form-component-edit form-label-edit" *ngIf="editMode" [(ngModel)]="review.description" name="reviewText" required></textarea>
+                              <p *ngIf="!editMode">{{review.description}}</p>
                             </div>
                           </div>
                           <div class="row">
@@ -122,10 +123,10 @@
                               <p>Score:</p>
                             </div>
                             <div class="col-lg-8 col-md-6 col-sm-6">
-                              <!-- <select class="form-control form-component-edit form-label-edit" *ngIf="editMode" [(ngModel)]="review.score" name="reviewScore" required> -->
+                              <select class="form-control form-component-edit form-label-edit" *ngIf="editMode" [(ngModel)]="review.score" name="reviewScore" required>
                                 <option *ngFor="let score of [1, 2, 3, 4, 5]" [value]="score">{{score}}</option>
-                              <!-- </select> -->
-                              <!-- <p *ngIf="!editMode">{{review.score}}</p> -->
+                              </select>
+                              <p *ngIf="!editMode">{{review.score}}</p>
                             </div>
                           </div>
                           <div class="row">

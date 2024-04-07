@@ -90,7 +90,23 @@ export class MenuItemService {
       // Return the updated menu item and the new review
       return { menuItem: updatedMenuItem, review: newReview };
     }
-  
+    
+    async updateReview(reviewId: string, review: Review): Promise<{ menuItem: IMenuItem, review: Review }> {
+      const menuItems = await this.menuItemModel.find().exec();
+    
+      for (const menuItem of menuItems) {
+        const reviewIndex = menuItem.reviews.findIndex(r => r._id.toString() === reviewId && r._id_user.toString() === review._id_user);
+    
+        if (reviewIndex !== -1) {
+          menuItem.reviews[reviewIndex] = review;
+          await menuItem.save();
+    
+          return { menuItem: menuItem, review: menuItem.reviews[reviewIndex] };
+        }
+      }
+    
+      throw new NotFoundException(`Review with id ${reviewId} not found for user with id ${review._id_user}`);
+    }
 
     async delete(id: string): Promise<void> {
         this.logger.log(`Deleting menuitem with id ${id}`);
@@ -104,22 +120,8 @@ export class MenuItemService {
         this.logger.log(`Product deleted successfully`);
       }
 
-      async updateReview(reviewId: string, review: IReview): Promise<{ menuItem: IMenuItem, review: IReview }> {
-        const menuItems = await this.menuItemModel.find().exec();
-      
-        for (const menuItem of menuItems) {
-          const reviewIndex = menuItem.reviews.findIndex(r => r._id.toString() === reviewId && r._id_user.toString() === review._id_user);
-      
-          if (reviewIndex !== -1) {
-            menuItem.reviews[reviewIndex] = review;
-            await menuItem.save();
-      
-            return { menuItem: menuItem, review: menuItem.reviews[reviewIndex] };
-          }
-        }
-      
-        throw new NotFoundException(`Review with id ${reviewId} not found for user with id ${review._id_user}`);
-      }
+
+
       async findReviewsByUserId(userId: string): Promise<IReview[]> {
         const menuItems = await this.menuItemModel.find().exec();
         let userReviews: IReview[] = [];
@@ -131,4 +133,8 @@ export class MenuItemService {
       
         return userReviews;
       }
+      
+
+      
+
 }

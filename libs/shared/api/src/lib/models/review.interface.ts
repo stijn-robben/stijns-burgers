@@ -8,6 +8,11 @@ export interface IReview {
 
 }
 
+export interface IUserReviews {
+    message: string;
+    reviews: IReview[];
+  }
+
 export class Review implements IReview {
     _id: Id;
     score: number;

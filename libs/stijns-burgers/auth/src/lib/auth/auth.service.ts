@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, of, throwError, switchMap } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '@herkansing-cswp/shared/util-env';
-import { IUser } from '@herkansing-cswp/shared/api';
+import { IUser, Review } from '@herkansing-cswp/shared/api';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,7 @@ import { IUser } from '@herkansing-cswp/shared/api';
 export class AuthService {
   endpoint = `${environment.dataApiUrl}` + '/auth';
   userEndpoint = `${environment.dataApiUrl}` + '/user';
+  menuitemEndpoint = `${environment.dataApiUrl}` + '/menu-item';
   private storageKey = 'currentUser';
   private currentUserSubject: BehaviorSubject<IUser | null>;
 
@@ -58,8 +59,25 @@ export class AuthService {
       })
     );
   }  
-  
-  isLoggedIn$(): Observable<boolean> {
+
+  getReviewsByUserId(userId: string): Observable<any> {
+    return this.getToken().pipe(
+      switchMap(token => {
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        return this.http.get(`${this.menuitemEndpoint}/reviews/${userId}`, { headers })
+          .pipe(
+            catchError(error => {
+              console.error('Error fetching reviews:', error);
+              return throwError(error);
+            })
+          );
+      }),
+      catchError(error => {
+        console.error('Error getting token:', error);
+        return throwError(error);
+      })
+    );
+  }  isLoggedIn$(): Observable<boolean> {
     return this.currentUserSubject.asObservable().pipe(
       map(user => !!user)
     );
@@ -147,6 +165,21 @@ export class AuthService {
       })
     );
   }
+
+  updateReview(reviewId: string, updatedReview: Review): Observable<Review> {
+    return this.getToken().pipe(
+      switchMap(token => {
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+  
+        return this.http.put<Review>(this.menuitemEndpoint + `/reviews/${reviewId}`, updatedReview, { headers });
+      })
+    );
+  }
+
+
+
   getProfile(): Observable<IUser> {
     return this.getToken().pipe(
       tap(token => console.log('Token:', token)), // Log the token
