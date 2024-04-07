@@ -128,10 +128,7 @@ export class User implements IUser {
     @Prop({ type: [Order], required: false})
     orders!: IOrder[];
 
-    @ApiProperty({ description: 'The reviews of the user', type: [Review] })
-    @IsArray()
-    @Prop({ type: [{ type: [Review] }], required: false })
-    reviews!: IReview[];
-}export const UserSchema = SchemaFactory.createForClass(User);
+}
+export const UserSchema = SchemaFactory.createForClass(User);
 export const CartItemSchema = SchemaFactory.createForClass(CartItem);
 export const OrderSchema = SchemaFactory.createForClass(Order);

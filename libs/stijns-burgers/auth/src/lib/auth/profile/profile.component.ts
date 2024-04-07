@@ -32,7 +32,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
       phoneNumber: '',
       cart: [],
       orders: [],
-      reviews: []
       // Add other properties as needed
     };
   }
@@ -43,10 +42,10 @@ ngOnInit(): void {
     .pipe(takeUntil(this.unsubscribe$))
     .subscribe(user => {
       console.log('User:', user); // Log the user object
-      if (user && Array.isArray(user.reviews)) {
-        user.reviews = user.reviews.flat();
+      
+        
         this.currentUser = user;
-      }
+      
     });
 }
 

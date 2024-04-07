@@ -1,8 +1,8 @@
-import { Controller, Put, Delete, HttpStatus, HttpCode, UseGuards, Req} from '@nestjs/common';
+import { Controller, Put, Delete, HttpStatus, HttpCode, UseGuards, Req, UnauthorizedException} from '@nestjs/common';
 import { Get, Param, Post, Body } from '@nestjs/common';
-import { CreateReviewDto, UpdateMenuItemDto } from '@herkansing-cswp/backend/dto';
+import { CreateReviewDto, UpdateMenuItemDto, UpdateReviewDto } from '@herkansing-cswp/backend/dto';
 import { CreateMenuItemDto } from '@herkansing-cswp/backend/dto';
-import { IMenuItem, IReview } from '@herkansing-cswp/shared/api';
+import { IMenuItem, IReview, Review } from '@herkansing-cswp/shared/api';
 import { MenuItemService } from './menuItem.service';
 import { ApiBody, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwtAuth.guard';
@@ -62,7 +62,7 @@ export class MenuItemController {
     return { message: 'menu item updated successfully', menuItem: updatedMenuItem };
   }
 
-  @Post(':id/review')
+  @Post(':id/reviews')
 @UseGuards(JwtAuthGuard)
 @ApiOperation({ summary: 'Add reviews to a menuitem' })
 @ApiOkResponse({ description: 'The menuitem (review) has been successfully updated.' })
@@ -75,9 +75,6 @@ async createReview(
   const loggedInUserId = req.user.sub; // Get the user ID from req.user.sub
 
   const { menuItem, review: createdReview } = await this.menuItemService.createReview(menuItemId, review, loggedInUserId);
-
-  // Add the review ID to the user
-  await this.userService.addReviewToUser(loggedInUserId, createdReview);
 
   return menuItem;
 }
@@ -93,4 +90,61 @@ async createReview(
     await this.menuItemService.delete(id);
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+@Delete('/reviews/:reviewId/:userId')
+@HttpCode(HttpStatus.NO_CONTENT)
+@ApiOperation({ summary: 'Delete a review for a menu item' })
+@ApiOkResponse({ description: 'The review has been successfully deleted.' })
+async deleteReview(
+  @Param('reviewId') reviewId: string,
+  @Param('userId') userId: string,
+  @Req() req: any
+) {
+  const loggedInUserId = req.user.sub; // Get the user ID from req.user.sub
+  const isAdmin = req.user.role === 'admin'; // Check if the user is an admin
+
+  console.log('Deleting review with ID:', reviewId, 'for user ID:', loggedInUserId);
+
+  if (isAdmin || loggedInUserId === userId) {
+    await this.menuItemService.deleteReview(reviewId, userId);
+    return { message: 'Review deleted successfully' };
+  } else {
+    throw new UnauthorizedException('You are not authorized to delete this review');
+  }
 }
+
+
+
+@UseGuards(JwtAuthGuard)
+@Get('reviews/:userId')
+@HttpCode(HttpStatus.OK)
+@ApiOperation({ summary: 'Get reviews for a user' })
+@ApiOkResponse({ description: 'The reviews have been successfully fetched.', type: [Review] })
+async getReviewsByUserId(
+  @Param('userId') userId: string
+) {
+  const reviews = await this.menuItemService.findReviewsByUserId(userId);
+  return { message: 'Reviews fetched successfully', reviews };
+}
+
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Put('reviews/:reviewId')
+@ApiOperation({ summary: 'Update a review' })
+@ApiOkResponse({ description: 'The review has been successfully updated.' })
+@ApiBody({ type: UpdateReviewDto })
+async updateReview(
+  @Param('reviewId') reviewId: string,
+  @Body() updateReviewDto: UpdateReviewDto,
+  @Req() req: any
+) {
+  const loggedInUserId = req.user.sub; // Get the user ID from req.user.sub
+
+  const updatedReview = new Review(
+    reviewId,
+    updateReviewDto.score,
+    updateReviewDto.description,
+    loggedInUserId
+  );
+
+  return await this.menuItemService.updateReview(reviewId, updatedReview);
+}}

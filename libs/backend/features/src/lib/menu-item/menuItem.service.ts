@@ -31,7 +31,23 @@ export class MenuItemService {
         const item = await this.menuItemModel.findOne({ _id: id }).exec();
         return item;
     }
+    async deleteReview(reviewId: string, userId: string): Promise<void> {
+      this.logger.log(`Deleting review with id ${reviewId}`);
     
+      const menuItems = await this.menuItemModel.find().exec();
+    
+      for (const menuItem of menuItems) {
+        const reviewIndex = menuItem.reviews.findIndex(review => review._id.toString() === reviewId && review._id_user.toString() === userId);
+    
+        if (reviewIndex !== -1) {
+          menuItem.reviews.splice(reviewIndex, 1);
+          await menuItem.save();
+          return;
+        }
+      }
+    
+      throw new NotFoundException(`Review with id ${reviewId} not found for user with id ${userId}`);
+    }
 
     async update(menuItemId: string, updateMenuItemDto: UpdateMenuItemDto): Promise<IMenuItem> {
         const existingMenuItem = await this.menuItemModel.findById(menuItemId).exec();
@@ -88,5 +104,31 @@ export class MenuItemService {
         this.logger.log(`Product deleted successfully`);
       }
 
-    
+      async updateReview(reviewId: string, review: IReview): Promise<{ menuItem: IMenuItem, review: IReview }> {
+        const menuItems = await this.menuItemModel.find().exec();
+      
+        for (const menuItem of menuItems) {
+          const reviewIndex = menuItem.reviews.findIndex(r => r._id.toString() === reviewId && r._id_user.toString() === review._id_user);
+      
+          if (reviewIndex !== -1) {
+            menuItem.reviews[reviewIndex] = review;
+            await menuItem.save();
+      
+            return { menuItem: menuItem, review: menuItem.reviews[reviewIndex] };
+          }
+        }
+      
+        throw new NotFoundException(`Review with id ${reviewId} not found for user with id ${review._id_user}`);
+      }
+      async findReviewsByUserId(userId: string): Promise<IReview[]> {
+        const menuItems = await this.menuItemModel.find().exec();
+        let userReviews: IReview[] = [];
+      
+        menuItems.forEach(menuItem => {
+          const reviewsByUser = menuItem.reviews.filter(review => review._id_user.toString() === userId);
+          userReviews = [...userReviews, ...reviewsByUser];
+        });
+      
+        return userReviews;
+      }
 }

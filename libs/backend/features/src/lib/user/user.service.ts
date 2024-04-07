@@ -84,22 +84,6 @@ export class UserService {
         return `${user.firstName} ${user.lastName}`;
     }
 
-    async addReviewToUser(userId: string, review: Review): Promise<IUser> {
-        this.logger.log(`Adding review ${review._id} to user ${userId}`);
-      
-        const user = await this.userModel.findById(userId).exec();
-      
-        if (!user) {
-          this.logger.debug('User not found');
-          throw new NotFoundException(`User with id ${userId} not found`);
-        }
-      
-        // Add the review ID to the user's reviews array
-        user.reviews.push(review);
-      
-        const updatedUser = await user.save();
-        return updatedUser;
-      }
 
       async addToCart(userId: string, cartItem: ICartItem): Promise<IUser> {
         this.logger.log(`Adding cart item to user ${userId}`);
