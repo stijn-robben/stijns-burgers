@@ -13,6 +13,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MenuItemNewReviewComponent } from './menu-item/menu-item-new-review/menu-item-new-review.component';
 import { CartService } from './cart/cart.service';
 import { CartComponent } from './cart/cart.component';
+import { OrdersComponent } from './orders/orders.component';
+import { OrdersService } from './orders/orders.service';
 @NgModule({
   imports: [CommonModule, HttpClientModule, RouterModule, FormsModule, MatFormFieldModule, MatChipsModule],
   declarations: [
@@ -21,16 +23,18 @@ import { CartComponent } from './cart/cart.component';
     MenuItemDetailComponent,
     MenuItemEditComponent,
     MenuItemNewReviewComponent,
-    CartComponent
+    CartComponent,
+    OrdersComponent
   ],
-  providers: [MenuItemService, CartService],
+  providers: [MenuItemService, CartService, OrdersService],
   exports: [
     HomeComponent,
     MenuItemListComponent,
     MenuItemDetailComponent,
     MenuItemEditComponent,
     MenuItemNewReviewComponent,
-    CartComponent
+    CartComponent,
+    OrdersComponent
   ],
 })
 export class FeaturesModule {}
