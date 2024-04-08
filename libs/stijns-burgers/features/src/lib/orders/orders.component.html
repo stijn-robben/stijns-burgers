@@ -14,13 +14,15 @@
               <h3 style="font-size: 28px;">{{order.userFirstName}} {{order.userLastName}}</h3>
               <p>Order date: {{order.order_date | date:'dd-MM-yyyy'}}</p>
               <p>Status: {{order.status}}</p>
+              
               <p>Est. delivery: {{order.est_delivery_time | date:'shortTime'}}</p>
               <p>Total: {{order.total_amount | number:'1.2-2'}}</p>
-              <hr>
+              <p class="pb-4">Order</p>
+
               <div *ngFor="let item of order.cart">
                 <div class="row mb-4">
                   <div class="col-lg-4">
-                    <img style="width:40%" [src]="item.productImageUrl" alt="{{ item.nameProduct }}">
+                    <img style="width:60%" [src]="item.productImageUrl" alt="{{ item.nameProduct }}">
                   </div>
                   <div class="col-lg-6">
                     <h3 style="font-size: 28px;">{{ item.nameProduct }}</h3>
