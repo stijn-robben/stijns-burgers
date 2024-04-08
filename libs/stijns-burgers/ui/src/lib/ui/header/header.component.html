@@ -12,7 +12,6 @@
             <div class="navbar-nav">
                 <a class="nav-link px-4" routerLink="/menu" routerLinkActive="active"><p class="text-secondary text-nav">Menu</p></a>
                 <a class="nav-link px-4" routerLink="/about" routerLinkActive="active"><p class="text-secondary text-nav">About</p></a>
-                <a class="nav-link px-4" routerLink="/contact" routerLinkActive="active"><p class="text-secondary text-nav">Contact</p></a>
                 <a class="nav-link px-4" *ngIf="isAdmin$" routerLink="/users" routerLinkActive="active"><p class="text-secondary text-nav">Users</p></a>
                 <a class="nav-link px-4" *ngIf="isAdmin$" routerLink="/orders" routerLinkActive="active"><p class="text-secondary text-nav">Orders</p></a>
                 <ng-template #profileTemplate>
