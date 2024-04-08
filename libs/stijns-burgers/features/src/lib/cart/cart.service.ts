@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ICartItem, IMenuItem, IReview, IUser } from '@herkansing-cswp/shared/api';
+import { ICartItem, IMenuItem, IOrder, IReview, IUser } from '@herkansing-cswp/shared/api';
 import { Injectable } from '@angular/core';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { AuthService } from '@herkansing-cswp/auth';
@@ -88,6 +88,27 @@ updateCartItem(cartItemId: string, quantity: number): Observable<IUser> {
       }, error => observer.error(error));
   });
 }
+
+makeOrder(): Observable<{ user: IUser, order: IOrder }> {
+  return new Observable<{ user: IUser, order: IOrder }>(observer => {
+      this.authService.getToken().subscribe(token => {
+          const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+          
+          this.http.post<{ user: IUser, order: IOrder }>(
+              `${environment.dataApiUrl}/user/order`,
+              {},
+              { headers }
+          ).subscribe(
+              response => {
+                  observer.next(response);
+                  observer.complete();
+              },
+              error => observer.error(error)
+          );
+      }, error => observer.error(error));
+  });
+}
+
 
   
 }

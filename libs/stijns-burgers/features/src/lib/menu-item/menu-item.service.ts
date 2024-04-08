@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ICartItem, IMenuItem, IReview, IUser } from '@herkansing-cswp/shared/api';
+import { ICartItem, IMenuItem, IOrder, IReview, IUser } from '@herkansing-cswp/shared/api';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@herkansing-cswp/common';
 // eslint-disable-next-line @nx/enforce-module-boundaries
@@ -108,26 +108,7 @@ export class MenuItemService extends GenericService<IMenuItem> {
     });
   }
 
-  makeOrder(): Observable<{ user: IUser, order: IOrder }> {
-    return new Observable<{ user: IUser, order: IOrder }>(observer => {
-        this.authService.getToken().subscribe(token => {
-            const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-            
-            this.http.post<{ user: IUser, order: IOrder }>(
-                `${environment.dataApiUrl}/user/${userId}/order`,
-                {},
-                { headers }
-            ).subscribe(
-                response => {
-                    observer.next(response);
-                    observer.complete();
-                },
-                error => observer.error(error)
-            );
-        }, error => observer.error(error));
-    });
-}
-
+  
 
 
 

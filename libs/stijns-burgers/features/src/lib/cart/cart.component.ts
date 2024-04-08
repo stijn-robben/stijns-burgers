@@ -15,8 +15,10 @@ export class CartComponent implements OnInit {
   
     constructor(
       private cartService: CartService, // Inject the service
+      private router: Router
     ) { }
-  
+    
+
     ngOnInit(): void {
       this.cartService.getCartItems().subscribe(cartItems => {
         this.cartItems = cartItems;
@@ -29,7 +31,13 @@ export class CartComponent implements OnInit {
         this.total = parseFloat(total.toFixed(2));
     }
 
-    
+    makeOrder(): void {
+      this.cartService.makeOrder().subscribe(
+        
+      );
+      this.router.navigate(['/']);
+    }
+  
 
     deleteCartItem(cartItemId: string): void {
       // Find the item in the cartItems array

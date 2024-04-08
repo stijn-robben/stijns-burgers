@@ -44,6 +44,8 @@ export class MenuItemDetailComponent implements OnInit, OnDestroy {
     }
     
     
+
+
     addToCart(menuItemId: string, nameProduct: string, price: number, productImageUrl: string): void {
       const cartItem: ICartItem = {
         _id: '',

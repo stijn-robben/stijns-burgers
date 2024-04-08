@@ -207,36 +207,30 @@ async deleteCartItems(
 //   return this.userService.createOrder(userId, data, loggedInUserId);
 // }
 
-@Post(':id/order')
+@Post('/order')
 @UseGuards(JwtAuthGuard)
 @ApiOperation({ summary: 'Create a new order and clear the cart' })
 @ApiCreatedResponse({ description: 'The order has been successfully created.', type: Order })
 @ApiBadRequestResponse({ description: 'Bad request. Invalid data.' })
 @ApiBody({ type: CreateOrderDto })
 async createOrderAndClearCart(
-  @Param('id') userId: string,
   @Req() req: any
 ): Promise<{ user: IUser, order: IOrder }> {
   const loggedInUserId = req.user.sub; // Get the user ID from req.user.sub
 
   // Check if the logged in user is the same as the user we're trying to create the order for
-  if (loggedInUserId !== userId) {
-    throw new UnauthorizedException();
-  }
-
-  // Fetch the user and their cart
-  const user = await this.userService.findOne(userId);
+  const user = await this.userService.findOne(loggedInUserId);
 
   // Check if user is not null
   if (!user) {
-    throw new NotFoundException(`User with id ${userId} not found`);
+    throw new NotFoundException(`User with id ${loggedInUserId} not found`);
   }
 
   const cart = user.cart;
 
   // Create the orderDto with all required properties
   const orderDto: CreateOrderDto = {
-    _id_user: userId,
+    _id_user: loggedInUserId,
     order_date: new Date(),
     status: Status.pending, // or any other default status
     total_amount: cart.reduce((sum, item) => sum + item.price, 0), // calculate total amount
@@ -245,10 +239,10 @@ async createOrderAndClearCart(
   };
 
   // Create the order with the orderDto
-  const order = await this.userService.createOrder(userId, orderDto, loggedInUserId);
+  const order = await this.userService.createOrder(loggedInUserId, orderDto, loggedInUserId);
 
   // Clear the user's cart
-  await this.userService.deleteCartItems(userId);
+  await this.userService.deleteCartItems(loggedInUserId);
 
   return order;
 }
