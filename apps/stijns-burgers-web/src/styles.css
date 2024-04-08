@@ -122,7 +122,7 @@ a {
 }
 
 .full-vh {
-    min-height: 70.5vh !important;
+    min-height: 76.5vh !important;
 }
 
 .jumbotron-vh {
@@ -607,3 +607,14 @@ button.btn-primary:active::before {
     transform: scale(1.0);
     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
   }
+
+  hr {
+    border: none; /* Remove default border */
+    border-top: 1px solid var(--color5); /* Set top border width and color */
+    opacity: 1; /* Set opacity to 1 */
+}
+.icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

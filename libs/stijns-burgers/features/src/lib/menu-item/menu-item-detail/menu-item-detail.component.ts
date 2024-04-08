@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MenuItemService } from '../menu-item.service';
-import { IMenuItem } from '@herkansing-cswp/shared/api';
+import { ICartItem, IMenuItem } from '@herkansing-cswp/shared/api';
 import { Observable, Subscription, switchMap, tap } from 'rxjs';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -44,7 +44,27 @@ export class MenuItemDetailComponent implements OnInit, OnDestroy {
     }
     
     
+    addToCart(menuItemId: string, nameProduct: string, price: number, productImageUrl: string): void {
+      const cartItem: ICartItem = {
+        _id: '',
+        menuItemId,
+        quantity: 1,
+        nameProduct,
+        price,
+        productImageUrl
+      };
     
+      if (this.menuitem && this.menuitem._id) {
+        this.menuitemService.addToCart(cartItem)
+          .subscribe(user => {
+            console.log('Added to cart:', user);
+          }, error => {
+            console.error('Error adding to cart:', error);
+          });
+      } else {
+        console.error('Menu item or menu item ID is undefined');
+      }
+    }
 
     updateCurrentMenuItem(data: any): void {
       if (this.menuitem && this.menuitem._id) {

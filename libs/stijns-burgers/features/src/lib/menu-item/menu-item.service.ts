@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IMenuItem, IReview } from '@herkansing-cswp/shared/api';
+import { ICartItem, IMenuItem, IReview, IUser } from '@herkansing-cswp/shared/api';
 import { Injectable } from '@angular/core';
 import { GenericService } from '@herkansing-cswp/common';
 // eslint-disable-next-line @nx/enforce-module-boundaries
@@ -81,4 +81,54 @@ export class MenuItemService extends GenericService<IMenuItem> {
       }, error => observer.error(error));
     });
   }
+
+  addToCart(cartItem: ICartItem): Observable<IUser> {
+    return new Observable<IUser>(observer => {
+      this.authService.getToken().subscribe(token => {
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        
+        this.http.post<IUser>(
+          `${environment.dataApiUrl}/user/cart`,
+          {
+            menuItemId: cartItem.menuItemId,
+            quantity: cartItem.quantity,
+            nameProduct: cartItem.nameProduct,
+            price: cartItem.price,
+            productImageUrl: cartItem.productImageUrl
+          },
+          { headers }
+        )          .subscribe(
+            user => {
+              observer.next(user);
+              observer.complete();
+            },
+            error => observer.error(error)
+          );
+      }, error => observer.error(error));
+    });
+  }
+
+  makeOrder(): Observable<{ user: IUser, order: IOrder }> {
+    return new Observable<{ user: IUser, order: IOrder }>(observer => {
+        this.authService.getToken().subscribe(token => {
+            const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+            
+            this.http.post<{ user: IUser, order: IOrder }>(
+                `${environment.dataApiUrl}/user/${userId}/order`,
+                {},
+                { headers }
+            ).subscribe(
+                response => {
+                    observer.next(response);
+                    observer.complete();
+                },
+                error => observer.error(error)
+            );
+        }, error => observer.error(error));
+    });
+}
+
+
+
+
 }

@@ -94,24 +94,19 @@ async update(@Param('id') id: string, @Body() data: UpdateUserDto, @Req() req: a
        return this.userService.delete(id);
     }
 
-    @Post(':id/cart')
+    @Post('/cart')
     @UseGuards(JwtAuthGuard)
     @ApiOperation({ summary: 'Add a cart item to a user' })
     @ApiOkResponse({ description: 'The cart item has been successfully added.' })
     @ApiBody({ type: CreateCartItemDto })
     async addToCart(
-      @Param('id') userId: string,
       @Body() cartItem: ICartItem,
       @Req() req: any
     ): Promise<IUser> {
       const loggedInUserId = req.user.sub; // Get the user ID from req.user.sub
 
-      // Check if the logged in user is the same as the user we're trying to add a cart item to
-      if (loggedInUserId !== userId) {
-        throw new UnauthorizedException();
-      }
 
-      return this.userService.addToCart(userId, cartItem);
+      return this.userService.addToCart(loggedInUserId, cartItem);
     }
     
     @Delete(':userId/cart/:cartItemId')

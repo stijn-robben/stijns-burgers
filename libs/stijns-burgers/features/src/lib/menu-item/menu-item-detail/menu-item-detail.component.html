@@ -25,8 +25,7 @@
                         <br>
                         <p>Allergens: {{replaceAllergensWithSymbols(menuitem?.allergens)}} </p>
                         <br>
-                        <button class="btn-secondary">🛒 Add to cart</button>
-                    </div>
+                        <button class="btn-secondary" (click)="addToCart(menuitem!._id, menuitem!.name, menuitem!.price, menuitem!.img_url)">🛒 Add to cart</button>                    </div>
                 </div>
             </div>
         </div>
