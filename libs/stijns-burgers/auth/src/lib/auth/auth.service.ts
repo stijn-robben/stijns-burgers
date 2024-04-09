@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable, of, throwError, switchMap } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '@herkansing-cswp/shared/util-env';
 import { IUser, Review } from '@herkansing-cswp/shared/api';
+import { CreateUserDto } from '@herkansing-cswp/backend/dto';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,15 @@ export class AuthService {
     this.currentUserSubject = new BehaviorSubject<IUser | null>(this.getUserFromStorage());
   }
 
+  createUser(data: CreateUserDto): Promise<IUser> {
+    return this.http.post<IUser>(`${environment.dataApiUrl}/user`, data).toPromise().then(user => {
+      if (!user) {
+        throw new Error('User creation failed');
+      }
+      return user;
+    });
+  }
+
   // Initialize user from storage upon service creation
   getUserFromStorage(): IUser | null {
     if (isPlatformBrowser(this.platformId)) {
@@ -37,6 +47,9 @@ export class AuthService {
     }
     return null;
   }
+
+
+
 
   getToken(): Observable<string> {
     const currentUser: any = this.currentUserSubject.value;

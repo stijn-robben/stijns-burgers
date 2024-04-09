@@ -11,42 +11,39 @@
                     <p class="text-secondary" style="font-size: 14px;">The password and/or email are incorect.</p>
                   </div>
                   
-              <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
-                <div class="mb-3">
-                  <input
-                    type="text"
-                    class="form-control form-component form-label"
-                    id="emailAdress"
-                    placeholder="Email adress:"
-                    formControlName="emailAddress"
-                  />
-                  <div *ngIf="loginForm.controls['emailAddress'].invalid && loginForm.controls['emailAddress'].touched" class="text-danger">
-                    <p class="text-secondary" style="font-size: 14px;">Email adress is required.</p>
-                  </div>
-                </div>
-                <div class="mb-3">
-                  <input
-                    type="password"
-                    class="form-control form-component form-label"
-                    id="password"
-                    placeholder="Password:"
-                    formControlName="password"
-                  />
-                </div>
-                <div class="text-start">
-                  <div class="row">
-                    <div class="col-sm-12 col-md-6 col-lg-6">
-                      <button type="submit" class="btn btn-secondary w-100" [disabled]="loginForm.invalid">Login</button>
-
+                  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+                    <div class="mb-3">
+                      <input
+                        type="text"
+                        class="form-control form-component form-label"
+                        id="emailAdress"
+                        placeholder="Email adress:"
+                        formControlName="emailAddress"
+                      />
+                      <div *ngIf="loginForm.controls['emailAddress'].invalid && loginForm.controls['emailAddress'].touched" class="text-danger">
+                        <p class="text-secondary" style="font-size: 14px;">Email adress is required.</p>
+                      </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-6">
-                      <button type="submit" class="btn btn-secondary w-100">Registreren</button>
-
+                    <div class="mb-3">
+                      <input
+                        type="password"
+                        class="form-control form-component form-label"
+                        id="password"
+                        placeholder="Password:"
+                        formControlName="password"
+                      />
                     </div>
-                  </div>
-                </div>              
-              </form>
-            </div>
+                    <div class="text-start">
+                      <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                          <button type="submit" class="btn btn-secondary w-100" [disabled]="loginForm.invalid">Login</button>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                          <!-- Change the button type to 'button' -->
+                          <button type="button" class="btn btn-secondary w-100" (click)="navigateToRegister(); $event.stopPropagation();">Registreren</button>                        </div>
+                      </div>
+                    </div>              
+                  </form>            </div>
           </div>
         </div>
       </div>

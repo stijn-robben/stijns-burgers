@@ -1,0 +1,41 @@
+<div class="bg-dark-yellow">
+    <div class="container">
+      <div class="col-lg-12 col-md-12 col-sm-12 py-4 pb-5">
+        <div class="row pt-4 pb-5">
+            <div class="col-lg-2"></div>
+          <div class="col-lg-8 col-md-12 col-sm-12">
+            <form [formGroup]="registerForm" (ngSubmit)="save()">
+              <div class="form-group">
+                <input type="text" id="firstName" formControlName="firstName" class="form-control form-component form-label" placeholder="First Name">
+              </div>
+              <div class="form-group">
+                <input type="text" id="lastName" formControlName="lastName" class="form-control form-component form-label" placeholder="Last Name">
+              </div>
+              <div class="form-group">
+                <input type="email" id="emailAddress" formControlName="emailAddress" class="form-control form-component form-label" placeholder="Email Address">
+              </div>
+              <div class="form-group">
+                <input type="password" id="password" formControlName="password" class="form-control form-component form-label" placeholder="Password">
+              </div>
+              <!-- New form controls -->
+              <div class="form-group">
+                <input type="date" id="birthdate" formControlName="birthdate" class="form-control form-component form-label" placeholder="Birthdate">
+              </div>
+              <div class="form-group">
+                <input type="text" id="postalcode" formControlName="postalcode" class="form-control form-component form-label" placeholder="Postal Code">
+              </div>
+              <div class="form-group">
+                <input type="text" id="housenumber" formControlName="housenumber" class="form-control form-component form-label" placeholder="House Number">
+              </div>
+              <div class="form-group">
+                <input type="tel" id="phonenumber" formControlName="phonenumber" class="form-control form-component form-label" placeholder="Phone Number">
+              </div>
+              <button type="submit" class="btn btn-secondary" [disabled]="registerForm.invalid">Submit</button>
+              <button type="button" class="btn btn-secondary mx-3" (click)="cancel()">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-bridge-5"></div>
+  </div>

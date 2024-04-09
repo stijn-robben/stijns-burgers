@@ -43,7 +43,10 @@ export class MenuItemDetailComponent implements OnInit, OnDestroy {
         );
     }
     
-    
+    isLoggedIn(): boolean {
+      console.log('check' + this.authService.checkUserAuthentication())
+      return this.authService.checkUserAuthentication();
+    }
 
 
     addToCart(menuItemId: string, nameProduct: string, price: number, productImageUrl: string): void {

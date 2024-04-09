@@ -25,7 +25,7 @@
                         <br>
                         <p>Allergens: {{replaceAllergensWithSymbols(menuitem?.allergens)}} </p>
                         <br>
-                        <button class="btn-secondary" (click)="addToCart(menuitem!._id, menuitem!.name, menuitem!.price, menuitem!.img_url)">🛒 Add to cart</button>                    </div>
+                        <button *ngIf="isLoggedIn()" class="btn-secondary" (click)="addToCart(menuitem!._id, menuitem!.name, menuitem!.price, menuitem!.img_url)">🛒 Add to cart</button>                    </div>
                 </div>
             </div>
         </div>
@@ -38,8 +38,8 @@
 
         <div class="container col-md-12 story pb-5">
             <a [routerLink]="['./new-review']" routerLinkActive="active">
-                <button style="width: 100%; "class="btn-fourth">Add a review!</button>
-                </a>
+                <button *ngIf="isLoggedIn()" style="width: 100%;" class="btn-fourth">Add a review!</button>
+                            </a>
                 <ng-template #noReviews>
                     <p class="text-center pt-5" style="color: #EDC16E;">There are no reviews for this menu item yet.</p>
                 </ng-template>

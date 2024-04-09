@@ -23,6 +23,12 @@ export class HeaderComponent {
     });
   }
 
+  isLoggedIn(): boolean {
+    console.log('check' + this.authService.checkUserAuthentication())
+    return this.authService.checkUserAuthentication();
+  }
+
+
   logout(): void {
     this.authService.logout();
   }

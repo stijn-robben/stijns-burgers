@@ -8,7 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProfileComponent } from './auth/profile/profile.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatChipsModule } from '@angular/material/chips';
-
+import { RegisterComponent } from './auth/register/register.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -16,10 +16,10 @@ import { MatChipsModule } from '@angular/material/chips';
     HttpClientModule,
     ReactiveFormsModule,
     MatRadioModule,
-    MatChipsModule
+    MatChipsModule,
   ],
-  declarations: [LoginComponent, ProfileComponent], 
-  exports: [LoginComponent, ProfileComponent], 
+  declarations: [LoginComponent, ProfileComponent, RegisterComponent], 
+  exports: [LoginComponent, ProfileComponent, RegisterComponent], 
   providers: [AuthService],
 })
 export class AuthModule { }

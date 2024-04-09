@@ -31,6 +31,9 @@ export class MenuItemService extends GenericService<IMenuItem> {
     });
   }
 
+  
+
+
   createMenuItem(data: any): Observable<IMenuItem> {
     return new Observable<IMenuItem>(observer => {
       this.authService.getToken().subscribe(token => {
@@ -81,6 +84,12 @@ export class MenuItemService extends GenericService<IMenuItem> {
       }, error => observer.error(error));
     });
   }
+
+  isLoggedIn(): boolean {
+    console.log('check' + this.authService.checkUserAuthentication())
+    return this.authService.checkUserAuthentication();
+  }
+
 
   addToCart(cartItem: ICartItem): Observable<IUser> {
     return new Observable<IUser>(observer => {

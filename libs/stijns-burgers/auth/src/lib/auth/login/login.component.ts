@@ -34,6 +34,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     ]),
   });
 
+  navigateToRegister(): void {
+    this.router.navigate(['/register']);
+  }
   constructor(private authService: AuthService, private router: Router) {}
 
   get password(): FormControl {
