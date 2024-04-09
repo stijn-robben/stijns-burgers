@@ -10,7 +10,7 @@
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/stijns-burgers-web/browser",
+        "outputPath": "dist/apps/stijns-burgers-web/",
         "index": "apps/stijns-burgers-web/src/index.html",
         "main": "apps/stijns-burgers-web/src/main.ts",
         "polyfills": ["zone.js"],
