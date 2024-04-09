@@ -30,8 +30,6 @@ jobs:
           cd ../../..
           cd dist/apps/stijns-burgers-web/ && zip ${GITHUB_WORKSPACE}/stijns-burgers-web-release.zip ./* -r
           cd ../../..
-
-
           
       - name: Upload stijns-burgers-web artifact for deployment job
         uses: actions/upload-artifact@v3
