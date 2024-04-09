@@ -1,5 +1,4 @@
-
-name: Build and deploy a Node.js app and an Angular app to an Azure
+name: Build and deploy a Node.js app and an Angular app to Azure
 
 on:
   push:
@@ -29,10 +28,9 @@ jobs:
         run: |
           ls -R
           echo ${GITHUB_WORKSPACE}
-          cd herkansing-cswp/data-api/dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
-          cd ${GITHUB_WORKSPACE}/herkansing-cswp/stijns-burgers-web/dist/apps/stijns-burgers-web/ && zip ${GITHUB_WORKSPACE}/stijns-burgers-web-release.zip ./* -r
-
-      - name: Upload share-a-meal-web artifact for deployment job
+          cd apps/data-api/dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
+          cd apps/stijns-burgers-web/dist/apps/stijns-burgers-web/ && zip ${GITHUB_WORKSPACE}/stijns-burgers-web-release.zip ./* -r
+      - name: Upload stijns-burgers-web artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
           name: stijns-burgers-web
@@ -55,10 +53,10 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: frontend-app
+          name: stijns-burgers-web
 
       - name: Unzip artifact for deployment
-        run: unzip frontend-app-release.zip
+        run: unzip stijns-burgers-web-release.zip
         
       - name: Deploy to static azure web app
         id: builddeploy
@@ -83,10 +81,10 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: backend-api
+          name: data-api
 
       - name: Unzip artifact for deployment
-        run: unzip backend-api-release.zip
+        run: unzip data-api-release.zip
 
       - name: Install dependencies
         run: npm install
