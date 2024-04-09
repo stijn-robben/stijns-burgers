@@ -5,7 +5,7 @@ import { MenuItem, MenuItemDocument, Review } from "./menuItem.schema";
 import { CreateMenuItemDto, UpdateMenuItemDto } from "@herkansing-cswp/backend/dto";
 import { IMenuItem, IReview } from "@herkansing-cswp/shared/api";
 import { User, UserDocument } from "../user/user.schema";
-
+import { RecommendationService } from "../recommendation/recommendation.service";
 @Injectable()
 export class MenuItemService {
 
@@ -18,6 +18,7 @@ export class MenuItemService {
         private userModel: Model<UserDocument>,
         @InjectModel(Review.name)
         private reviewModel: Model<UserDocument>,
+        private recommendationService: RecommendationService
       ) {}
 
     async getAll(): Promise<MenuItemDocument[]> {
@@ -58,6 +59,8 @@ export class MenuItemService {
     
         Object.assign(existingMenuItem, updateMenuItemDto);
         const updatedMenuItem = await existingMenuItem.save();
+        await this.recommendationService.createOrUpdateMenuItem(updatedMenuItem);
+
         return updatedMenuItem;
     }
     
@@ -66,6 +69,8 @@ export class MenuItemService {
     this.logger.log(`Creating new menu item`);
     menuItemDto.reviews = [];
     const createdMenuItem = await this.menuItemModel.create(menuItemDto);
+    await this.recommendationService.createOrUpdateMenuItem(createdMenuItem);
+
     return createdMenuItem;
     }
 
@@ -116,7 +121,7 @@ export class MenuItemService {
           this.logger.debug('Product not found');
           throw new NotFoundException(`Product with id ${id} not found`);
         }
-    
+        await this.recommendationService.deleteMenuItemNeo(deletedItem._id.toString());
         this.logger.log(`Product deleted successfully`);
       }
 

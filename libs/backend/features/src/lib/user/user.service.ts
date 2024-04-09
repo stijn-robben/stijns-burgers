@@ -5,6 +5,7 @@ import mongoose, { Model, Types } from "mongoose";
 import { ICartItem, IOrder, IUpdateOrder, IUser, Id, Order, Review, Status } from "@herkansing-cswp/shared/api";
 import { CreateOrderDto, CreateUserDto, UpdateUserDto } from "@herkansing-cswp/backend/dto";
 import { MenuItem, MenuItemDocument } from "../menu-item/menuItem.schema";
+import { RecommendationService } from "../recommendation/recommendation.service";
 
 @Injectable()
 export class UserService {
@@ -15,6 +16,7 @@ export class UserService {
         @InjectModel(User.name) private userModel: Model<UserDocument>,
         @InjectModel(MenuItem.name) private menuItemModel: Model<MenuItemDocument>,
         @InjectModel(Order.name) private readonly orderModel: Model<IOrder>,
+        private recommendationService: RecommendationService
 
     ) {}
 
@@ -47,7 +49,10 @@ export class UserService {
             user._id = new Types.ObjectId().toHexString();
           }
           
-        const createdUser = new this.userModel(user);
+        const createdUser = await new this.userModel(user);
+        console.log('createdUser', createdUser);
+        await this.recommendationService.createOrUpdateUser(createdUser);
+
         await createdUser.save();
         this.logger.log(`Created user ${createdUser.firstName} ${createdUser.lastName}`);
         return createdUser;
@@ -55,6 +60,8 @@ export class UserService {
 
     async update(_id: Id, user: UpdateUserDto): Promise<IUser | null> {
         this.logger.log(`Update user ${user.firstName}`);
+        await this.recommendationService.createOrUpdateUser(user);
+
         return this.userModel.findByIdAndUpdate({ _id }, user, { new: true });
     }
 
@@ -66,6 +73,8 @@ export class UserService {
                 this.logger.debug(`No user found to delete with id: ${_id}`);
                 return { deleted: false, message: 'No user found with that ID' };
             }
+            this.recommendationService.deleteUserNeo(_id);
+
             this.logger.log(`Deleted user with id: ${_id}`);
             return { deleted: true };
         } catch (error) {
@@ -107,7 +116,8 @@ export class UserService {
             cartItem.price *= cartItem.quantity; // Multiply price by quantity
             user.cart.push(cartItem);
         }
-    
+        await this.recommendationService.addMenuItemToUserCart(userId, cartItem._id);
+
         const updatedUser = await user.save();
         return updatedUser;
     }
@@ -127,7 +137,7 @@ export class UserService {
   
           user.cart.splice(cartItemIndex, 1);
           await user.save();
-  
+          await this.recommendationService.deleteItemFromUserCart(userId, cartItemId);
           this.logger.log(`Deleted cart item with id: ${cartItemId}`);
           return { deleted: true };
       } catch (error) {
