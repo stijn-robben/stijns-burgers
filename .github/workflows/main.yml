@@ -29,6 +29,7 @@ jobs:
 
       - name: Zip artifacts for deployment
         run: |
+          ls -R
           echo ${GITHUB_WORKSPACE}
           cd herkansing-cswp/dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
           cd herkansing-cswp/dist/apps/stijns-burgers-web/ && zip ${GITHUB_WORKSPACE}/stijns-burgers-web-release.zip ./* -r
