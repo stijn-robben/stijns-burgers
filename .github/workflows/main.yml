@@ -28,8 +28,8 @@ jobs:
         run: |
           cd dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
           cd ../../..
-          cd dist/apps/stijns-burgers-web/ && zip ${GITHUB_WORKSPACE}/stijns-burgers-web-release.zip ./* -r
-          cd ../../..
+          cd dist/apps/stijns-burgers-web/browser && zip ${GITHUB_WORKSPACE}/stijns-burgers-web-release.zip ./* -r
+          cd ../../../..
       - name: Upload stijns-burgers-web artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
@@ -66,8 +66,7 @@ jobs:
           action: "upload"
           app_location: "apps/stijns-burgers-web" # App source code path
           api_location: "" # Api source code path - optional
-          output_location: "" # Built app content directory - optional
-
+          output_location: "dist/apps/stijns-burgers-web/browser" # Built app content directory
 
   deploy-backend-api:
     runs-on: ubuntu-latest
@@ -95,4 +94,4 @@ jobs:
           app-name: 'NxWorkshop'
           slot-name: 'Production'
           publish-profile: ${{ secrets.NEXTJS_PUBLISHPROFILE }}
-          package: .
+          package: "dist/apps/stijns-burgers-web/server"
