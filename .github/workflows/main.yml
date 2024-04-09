@@ -94,4 +94,4 @@ jobs:
           app-name: 'cwfr-stijn-robben'
           slot-name: 'Production'
           publish-profile: ${{ secrets.NEXTJS_PUBLISHPROFILE }}
-          package: "dist/apps/stijns-burgers-web/browser"
+          package: "dist/apps/stijns-burgers-web/server" # Adjust this path to match the outputPath in your Angular configuration
