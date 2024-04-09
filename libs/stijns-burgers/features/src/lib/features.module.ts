@@ -15,6 +15,7 @@ import { CartService } from './cart/cart.service';
 import { CartComponent } from './cart/cart.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrdersService } from './orders/orders.service';
+import { AboutComponent } from './about/about.component';
 @NgModule({
   imports: [CommonModule, HttpClientModule, RouterModule, FormsModule, MatFormFieldModule, MatChipsModule],
   declarations: [
@@ -24,7 +25,8 @@ import { OrdersService } from './orders/orders.service';
     MenuItemEditComponent,
     MenuItemNewReviewComponent,
     CartComponent,
-    OrdersComponent
+    OrdersComponent,
+    AboutComponent
   ],
   providers: [MenuItemService, CartService, OrdersService],
   exports: [
@@ -34,7 +36,8 @@ import { OrdersService } from './orders/orders.service';
     MenuItemEditComponent,
     MenuItemNewReviewComponent,
     CartComponent,
-    OrdersComponent
+    OrdersComponent,
+    AboutComponent
   ],
 })
 export class FeaturesModule {}

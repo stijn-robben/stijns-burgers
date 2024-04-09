@@ -10,6 +10,7 @@ import { MenuItemNewReviewComponent } from 'libs/stijns-burgers/features/src/lib
 import { CartComponent } from 'libs/stijns-burgers/features/src/lib/cart/cart.component';
 import { OrdersComponent } from 'libs/stijns-burgers/features/src/lib/orders/orders.component';
 import { RegisterComponent } from 'libs/stijns-burgers/auth/src/lib/auth/register/register.component';
+import { AboutComponent } from 'libs/stijns-burgers/features/src/lib/about/about.component';
 // import { UserDetailComponent } from 'libs/share-a-meal/features/src/lib/user/user-detail/user-detail.component';
 // import { UserListComponent } from 'libs/share-a-meal/features/src/lib/user/user-list/user-list.component';
 // import { UserEditComponent } from 'libs/share-a-meal/features/src/lib/user/user-edit/user-edit.component';
@@ -34,6 +35,11 @@ export const appRoutes: Route[] = [
     //     component: UserListComponent,
     //     pathMatch: 'full'
     // },
+    {
+        path: 'about',
+        component: AboutComponent,
+        pathMatch: 'full'
+    },
    {
     path: 'cart',
     component: CartComponent,
