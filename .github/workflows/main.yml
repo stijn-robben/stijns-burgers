@@ -26,8 +26,6 @@ jobs:
           
       - name: Zip artifacts for deployment
         run: |
-          ls -R
-          echo ${GITHUB_WORKSPACE}
           cd apps/data-api/dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
           cd apps/stijns-burgers-web/dist/apps/stijns-burgers-web/ && zip ${GITHUB_WORKSPACE}/stijns-burgers-web-release.zip ./* -r
       - name: Upload stijns-burgers-web artifact for deployment job
