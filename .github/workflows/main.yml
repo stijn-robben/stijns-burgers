@@ -26,8 +26,10 @@ jobs:
           
       - name: Zip artifacts for deployment
         run: |
-          cd apps/data-api/dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
-          cd apps/stijns-burgers-web/dist/apps/stijns-burgers-web/ && zip ${GITHUB_WORKSPACE}/stijns-burgers-web-release.zip ./* -r
+          cd dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
+          cd ../../..
+          cd dist/apps/stijns-burgers-web/ && zip ${GITHUB_WORKSPACE}/stijns-burgers-web-release.zip ./* -r
+          cd ../../..
       - name: Upload stijns-burgers-web artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
@@ -39,6 +41,7 @@ jobs:
         with:
           name: data-api
           path: data-api-release.zip
+
           
           
   deploy-frontend-app:
