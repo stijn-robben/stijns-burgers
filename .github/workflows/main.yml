@@ -42,8 +42,6 @@ jobs:
           name: data-api
           path: data-api-release.zip
 
-          
-          
   deploy-frontend-app:
     runs-on: ubuntu-latest
     needs: build
@@ -66,8 +64,8 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.ANGULAR_PUBLISHTOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
           action: "upload"
-          app_location: "/" # App source code path
-          api_location: "" # Api source code path - optional
+          app_location: "apps/data-api" # App source code path
+          api_location: "apps/data-api/src" # Api source code path - optional
           output_location: "" # Built app content directory - optional
 
 
