@@ -91,7 +91,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'stijns-burgers-web'
+          app-name: 'stijns-burgers'
           slot-name: 'Production'
           publish-profile: ${{ secrets.NEXTJS_PUBLISHPROFILE }}
           package: "dist/apps/stijns-burgers-web/server"
