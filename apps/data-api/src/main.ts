@@ -16,7 +16,7 @@ async function bootstrap() {
 
   // Enable CORS
   app.enableCors({
-    origin: 'http://localhost:4200'
+    origin: ['http://localhost:4200', 'https://thankful-pond-004774803.4.azurestaticapps.net']
   });
 
   const port = process.env.PORT || 3000;
