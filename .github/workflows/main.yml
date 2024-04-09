@@ -30,20 +30,19 @@ jobs:
       - name: Zip artifacts for deployment
         run: |
           echo ${GITHUB_WORKSPACE}
-          cd ${GITHUB_WORKSPACE}/dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/backend-api-release.zip ./* -r
-          cd ${GITHUB_WORKSPACE}/dist/apps/stijns-burgers-web/ && zip ${GITHUB_WORKSPACE}/frontend-app-release.zip ./* -r
+          cd ${GITHUB_WORKSPACE}/dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
+          cd ${GITHUB_WORKSPACE}/dist/apps/stijns-burgers-web/ && zip ${GITHUB_WORKSPACE}/stijns-burgers-web-release.zip ./* -r
+      - name: Upload share-a-meal-web artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: stijns-burgers-web
+          path: stijns-burgers-web-release.zip
 
-      - name: Upload frontend-app artifact for deployment job
+      - name: Upload data-api artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: frontend-app
-          path: frontend-app-release.zip
-          
-      - name: Upload backend-api artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: backend-api
-          path: backend-api-release.zip
+          name: data-api
+          path: data-api-release.zip
           
           
   deploy-frontend-app:
