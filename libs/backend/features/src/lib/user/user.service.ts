@@ -5,7 +5,6 @@ import mongoose, { Model, Types } from "mongoose";
 import { ICartItem, IOrder, IUpdateOrder, IUser, Id, Order, Review, Status } from "@herkansing-cswp/shared/api";
 import { CreateOrderDto, CreateUserDto, UpdateUserDto } from "@herkansing-cswp/backend/dto";
 import { MenuItem, MenuItemDocument } from "../menu-item/menuItem.schema";
-import { RecommendationService } from "../recommendation/recommendation.service";
 
 @Injectable()
 export class UserService {
@@ -16,7 +15,6 @@ export class UserService {
         @InjectModel(User.name) private userModel: Model<UserDocument>,
         @InjectModel(MenuItem.name) private menuItemModel: Model<MenuItemDocument>,
         @InjectModel(Order.name) private readonly orderModel: Model<IOrder>,
-        private recommendationService: RecommendationService
 
     ) {}
 
@@ -56,7 +54,6 @@ export class UserService {
         console.log('createOrUpdateUser moet nu gecalled worden')
 
         this.logger.log(`Created user ${createdUser.firstName} ${createdUser.lastName}`);
-        await this.recommendationService.createUser(createdUser._id.toString());
 
         return createdUser;
     }
@@ -117,7 +114,6 @@ export class UserService {
             cartItem.price *= cartItem.quantity; // Multiply price by quantity
             user.cart.push(cartItem);
         }
-        await this.recommendationService.addMenuItemToUserCart(userId, cartItem.menuItemId);
 
         const updatedUser = await user.save();
         return updatedUser;
@@ -142,7 +138,6 @@ export class UserService {
           await user.save();
       
           this.logger.log(`Deleted cart item with id: ${cartItemId}`);
-          await this.recommendationService.deleteItemFromUserCart(user._id.toString(), menuItemId.toString());
       
           return { deleted: true };
         } catch (error) {
