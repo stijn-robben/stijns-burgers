@@ -54,4 +54,80 @@ export class OrdersService {
               });
           }, error => reject(error));
         });
-}}
+}
+updateOrderStatus(userId: string, orderId: string, newStatus: string): Promise<IUser | null> {
+  return new Promise<IUser | null>((resolve, reject) => {
+      this.authService.getToken().subscribe(token => {
+          const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+          this.http.get(`${environment.dataApiUrl}/user/${userId}`, { headers }).toPromise()
+              .then((response: any) => {
+                  if (response && response.orders) {
+                      const user: IUser = response;
+                      const orderIndex = user.orders.findIndex(order => order._id === orderId);
+
+                      if (orderIndex !== -1) {
+                          user.orders[orderIndex].status = newStatus;
+
+                          this.authService.updateUser(userId, user).toPromise()
+                              .then(updatedUser => {
+                                  if (updatedUser) {
+                                      resolve(updatedUser);
+                                  } else {
+                                      reject('User update failed');
+                                  }
+                              })
+                              .catch(error => {
+                                  reject(error);
+                              });
+                      } else {
+                          reject('Order not found');
+                      }
+                  } else {
+                      reject('User not found');
+                  }
+              })
+              .catch(error => {
+                  reject(error);
+              });
+      }, error => reject(error));
+  });
+}
+
+deleteOrder(userId: string, orderId: string): Promise<IUser | null> {
+  return new Promise<IUser | null>((resolve, reject) => {
+      this.authService.getToken().subscribe(token => {
+          const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+          this.http.get(`${environment.dataApiUrl}/user/${userId}`, { headers }).toPromise()
+              .then((response: any) => {
+                  if (response && response.orders) {
+                      const user: IUser = response;
+                      const orderIndex = user.orders.findIndex(order => order._id === orderId);
+
+                      if (orderIndex !== -1) {
+                          user.orders.splice(orderIndex, 1);
+
+                          this.authService.updateUser(userId, user).toPromise()
+                              .then(updatedUser => {
+                                  if (updatedUser) {
+                                      resolve(updatedUser);
+                                  } else {
+                                      reject('User update failed');
+                                  }
+                              })
+                              .catch(error => {
+                                  reject(error);
+                              });
+                      } else {
+                          reject('Order not found');
+                      }
+                  } else {
+                      reject('User not found');
+                  }
+              })
+              .catch(error => {
+                  reject(error);
+              });
+      }, error => reject(error));
+  });
+}
+}

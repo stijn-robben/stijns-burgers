@@ -75,7 +75,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.editMode = false;
       });
       //here
-      this.forceRefresh();
+      this.authService.getProfile()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(user => {
+        console.log('User:', user); // Log the user object
+        this.currentUser = user;
+  
+        // Fetch the reviews of the user
+        this.authService.getReviewsByUserId(user._id)
+          .subscribe(reviews => {
+            console.log('Reviews:', reviews);
+            this.userReviews = reviews;
+          });
+      });
 
   }
 
@@ -121,7 +133,19 @@ export class ProfileComponent implements OnInit, OnDestroy {
     } else {
       console.error('Review or review ID is undefined');
     }
-    this.forceRefresh();
+    this.authService.getProfile()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(user => {
+        console.log('User:', user); // Log the user object
+        this.currentUser = user;
+  
+        // Fetch the reviews of the user
+        this.authService.getReviewsByUserId(user._id)
+          .subscribe(reviews => {
+            console.log('Reviews:', reviews);
+            this.userReviews = reviews;
+          });
+      });
 
   }    
   
