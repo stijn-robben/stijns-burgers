@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 import { environment } from '@herkansing-cswp/shared/util-env';
 import { MongooseModule } from '@nestjs/mongoose';
 import { FeaturesBackendModule } from '@herkansing-cswp/backend/features';
-
+// eslint-disable-next-line @nx/enforce-module-boundaries
 @Module({
   imports: [
     MongooseModule.forRoot(environment.mongo, {

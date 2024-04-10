@@ -430,6 +430,12 @@ button.btn-primary:active::before {
     height: 50px;
 }
 
+.bg-bridge-8 {
+    background-image: url(./assets/img/bridge-6.jpg);
+    background-size:auto;
+    height: 50px;
+}
+
 
 .story p, .menu p, .form-label{
     color: var(--color5);

@@ -3,11 +3,11 @@ import { UserService } from "../user/user.service";
 import { JwtService } from '@nestjs/jwt';
 import { IUser } from "@herkansing-cswp/shared/api";
 import { CreateUserDto } from "@herkansing-cswp/backend/dto";
-
+import { RecommendationService } from "../recommendation/recommendation.service";
 @Injectable()
 export class AuthService {
     TAG = 'AuthService';
-  constructor(private userService: UserService, private jwtService: JwtService) {}
+  constructor(private userService: UserService, private jwtService: JwtService, private recommendationService: RecommendationService) {}
 
 
   async validateUser(emailAddress: string, pass: string): Promise<Omit<IUser, 'password'>> {
@@ -29,8 +29,10 @@ export class AuthService {
   async register(createUserDto: CreateUserDto): Promise<IUser> {
     Logger.log('Attempting to create a new user', this.TAG);
     try {
+
         const user = await this.userService.create(createUserDto);
         Logger.log(`User successfully created with email: ${user.emailAddress}`, this.TAG);
+
         return user;
     } catch (error: unknown) {
       Logger.error('Error during user registration', error instanceof Error ? error.message : String(error));

@@ -33,7 +33,7 @@
     <div class="bg-bridge">
 
     </div>
-    <div class="bg-pink">
+    <div class="bg-pink pb-5">
         <h2 style="color: #EDC16E" class="pt-5 text-center">Reviews</h2>
 
         <div class="container col-md-12 story pb-5">
@@ -66,7 +66,7 @@
                                         </ng-container>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -74,4 +74,31 @@
 
             </div>
     </div>
+    </div>
+    <div class="bg-bridge-8 pt-5">
+    </div>
+    <div class="bg-green">
+        <div class="py-5 heading text-center">
+            <h2 style="color: #EF8784">Recommendations</h2>
+        </div>
+        <div class="container col-md-12 story pb-5">
+            <div class="row">
+                <div *ngFor="let rec of recommendation" class="col-lg-4 col-md-12 col-sm-12 pt-4">
+                    <div class="card-without-bottom">
+                        <div class="card-body" style="min-height: 430px">
+                            <a [routerLink]="['../', rec._id]" routerLinkActive="active">
+                                <div>
+                                    <div class="menuitem-image-container">
+                                        <img [src]="rec.img_url" width="100%" class="rounded-3">
+                                    </div>
+                                    <h4 class="pt-3 card-title">{{rec.name}}</h4>
+                                    <p class="card-text">€{{rec.price}}</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
 </div>

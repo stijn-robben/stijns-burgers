@@ -5,6 +5,7 @@ import mongoose, { Model, Types } from "mongoose";
 import { ICartItem, IOrder, IUpdateOrder, IUser, Id, Order, Review, Status } from "@herkansing-cswp/shared/api";
 import { CreateOrderDto, CreateUserDto, UpdateUserDto } from "@herkansing-cswp/backend/dto";
 import { MenuItem, MenuItemDocument } from "../menu-item/menuItem.schema";
+import { RecommendationService } from "../recommendation/recommendation.service";
 
 @Injectable()
 export class UserService {
@@ -15,6 +16,7 @@ export class UserService {
         @InjectModel(User.name) private userModel: Model<UserDocument>,
         @InjectModel(MenuItem.name) private menuItemModel: Model<MenuItemDocument>,
         @InjectModel(Order.name) private readonly orderModel: Model<IOrder>,
+        private recommendationService: RecommendationService
 
     ) {}
 
@@ -47,14 +49,21 @@ export class UserService {
             user._id = new Types.ObjectId().toHexString();
           }
           
-        const createdUser = new this.userModel(user);
+        const createdUser = await new this.userModel(user);
+        console.log('createdUser', createdUser);
+
         await createdUser.save();
+        console.log('createOrUpdateUser moet nu gecalled worden')
+
         this.logger.log(`Created user ${createdUser.firstName} ${createdUser.lastName}`);
+        await this.recommendationService.createUser(createdUser._id.toString());
+
         return createdUser;
     }
 
     async update(_id: Id, user: UpdateUserDto): Promise<IUser | null> {
         this.logger.log(`Update user ${user.firstName}`);
+
         return this.userModel.findByIdAndUpdate({ _id }, user, { new: true });
     }
 
@@ -66,6 +75,7 @@ export class UserService {
                 this.logger.debug(`No user found to delete with id: ${_id}`);
                 return { deleted: false, message: 'No user found with that ID' };
             }
+
             this.logger.log(`Deleted user with id: ${_id}`);
             return { deleted: true };
         } catch (error) {
@@ -107,34 +117,39 @@ export class UserService {
             cartItem.price *= cartItem.quantity; // Multiply price by quantity
             user.cart.push(cartItem);
         }
-    
+        await this.recommendationService.addMenuItemToUserCart(userId, cartItem.menuItemId);
+
         const updatedUser = await user.save();
         return updatedUser;
     }
     async removeFromCart(userId: string, cartItemId: string): Promise<{ deleted: boolean; message?: string }> {
-      try {
+        try {
           const user = await this.userModel.findById(userId).exec();
           if (!user) {
-              this.logger.debug(`No user found with id: ${userId}`);
-              return { deleted: false, message: 'No user found with that ID' };
+            this.logger.debug(`No user found with id: ${userId}`);
+            return { deleted: false, message: 'No user found with that ID' };
           }
-  
+      
           const cartItemIndex = user.cart.findIndex(item => item._id.toString() === cartItemId);
           if (cartItemIndex === -1) {
-              this.logger.debug(`No cart item found with id: ${cartItemId}`);
-              return { deleted: false, message: 'No cart item found with that ID' };
+            this.logger.debug(`No cart item found with id: ${cartItemId}`);
+            return { deleted: false, message: 'No cart item found with that ID' };
           }
-  
+      
+          const menuItemId = user.cart[cartItemIndex].menuItemId;
+      
           user.cart.splice(cartItemIndex, 1);
           await user.save();
-  
+      
           this.logger.log(`Deleted cart item with id: ${cartItemId}`);
+          await this.recommendationService.deleteItemFromUserCart(user._id.toString(), menuItemId.toString());
+      
           return { deleted: true };
-      } catch (error) {
+        } catch (error) {
           this.logger.error(`Error deleting cart item with id ${cartItemId}: ${error}`);
           throw error;
+        }
       }
-  }
 
   async getUnitPrice(menuItemId: string): Promise<number> {
     const menuItem = await this.menuItemModel.findById(menuItemId).exec();
@@ -167,6 +182,10 @@ export class UserService {
 
     // Update the quantity of the cart item
     cartItem.quantity = quantity;
+
+    
+    
+
 
     // Recalculate the price of the cart item
     const unitPrice = await this.getUnitPrice(cartItem.menuItemId);
