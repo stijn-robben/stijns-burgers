@@ -92,7 +92,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'cwfr-stijn-robben'
+          app-name: 'stijns-burgers'
           slot-name: 'Production'
           publish-profile: ${{ secrets.NEXTJS_PUBLISHPROFILE }}
           package: "." # The current directory should contain the unzipped Angular application
