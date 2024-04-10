@@ -148,6 +148,24 @@ export class ProfileComponent implements OnInit, OnDestroy {
       });
 
   }    
+
+  deleteCurrentUser(): void {
+    if (this.currentUser && this.currentUser._id) {
+      this.authService.deleteUser(this.currentUser._id)
+        .subscribe(
+          () => {
+            console.log('User deleted successfully');
+            // Redirect to the login page or home page
+            this.router.navigate(['/login']);
+          },
+          error => {
+            console.error('Error deleting user:', error);
+          }
+        );
+    } else {
+      console.error('Current user or user ID is undefined');
+    }
+  }
   
   forceRefresh(): void {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {

@@ -179,6 +179,27 @@ export class AuthService {
     );
   }
 
+  deleteUser(id: string): Observable<any> {
+    return this.getToken().pipe(
+      switchMap(token => {
+        // Log the user out
+        
+        this.logout();
+        const headers = new HttpHeaders({
+          'Authorization': `Bearer ${token}`
+        });
+        console.log(token)
+        // Make a DELETE request to the /user/:id endpoint
+        return this.http.delete(`${this.userEndpoint}/${id}`, { headers });
+      }),
+      catchError(error => {
+        console.error('Error deleting user:', error);
+        return throwError(error);
+      })
+    );
+  }
+
+
   updateReview(reviewId: string, updatedReview: Review): Observable<Review> {
     return this.getToken().pipe(
       switchMap(token => {

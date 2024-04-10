@@ -73,25 +73,18 @@ async update(@Param('id') id: string, @Body() data: UpdateUserDto, @Req() req: a
 }
 
     @Delete(':id')
-    @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles('admin')
+    @UseGuards(JwtAuthGuard)
     @ApiOperation({ summary: 'Delete a user by ID' })
     @ApiOkResponse({ description: 'Successfully deleted user' })
     @ApiBadRequestResponse({ description: 'Invalid user ID' })
     deleteUser(@Param('id') id: Id, @Req() req:any): any {
-        const requester = req.user;
-        const loggedInUserId = req.user._id;
-        const isAdmin = req.user.role == 'admin';
-    
-        if (!(id)) {
-          throw new BadRequestException('Invalid user ID');
-        }
-         if (id !== loggedInUserId && !isAdmin) {
-          throw new ForbiddenException('Unauthorized access');
-        }
-        if (requester.role !== 'admin' && requester.sub !== id) {
-          throw new BadRequestException('Unauthorized access');
-        }
+      const loggedInUserId = req.user.sub;
+
+      if (loggedInUserId !== id) {
+        throw new UnauthorizedException();
+      }
+
+        
        return this.userService.delete(id);
     }
 

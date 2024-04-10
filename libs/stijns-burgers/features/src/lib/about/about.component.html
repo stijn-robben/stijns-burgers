@@ -1,8 +1,8 @@
 <!-- Titel, webapplicatie in het kader van Client-Side webdevelopment, Beschrijving casus, Functionele requirements (moscow requirement, toelichting) en  niet functionele requirements, ERD-->
 <div class="bg-dark-yellow">
-    <div class="pt-5 container">
+    <div class="pt-5">
         <h2 class="text-center">About</h2>
-        <div class="col-md-12 story pb-1">
+        <div class="col-md-12 story pb-1 container">
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-sm-12 pb-4">
                     <div class="card-without-bottom">
@@ -22,14 +22,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12 story pb-4">
+        <div class="col-md-12 story pb-4 container">
             <div class="card-without-bottom">
                 <div class="card-body">
                     <h4 class="pt-3 card-title text-center">Functionele requirements</h4>
                     <table class="table-striped table-bordered">
                         <thead>
                           <tr>
-                            <th scope="col">Requirement</th>
+                            <th scope="col">Functional Requirement</th>
+                            <th scope="col">Acceptatiecriteria</th>
                             <th scope="col">M</th>
                             <th scope="col">S</th>
                             <th scope="col">C</th>
@@ -38,119 +39,227 @@
                         </thead>
                         <tbody>
                           <tr>
-                            <th scope="row">Klanten moeten zich kunnen registreren voor een account op de website.</th>
+                            <th scope="row">Als klant wil ik me kunnen registreren voor een account op de website, zodanig dat ik toegang krijg tot alle functionaliteiten van de website.
+
+                            </th>
+                            <td>- Het registratieproces moet een geldig e-mailadres vereisen. <br>
+                              - Klanten moeten een wachtwoord instellen dat voldoet aan de veiligheidsvereisten.<br>
+                              - Na registratie ontvangt de klant een bevestigingsmail.
+                              </td>
                             <td>✓</td>
                             <td></td>
                             <td></td>
                             <td></td>
                           </tr>
                           <tr>
-                            <th scope="row">Klanten hun informatie weergeven, aanpassen en hun account volledig verwijderen.</th>
+                            <th scope="row">Als klant wil ik mijn informatie kunnen bekijken, aanpassen en mijn account volledig kunnen verwijderen, zodanig dat ik volledige controle heb over mijn persoonlijke gegevens.
+
+                              </th>
+                              <td>- Klanten moeten kunnen inloggen op hun account. <br>
+                                - Klanten moeten in staat zijn om hun profielgegevens te bewerken. <br>
+                                - Klanten moeten de optie hebben om hun account permanent te verwijderen. 
+                                </td>
                             <td>✓</td>
                             <td></td>
                             <td></td>
                             <td></td>
                           </tr>
                           <tr>
-                            <th scope="row">Klanten een overzichtelijke weergave geven van burgers en sides met prijzen.</th>
+                            <th scope="row">Als klant wil ik een overzichtelijke weergave van burgers en sides met prijzen, zodanig dat ik gemakkelijk keuzes kan maken tijdens het bestellen.
+
+                            </th>
+                            <td>
+                              - De menu-items moeten duidelijk gecategoriseerd en gepresenteerd worden. <br>
+- Klanten moeten prijzen en beschrijvingen van burgers en sides kunnen zien.
+
+                            </td>
                             <td>✓</td>
                             <td></td>
                             <td></td>
                             <td></td>
                           </tr>
                           <tr>
-                            <th scope="row">Klanten een productpagina kunnen laten zien met reviews van andere gebruikers.</th>
+                            <th scope="row">Als klant wil ik een productpagina kunnen bekijken met reviews van andere gebruikers, zodanig dat ik inzicht krijg in de kwaliteit van het product.
+
+                            </th>
+                            <td>-Productpagina's moeten beoordelingen van andere gebruikers tonen.<br>
+                              -Klanten moeten beoordelingen kunnen lezen en sorteren op relevantie.
+                              </td>
                             <td>✓</td>
                             <td></td>
                             <td></td>
                             <td></td>
                           </tr>
                           <tr>
-                            <th scope="row">Klanten de mogelijkheid bieden om een review achter te laten, te verwijderen en aan te passen.</th>
+                            <th scope="row">Als klant wil ik producten kunnen toevoegen aan mijn winkelmandje, de hoeveelheid kunnen aanpassen en producten kunnen verwijderen, zodanig dat ik mijn bestelling gemakkelijk kan beheren.
+
+                            </th>
+                            <td>- Klanten moeten producten kunnen toevoegen aan hun winkelmandje.<br>
+                              - Klanten moeten de hoeveelheid van elk product kunnen aanpassen.<br>
+                              - Klanten moeten producten kunnen verwijderen uit hun winkelmandje.
+                              </td>
+                              
                             <td>✓</td>
                             <td></td>
                             <td></td>
                             <td></td>
                           </tr>
                           <tr>
-                            <th scope="row">Klanten kunnen producten in hun winkelmandje plaatsen. Ze kunnen ook de hoeveelheid aanpassen en producten verwijden.</th>
+                            <th scope="row">Als klant wil ik zowel op mijn computer als op mijn telefoon een bestelling kunnen plaatsen (responsive), zodanig dat ik gemakkelijk toegang heb tot de website, ongeacht het apparaat dat ik gebruik.
+
+                            </th>
+                            <td>
+                              - De website moet responsief zijn en goed functioneren op zowel desktop- als mobiele apparaten.<br>
+- Alle functionaliteiten moeten toegankelijk zijn op zowel computers als telefoons.
+
+                            </td>
                             <td>✓</td>
                             <td></td>
                             <td></td>
                             <td></td>
                           </tr>
                           <tr>
-                            <th scope="row">Klanten moeten zowel op hun computer als op hun telefoon een bestelling kunnen plaatsen. (responsive)</th>
+                            <th scope="row">Als klant wil ik met de producten in mijn winkelmandje een bestelling kunnen plaatsen, zodanig dat ik mijn geselecteerde items kan aanschaffen.
+
+                            </th>
+                            <td>
+                              - Klanten moeten kunnen doorgaan naar het afrekenproces vanuit hun winkelmandje.<br>
+- Klanten moeten een bestelling kunnen plaatsen met de items in hun winkelmandje.
+
+                            </td>
                             <td>✓</td>
                             <td></td>
                             <td></td>
                             <td></td>
                           </tr>
                           <tr>
-                            <th scope="row">Klanten kunnen met de producten in hun winkelmandje een bestelling plaatsen.</th>
+                            <th scope="row">Als admin wil ik alle functionaliteiten hebben die klanten ook hebben, zodanig dat ik de website volledig kan beheren.
+
+                            </th>
+                            <td>- Admins moeten kunnen registreren en inloggen op hun account.<br>
+                              - Admins moeten toegang hebben tot alle klantfunctionaliteiten.
+                              </td>
                             <td>✓</td>
                             <td></td>
                             <td></td>
                             <td></td>
                           </tr>
                           <tr>
-                            <th scope="row">Admins kunnen alles wat klanten ook kunnen.</th>
+                            <th scope="row">Als admin wil ik menu-items kunnen aanmaken, zodanig dat ik het assortiment van de website kan beheren.
+
+                            </th>
+                            <td>
+                              - Admins moeten nieuwe menu-items kunnen toevoegen met prijzen en beschrijvingen.<br>
+- Admins moeten bestaande menu-items kunnen bewerken of verwijderen.
+
+                            </td>
                             <td>✓</td>
                             <td></td>
                             <td></td>
                             <td></td>
                           </tr>
                           <tr>
-                            <th scope="row">Admins kunnen menu items aanmaken.</th>
+                            <th scope="row">Als admin wil ik alle orders kunnen bekijken op één pagina, zodanig dat ik een overzicht heb van alle bestellingen.
+
+                            </th>
+                            <td>
+                              - Admins moeten toegang hebben tot een overzichtspagina met alle geplaatste orders.<br>
+- Admins moeten orders kunnen sorteren en filteren op verschillende parameters.
+
+                            </td>
                             <td>✓</td>
                             <td></td>
                             <td></td>
                             <td></td>
                           </tr>
                           <tr>
-                            <th scope="row">Admins kunnen alle orders in één pagina bekijken.</th>
+                            <th scope="row">Als admin wil ik alle gebruikers kunnen bekijken op één pagina en gebruikers kunnen verwijderen, zodanig dat ik gebruikersaccounts kan beheren.
+
+                            </th>
+                            <td>
+                              - Admins moeten toegang hebben tot een beheerpagina met een lijst van alle gebruikers.<br>
+- Admins moeten gebruikersaccounts kunnen verwijderen indien nodig.
+
+                            </td>
                             <td>✓</td>
                             <td></td>
                             <td></td>
                             <td></td>
                           </tr>
                           <tr>
-                            <th scope="row">Admins kunnen alle users in één pagina bekijken en users verwijderen.</th>
-                            <td>✓</td>
+                            <th scope="row">Als klant wil ik de mogelijkheid hebben om mijn bestelling te bekijken, inclusief mijn bestelgeschiedenis, zodanig dat ik mijn eerdere aankopen kan raadplegen.
+
+                            </th>
+                            <td>
+                              - Klanten moeten toegang hebben tot een overzicht van hun recente bestellingen.<br>
+- Klanten moeten details kunnen bekijken zoals bestelde items, datum van aankoop en bestelstatus.
+
+                            </td>
                             <td></td>
+                            <td>✓</td>
                             <td></td>
                             <td></td>
                           </tr>
                           <tr>
-                            <th scope="row">Klanten kunnen de bestelling weergeven (ook historie)</th>
-                            <td></td>
-                            <td>✓</td>
-                            <td></td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <th scope="row">Bij het plaatsen van een bestelling wordt een bevestigingsemail verstuurd naar de klant.</th>
-                            <td></td>
-                            <td></td>
-                            <td>✓</td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <th scope="row">Klanten kunnen zoeken op productnaam.</th>
-                            <td></td>
-                            <td></td>
-                            <td>✓</td>
-                            <td></td>
-                          </tr>
-                          <tr>
-                            <th scope="row">Bij het plaatsen van een bestelling wordt de klant verwezen naar een betaalpagina.</th>
+                            <th scope="row">Bij het plaatsen van een bestelling wil ik een bevestigingsemail ontvangen, zodanig dat ik een ontvangstbewijs heb voor mijn aankoop.
+
+                            </th>
+                            <td>
+                              - Klanten moeten automatisch een bevestigingsemail ontvangen na het plaatsen van een bestelling.<br>
+- De e-mail moet de details van de bestelling bevatten, zoals de bestelde items, het totaalbedrag en het afleveradres.
+
+                            </td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td>✓</td>
                           </tr>
                           <tr>
-                            <th scope="row">Klanten kunnen bij vragen chatten met een klantenservice-chat.</th>
+                            <th scope="row">Als klant wil ik kunnen zoeken op productnaam, zodanig dat ik snel en gemakkelijk specifieke producten kan vinden.
+
+
+
+                            </th>
+                            <td>- Klanten moeten een zoekfunctie hebben waar ze producten kunnen zoeken op naam of trefwoord.<br>
+                              - De zoekresultaten moeten relevant zijn en snel worden weergegeven.
+                              </td>
+                            <td></td>
+                            <td></td>
+                            <td>✓</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Bij het plaatsen van een bestelling wordt de klant verwezen naar een betaalpagina, zodanig dat ik mijn bestelling veilig kan afrekenen.
+
+                            </th>
+                            <td>
+                              - Klanten moeten na het bevestigen van hun bestelling automatisch worden doorgestuurd naar een beveiligde betaalpagina.<br>
+- De betaalpagina moet verschillende betaalmethoden ondersteunen en veiligheid garanderen.
+
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>✓</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Als klant wil ik kunnen bladeren door aanbevolen producten, zodanig dat ik nieuwe producten kan ontdekken.
+
+
+                            </th>
+                            <td>
+                              - De website moet een sectie hebben voor aanbevolen producten op de menu pagina.<br>
+- Aanbevolen producten moeten gebaseerd zijn op de aankoopgeschiedenis van de andere klanten.
+
+                            </td>
+                            <td>✓</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Als klant wil ik de website meertaligheid hebben.</th>
+                            <td>Geen acceptatiecriteria, dit zal niet worden geïmplementeerd.</td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -158,13 +267,15 @@
                           </tr>
                           <tr>
                             <th scope="row">Klanten kunnen bij het toevoegen van een product verschillende ingrediënten veranderen.</th>
+                            <td>Geen acceptatiecriteria, dit zal niet worden geïmplementeerd.</td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td>✓</td>
                           </tr>
                           <tr>
-                            <th scope="row">De website biedt meertaligheid aan.</th>
+                            <th scope="row">Als klant wil ik kunnen chatten met een klantenservice-chat.</th>
+                            <td>Geen acceptatiecriteria, dit zal niet worden geïmplementeerd.</td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -177,7 +288,7 @@
             </div>
         </div>
         
-        <div class="col-md-12 story pb-4">
+        <div class="col-md-12 story pb-4 container">
           <div class="card-without-bottom">
             <div class="card-body text-center">
                 <h4 class="pt-3 card-title">ERD</h4>
