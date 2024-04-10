@@ -7,7 +7,6 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '@herkansing-cswp/shared/util-env';
 import { IUser, Review } from '@herkansing-cswp/shared/api';
 import { CreateUserDto } from '@herkansing-cswp/backend/dto';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -35,6 +34,7 @@ export class AuthService {
       if (!user) {
         throw new Error('User creation failed');
       }
+
       return user;
     });
   }

@@ -50,6 +50,7 @@ export class UserController {
     @ApiBadRequestResponse({ description: 'Bad request. Invalid data.' })
     @ApiBody({ type: CreateUserDto })
     create(@Body() data: CreateUserDto):Promise<IUser> {
+      
         return this.userService.create(data);
     }
 

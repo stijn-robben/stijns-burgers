@@ -1,47 +1,33 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Neo4jService } from 'nest-neo4j/dist';
 import { IUser, ICartItem, IOrder, IMenuItem } from '@herkansing-cswp/shared/api';
-
 @Injectable()
 export class RecommendationService {
   private readonly logger: Logger = new Logger(RecommendationService.name);
 
   constructor(private readonly neo4jService: Neo4jService) {}
 
-  async createOrUpdateUser(user: IUser) {
-    console.log('createOrUpdateUser' + user)
-    const result = await this.neo4jService.write(
-      `
-      MERGE (u:User { _id: $id })
-      ON CREATE SET u.name = $name
-      ON MATCH SET u.name = $name
-      RETURN u
-    `,
-      {
-        id: user._id?.toString(),
-        name: user.firstName,
-      }
-    );
-    console.log('resultNEO', result);
-    console.log('NEO', user._id?.toString(), user.firstName + ' ' + user.lastName);
-
-    return result;
-  }
-
-  async deleteUserNeo(userId: string) {
-    this.logger.log(`Deleting user with ID: ${userId}`);
-
-    const result = await this.neo4jService.write(
-      `
-      MATCH (u:User { _id: $userId })
-      DETACH DELETE u
-    `,
-      {
-        userId,
-      }
-    );
-
-    return result;
+  async createUser(userId: string) {
+    try {
+      this.logger.log(`Creating user with ID: ${userId}`);
+  
+      console.log('createOrUpdateUser' + userId)
+      const result = await this.neo4jService.write(
+        `
+        MERGE (u:User { _id: $id })
+        RETURN u
+      `,
+        {
+          id: userId,
+        }
+      );
+      console.log('resultNEO', result);
+  
+      return result;
+    } catch (error) {
+      console.error('Error in createOrUpdateUser:', error);
+    }
+    return null;
   }
 
   async addMenuItemToUserCart(userId: string, menuItemId: string) {
@@ -64,19 +50,33 @@ export class RecommendationService {
 
   async deleteItemFromUserCart(userId: string, menuItemId: string) {
     this.logger.log(`Deleting menuitem ${menuItemId} from user ${userId}'s cart`);
-
-    const result = await this.neo4jService.write(
+  
+    const matchResult = await this.neo4jService.write(
       `
       MATCH (u:User { _id: $userId })-[r:ADDED_TO_CART]->(m:MenuItem { _id: $menuItemId })
-      DELETE r
-    `,
+      RETURN u, m, r
+      `,
       {
         userId,
         menuItemId,
       }
     );
-
-    return result;
+  
+    console.log(matchResult);
+  
+    const deleteResult = await this.neo4jService.write(
+      `
+      MATCH (u:User { _id: $userId })-[r:ADDED_TO_CART]->(m:MenuItem { _id: $menuItemId })
+      DELETE r
+      RETURN u, m
+      `,
+      {
+        userId,
+        menuItemId,
+      }
+    );
+  
+    return deleteResult;
   }
 
   async createOrUpdateMenuItem(menuitem: IMenuItem) {

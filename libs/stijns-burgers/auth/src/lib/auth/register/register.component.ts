@@ -4,7 +4,6 @@ import { AuthService } from '../auth.service';
 import { CreateUserDto } from '@herkansing-cswp/backend/dto';
 import { Router } from '@angular/router';
 import { UserRole } from '@herkansing-cswp/shared/api';
-
 @Component({
   selector: 'stijns-burgers-register',
   templateUrl: './register.component.html',
@@ -15,7 +14,7 @@ export class RegisterComponent {
   constructor(
     private formBuilder: FormBuilder, 
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {
     this.registerForm = this.formBuilder.group({
       firstName: ['', Validators.required],

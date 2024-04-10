@@ -51,16 +51,18 @@ export class UserService {
           
         const createdUser = await new this.userModel(user);
         console.log('createdUser', createdUser);
-        await this.recommendationService.createOrUpdateUser(createdUser);
 
         await createdUser.save();
+        console.log('createOrUpdateUser moet nu gecalled worden')
+
         this.logger.log(`Created user ${createdUser.firstName} ${createdUser.lastName}`);
+        await this.recommendationService.createUser(createdUser._id.toString());
+
         return createdUser;
     }
 
     async update(_id: Id, user: UpdateUserDto): Promise<IUser | null> {
         this.logger.log(`Update user ${user.firstName}`);
-        await this.recommendationService.createOrUpdateUser(user);
 
         return this.userModel.findByIdAndUpdate({ _id }, user, { new: true });
     }
@@ -73,7 +75,6 @@ export class UserService {
                 this.logger.debug(`No user found to delete with id: ${_id}`);
                 return { deleted: false, message: 'No user found with that ID' };
             }
-            this.recommendationService.deleteUserNeo(_id);
 
             this.logger.log(`Deleted user with id: ${_id}`);
             return { deleted: true };
@@ -116,35 +117,39 @@ export class UserService {
             cartItem.price *= cartItem.quantity; // Multiply price by quantity
             user.cart.push(cartItem);
         }
-        await this.recommendationService.addMenuItemToUserCart(userId, cartItem._id);
+        await this.recommendationService.addMenuItemToUserCart(userId, cartItem.menuItemId);
 
         const updatedUser = await user.save();
         return updatedUser;
     }
     async removeFromCart(userId: string, cartItemId: string): Promise<{ deleted: boolean; message?: string }> {
-      try {
+        try {
           const user = await this.userModel.findById(userId).exec();
           if (!user) {
-              this.logger.debug(`No user found with id: ${userId}`);
-              return { deleted: false, message: 'No user found with that ID' };
+            this.logger.debug(`No user found with id: ${userId}`);
+            return { deleted: false, message: 'No user found with that ID' };
           }
-  
+      
           const cartItemIndex = user.cart.findIndex(item => item._id.toString() === cartItemId);
           if (cartItemIndex === -1) {
-              this.logger.debug(`No cart item found with id: ${cartItemId}`);
-              return { deleted: false, message: 'No cart item found with that ID' };
+            this.logger.debug(`No cart item found with id: ${cartItemId}`);
+            return { deleted: false, message: 'No cart item found with that ID' };
           }
-  
+      
+          const menuItemId = user.cart[cartItemIndex].menuItemId;
+      
           user.cart.splice(cartItemIndex, 1);
           await user.save();
-          await this.recommendationService.deleteItemFromUserCart(userId, cartItemId);
+      
           this.logger.log(`Deleted cart item with id: ${cartItemId}`);
+          await this.recommendationService.deleteItemFromUserCart(user._id.toString(), menuItemId.toString());
+      
           return { deleted: true };
-      } catch (error) {
+        } catch (error) {
           this.logger.error(`Error deleting cart item with id ${cartItemId}: ${error}`);
           throw error;
+        }
       }
-  }
 
   async getUnitPrice(menuItemId: string): Promise<number> {
     const menuItem = await this.menuItemModel.findById(menuItemId).exec();
@@ -177,6 +182,10 @@ export class UserService {
 
     // Update the quantity of the cart item
     cartItem.quantity = quantity;
+
+    
+    
+
 
     // Recalculate the price of the cart item
     const unitPrice = await this.getUnitPrice(cartItem.menuItemId);

@@ -32,7 +32,6 @@ export class AuthService {
 
         const user = await this.userService.create(createUserDto);
         Logger.log(`User successfully created with email: ${user.emailAddress}`, this.TAG);
-        await this.recommendationService.createOrUpdateUser(user);
 
         return user;
     } catch (error: unknown) {
