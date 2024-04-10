@@ -117,8 +117,7 @@ export class MenuItemService extends GenericService<IMenuItem> {
     });
   }
 
-  
-
-
-
+  getRecommendationsForProduct(menuItemId: string): Observable<IMenuItem[]> {
+    return this.http.get<IMenuItem[]>(`${environment.dataApiUrl}/recommendations/${menuItemId}`);
+  }
 }

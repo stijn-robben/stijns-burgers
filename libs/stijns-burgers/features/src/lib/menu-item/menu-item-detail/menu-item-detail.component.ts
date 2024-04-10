@@ -13,6 +13,7 @@ import { AuthService } from '@herkansing-cswp/auth';
 })
 export class MenuItemDetailComponent implements OnInit, OnDestroy {
     menuitem: IMenuItem | null = null;
+    recommendation: IMenuItem[] | null = null
     subscription: Subscription | undefined = undefined;
     userNames = new Map<string, string>();
     constructor(private route: ActivatedRoute, private menuitemService: MenuItemService, private http: HttpClient, private authService: AuthService) {}
@@ -30,9 +31,27 @@ export class MenuItemDetailComponent implements OnInit, OnDestroy {
               if (review._id_user) {
                 this.http.get(`${environment.dataApiUrl}/user/${review._id_user}/name`, {responseType: 'text'}).subscribe(name => {
                   this.userNames.set(review._id_user, name);
-                });              }
+                });
+              }
             });
-          }        });
+          }
+    
+          // Fetch the recommendations
+          if (this.menuitem && this.menuitem._id) {
+            this.menuitemService.getRecommendationsForProduct(this.menuitem._id)
+              .subscribe(
+                recommendations => {
+                  console.log('Product recommendations:', recommendations);
+                  this.recommendation = recommendations;
+                },
+                error => {
+                  console.error('Error getting product recommendations:', error);
+                }
+              );
+          } else {
+            console.error('Menu item or menu item ID is undefined');
+          }
+        });
       });
     }
     
@@ -112,6 +131,8 @@ export class MenuItemDetailComponent implements OnInit, OnDestroy {
   
       return allergens.map(allergen => this.allergenSymbols[allergen] || allergen).join(', ');
     }
+
+
   }  
     
 

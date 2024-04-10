@@ -131,7 +131,7 @@ export class RecommendationService {
       WHERE u IN users AND otherMenuItem <> m1
       RETURN otherMenuItem, COUNT(*) AS count
       ORDER BY count DESC
-      LIMIT 5
+      LIMIT 3
     `,
       {
         menuItemId,
