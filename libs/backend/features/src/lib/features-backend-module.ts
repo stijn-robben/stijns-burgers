@@ -10,20 +10,10 @@ import { MenuItemService } from "./menu-item/menuItem.service";
 import { UserController } from "./user/user.controller";
 import { UserService } from "./user/user.service";
 import { Order, Review } from "@herkansing-cswp/shared/api";
-import { RecommendationController } from "./recommendation/recommendation.controller";
-import { RecommendationService } from "./recommendation/recommendation.service";
-import { Neo4jModule, Neo4jScheme } from "nest-neo4j/dist";
 import { environment } from "@herkansing-cswp/shared/util-env";
 @Module({
 
     imports: [
-      Neo4jModule.forRoot({
-        scheme: environment.neo4j.schema as Neo4jScheme,
-        host: environment.neo4j.host,
-        port: environment.neo4j.password,
-        username: environment.neo4j.username,
-        password: environment.neo4j.password,
-      }),
       JwtModule.register({
         secret: 'secret',
         signOptions: { expiresIn: '60m' },
@@ -35,12 +25,11 @@ import { environment } from "@herkansing-cswp/shared/util-env";
     ])
     ],
     controllers: [
-      RecommendationController,
       UserController,
       AuthController,
       MenuItemController,
     ],
-    providers: [UserService, AuthService, MenuItemService, RecommendationService],
-    exports: [UserService, AuthService, MenuItemService, RecommendationService],
+    providers: [UserService, AuthService, MenuItemService],
+    exports: [UserService, AuthService, MenuItemService],
   })
   export class FeaturesBackendModule {}

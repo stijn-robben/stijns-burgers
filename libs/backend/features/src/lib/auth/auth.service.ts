@@ -3,11 +3,10 @@ import { UserService } from "../user/user.service";
 import { JwtService } from '@nestjs/jwt';
 import { IUser } from "@herkansing-cswp/shared/api";
 import { CreateUserDto } from "@herkansing-cswp/backend/dto";
-import { RecommendationService } from "../recommendation/recommendation.service";
 @Injectable()
 export class AuthService {
     TAG = 'AuthService';
-  constructor(private userService: UserService, private jwtService: JwtService, private recommendationService: RecommendationService) {}
+  constructor(private userService: UserService, private jwtService: JwtService) {}
 
 
   async validateUser(emailAddress: string, pass: string): Promise<Omit<IUser, 'password'>> {
