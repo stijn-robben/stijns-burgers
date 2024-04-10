@@ -92,6 +92,7 @@ jobs:
         run: |
           npm install
           npm install nest-neo4j
+          npm install @nestjs/config
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
