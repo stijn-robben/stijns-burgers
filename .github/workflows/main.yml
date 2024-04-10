@@ -23,14 +23,14 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present
-          
+
       - name: Zip artifacts for deployment
         run: |
           cd dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
           cd ../../..
           cd dist/apps/stijns-burgers-web/ && zip ${GITHUB_WORKSPACE}/stijns-burgers-web-release.zip ./* -r
           cd ../../..
-          
+
       - name: Upload stijns-burgers-web artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
@@ -68,26 +68,31 @@ jobs:
           app_location: '/' # App source code path
           api_location: '' # Api source code path - optional
           output_location: '' # Built app content directory - optional
-        
+
   deploy-backend-api:
     runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-  
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
           name: data-api
-  
+
       - name: Unzip artifact for deployment
         run: unzip data-api-release.zip
-  
+
       - name: Install dependencies
         run: npm install
-  
+
+      - name: Install dependencies
+        run: |
+          npm install
+          npm install nest-neo4j
+
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
@@ -95,4 +100,4 @@ jobs:
           app-name: 'stijns-burgers'
           slot-name: 'Production'
           publish-profile: ${{ secrets.NEXTJS_PUBLISHPROFILE }}
-          package: "." # The current directory should contain the unzipped Angular application
+          package: '.' # The current directory should contain the unzipped Angular application
