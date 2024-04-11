@@ -12,7 +12,6 @@ export class AuthService {
 
   async validateUser(emailAddress: string, pass: string): Promise<Omit<IUser, 'password'>> {
     Logger.log('Validating user', this.TAG, emailAddress);
-    // Use .lean() to get a plain object and then await the result
     const user = await this.userService.findOneByEmail(emailAddress).lean();
     if (!user) {
       throw new UnauthorizedException('Email not found');
@@ -21,7 +20,6 @@ export class AuthService {
       Logger.log('Validating user password', this.TAG, pass, user.password);  
       throw new UnauthorizedException('Password incorrect');
     }
-    // Since you're using .lean(), the password won't be included, but if it is, omit it here
     const { password, ...result } = user;
     return result;
   }
@@ -36,7 +34,6 @@ export class AuthService {
         return user;
     } catch (error: unknown) {
       Logger.error('Error during user registration', error instanceof Error ? error.message : String(error));
-      // If it's a MongoDB error, we can log the error code as well
       if (typeof error === 'object' && error !== null && 'code' in error) {
           const errorCode = (error as { code?: number }).code;
           Logger.error(`MongoDB Error Code: ${errorCode}`);
@@ -57,7 +54,6 @@ export class AuthService {
         // Maak een payload voor het JWT token met de nodige gebruikersinformatie
         const payload = { username: user.emailAddress, sub: user._id, role: user.role };
         
-        // Teken het JWT token asynchroon
         const access_token = await this.jwtService.signAsync(payload);
         user.token = access_token;
         // Retourneer het access token en de gebruikersinformatie, exclusief het wachtwoord

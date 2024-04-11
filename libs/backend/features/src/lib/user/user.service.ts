@@ -95,7 +95,7 @@ export class UserService {
     }
 
 
-      async addToCart(userId: string, cartItem: ICartItem): Promise<IUser> {
+    async addToCart(userId: string, cartItem: ICartItem): Promise<IUser | null> {
         this.logger.log(`Adding cart item to user ${userId}`);
     
         const user = await this.userModel.findById(userId).exec();
@@ -105,21 +105,27 @@ export class UserService {
             throw new NotFoundException(`User with id ${userId} not found`);
         }
     
-        // Check if the cart item already exists in the user's cart
         const existingCartItem = user.cart.find(item => item.menuItemId === cartItem.menuItemId);
     
         if (existingCartItem) {
-            // If the cart item already exists, increase the quantity and aggregate the price
-            existingCartItem.quantity += cartItem.quantity;
-            existingCartItem.price += cartItem.price * cartItem.quantity; // Multiply price by quantity
+            await this.userModel.updateOne(
+                { _id: userId, 'cart.menuItemId': cartItem.menuItemId },
+                { 
+                    $inc: { 'cart.$.quantity': cartItem.quantity, 'cart.$.price': cartItem.price * cartItem.quantity },
+                    $max: { 'cart.$.quantity': 20 } 
+                }
+            );
         } else {
-            // If the cart item does not exist, add it to the cart
-            cartItem.price *= cartItem.quantity; // Multiply price by quantity
-            user.cart.push(cartItem);
+            cartItem.price *= cartItem.quantity;
+            await this.userModel.updateOne(
+                { _id: userId },
+                { $push: { cart: cartItem } }
+            );
         }
+    
         await this.recommendationService.addMenuItemToUserCart(userId, cartItem.menuItemId);
-
-        const updatedUser = await user.save();
+    
+        const updatedUser = await this.userModel.findById(userId).exec();
         return updatedUser;
     }
     async removeFromCart(userId: string, cartItemId: string): Promise<{ deleted: boolean; message?: string }> {

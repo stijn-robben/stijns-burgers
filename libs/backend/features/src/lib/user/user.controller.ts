@@ -186,27 +186,7 @@ async deleteCartItems(
   return this.userService.deleteCartItems(userId);
 }
 
-// @Post(':id/order')
-// @UseGuards(JwtAuthGuard)
-// @ApiOperation({ summary: 'Create a new order and clear the cart' })
-// @ApiCreatedResponse({ description: 'The order has been successfully created.', type: Order })
-// @ApiBadRequestResponse({ description: 'Bad request. Invalid data.' })
-// @ApiBody({ type: CreateOrderDto })
-// async createOrderAndClearCart(
-//   @Param('id') userId: string,
-//   @Req() req: any,
-//   @Body() data: CreateOrderDto
-// ): Promise<{ user: IUser, order: IOrder }> {
-//   const loggedInUserId = req.user.sub; // Get the user ID from req.user.sub
 
-//   // Check if the logged in user is the same as the user we're trying to create the order for
-//   if (loggedInUserId !== userId) {
-//     throw new UnauthorizedException();
-//   }
-
-//   await this.userService.deleteCartItems(userId);
-//   return this.userService.createOrder(userId, data, loggedInUserId);
-// }
 
 @Post('/order')
 @UseGuards(JwtAuthGuard)
