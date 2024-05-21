@@ -27,9 +27,9 @@ Tijdens periode 2.2 ligt de focus op het individueel ontwikkelen van een full-st
 - De website werkt op zowel desktop- als mobiele apparaten.
 
 <p float="left">
-  <img src="https://stijnrobben.nl/img/home.png" alt="Homepage" width="300">
+  <img src="https://stijnrobben.nl/img/home2.png" alt="Homepage" width="300">
   <img src="https://stijnrobben.nl/img/menu.png" alt="Menu Weergave" width="300">
-  <img src="https://stijnrobben.nl/img/menuitem.png" alt="Product Reviews" width="300">
+  <img src="https://stijnrobben.nl/img/menuitem2.png" alt="Product Reviews" width="300">
 </p>
 
 ## Installatie
