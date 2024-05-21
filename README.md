@@ -33,7 +33,7 @@ Tijdens periode 2.2 ligt de focus op het individueel ontwikkelen van een full-st
 </p>
 
 ## Installatie
-
+ 
 Volg deze stappen om de applicatie lokaal te draaien in een NX monorepo:
 
 1. **Clone de repository**:
