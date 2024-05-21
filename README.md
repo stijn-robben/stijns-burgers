@@ -30,7 +30,6 @@ Tijdens periode 2.2 ligt de focus op het individueel ontwikkelen van een full-st
   <img src="https://stijnrobben.nl/img/home.png" alt="Homepage" width="300">
   <img src="https://stijnrobben.nl/img/menu.png" alt="Menu Weergave" width="300">
   <img src="https://stijnrobben.nl/img/menuitem.png" alt="Product Reviews" width="300">
-  <img src="https://stijnrobben.nl/img/cart.png" alt="Winkelmandje" width="300">
 </p>
 
 ## Installatie
