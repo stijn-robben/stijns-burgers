@@ -10,7 +10,6 @@ Tijdens periode 2.2 ligt de focus op het individueel ontwikkelen van een full-st
 
 ### Aantrekkelijke homepage
 - Klanten komen op een aantrekkelijke homepage zodat ze gelijk enthousiast zijn om bij Stijn's Burgers te bestellen.
-- <img src="https://stijnrobben.nl/img/home.png" alt="Homepage" width="300" align="right">
 
 ### Account Registratie en Beheer
 - Klanten kunnen zich registreren, inloggen, profielgegevens bewerken en hun account verwijderen.
