@@ -12,7 +12,7 @@ Tijdens periode 2.2 ligt de focus op het individueel ontwikkelen van een full-st
 - Klanten komen op een aantrekkelijke homepage zodat ze gelijk enthousiast zijn om bij Stijn's Burgers te bestellen.
 
 ### Account Registratie en Beheer
-- Klanten kunnen zich registreren, inloggen, profielgegevens bewerken en hun account verwijderen.
+- Klanten kunnen zich registreren, inloggen, profielgegevens bewerken en hun account verwijderen. Ook kunnen ze hun oude orders en reviews bekijken.
 
 ### Menu Weergave
 - Overzicht van burgers en sides met prijzen en beschrijvingen.
@@ -21,7 +21,10 @@ Tijdens periode 2.2 ligt de focus op het individueel ontwikkelen van een full-st
 - Klanten kunnen reviews lezen en schrijven voor verschillende producten.
 
 ### Winkelmandje 🛒
-- Producten toevoegen, hoeveelheden aanpassen en producten verwijderen.
+- Producten toevoegen, hoeveelheden aanpassen en producten verwijderen. Ook kunnen klanten hier de order aanmaken.
+
+### Order overzicht
+- Admins kunnen alle orders op één pagina bekijken.
 
 ### Responsive Design 📱💻
 - De website werkt op zowel desktop- als mobiele apparaten.
