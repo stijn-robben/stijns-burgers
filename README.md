@@ -8,34 +8,29 @@ Tijdens periode 2.2 ligt de focus op het individueel ontwikkelen van een full-st
 
 ## Functionaliteiten
 
+### Aantrekkelijke homepage
+- Klanten komen op een aantrekkelijke homepage zodat ze gelijk enthousiast zijn om bij Stijn's Burgers te bestellen.
+- ![Homepage](https://stijnrobben.nl/img/home.png)
+
 ### Account Registratie en Beheer
 - Klanten kunnen zich registreren, inloggen, profielgegevens bewerken en hun account verwijderen.
-- ![Account Registratie en Beheer](img_url_here)
 
 ### Menu Weergave
 - Overzicht van burgers en sides met prijzen en beschrijvingen.
-- ![Menu Weergave](img_url_here)
+- ![Menu Weergave](https://stijnrobben.nl/img/menu.png)
 
-### Product Reviews
+### Productpagina's met reviews
 - Klanten kunnen reviews lezen en schrijven voor verschillende producten.
-- ![Product Reviews](img_url_here)
+- ![Product Reviews](https://stijnrobben.nl/img/menuitem.png)
 
 ### Winkelmandje 🛒
 - Producten toevoegen, hoeveelheden aanpassen en producten verwijderen.
-- ![Winkelmandje](img_url_here)
+- ![Winkelmandje](https://stijnrobben.nl/img/cart.png)
 
 ### Responsive Design 📱💻
 - De website werkt op zowel desktop- als mobiele apparaten.
 - ![Responsive Design](img_url_here)
 
-## Backend Technologieën
-
-- **NestJS**: Framework voor het bouwen van efficiënte, schaalbare Node.js server-side applicaties.
-- **NoSQL Database**: Opslag en beheer van JSON-geformatteerde data.
-
-## Frontend Technologieën
-
-- **Angular**: Platform en framework voor het bouwen van single-page client applicaties met HTML en TypeScript.
 
 ## Installatie
 
@@ -61,10 +56,5 @@ Volg deze stappen om de applicatie lokaal te draaien in een NX monorepo:
     nx run-many --target=serve --all
     ```
 
-## Licentie
-
-Dit project is gelicentieerd onder de MIT License - zie het [LICENSE](LICENSE) bestand voor details.
-
----
 
 🎉 Veel plezier met het gebruiken van Stijn's Burgers webapplicatie! 🍔
