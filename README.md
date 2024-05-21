@@ -10,27 +10,26 @@ Tijdens periode 2.2 ligt de focus op het individueel ontwikkelen van een full-st
 
 ### Aantrekkelijke homepage
 - Klanten komen op een aantrekkelijke homepage zodat ze gelijk enthousiast zijn om bij Stijn's Burgers te bestellen.
-- ![Homepage](https://stijnrobben.nl/img/home.png)
+- <img src="https://stijnrobben.nl/img/home.png" alt="Homepage" width="300" align="right">
 
 ### Account Registratie en Beheer
 - Klanten kunnen zich registreren, inloggen, profielgegevens bewerken en hun account verwijderen.
 
 ### Menu Weergave
 - Overzicht van burgers en sides met prijzen en beschrijvingen.
-- ![Menu Weergave](https://stijnrobben.nl/img/menu.png)
+- <img src="https://stijnrobben.nl/img/menu.png" alt="Menu Weergave" width="300" align="right">
 
 ### Productpagina's met reviews
 - Klanten kunnen reviews lezen en schrijven voor verschillende producten.
-- ![Product Reviews](https://stijnrobben.nl/img/menuitem.png)
+- <img src="https://stijnrobben.nl/img/menuitem.png" alt="Product Reviews" width="300" align="right">
 
 ### Winkelmandje 🛒
 - Producten toevoegen, hoeveelheden aanpassen en producten verwijderen.
-- ![Winkelmandje](https://stijnrobben.nl/img/cart.png)
+- <img src="https://stijnrobben.nl/img/cart.png" alt="Winkelmandje" width="300" align="right">
 
 ### Responsive Design 📱💻
 - De website werkt op zowel desktop- als mobiele apparaten.
-- ![Responsive Design](img_url_here)
-
+- <img src="img_url_here" alt="Responsive Design" width="300" align="right">
 
 ## Installatie
 
@@ -55,6 +54,5 @@ Volg deze stappen om de applicatie lokaal te draaien in een NX monorepo:
     ```bash
     nx run-many --target=serve --all
     ```
-
 
 🎉 Veel plezier met het gebruiken van Stijn's Burgers webapplicatie! 🍔
