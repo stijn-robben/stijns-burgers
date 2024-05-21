@@ -29,7 +29,6 @@ Tijdens periode 2.2 ligt de focus op het individueel ontwikkelen van een full-st
 
 ### Responsive Design 📱💻
 - De website werkt op zowel desktop- als mobiele apparaten.
-- <img src="img_url_here" alt="Responsive Design" width="300" align="right">
 
 ## Installatie
 
