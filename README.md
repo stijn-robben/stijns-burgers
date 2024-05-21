@@ -16,18 +16,22 @@ Tijdens periode 2.2 ligt de focus op het individueel ontwikkelen van een full-st
 
 ### Menu Weergave
 - Overzicht van burgers en sides met prijzen en beschrijvingen.
-- <img src="https://stijnrobben.nl/img/menu.png" alt="Menu Weergave" width="300" align="right">
 
 ### Productpagina's met reviews
 - Klanten kunnen reviews lezen en schrijven voor verschillende producten.
-- <img src="https://stijnrobben.nl/img/menuitem.png" alt="Product Reviews" width="300" align="right">
 
 ### Winkelmandje 🛒
 - Producten toevoegen, hoeveelheden aanpassen en producten verwijderen.
-- <img src="https://stijnrobben.nl/img/cart.png" alt="Winkelmandje" width="300" align="right">
 
 ### Responsive Design 📱💻
 - De website werkt op zowel desktop- als mobiele apparaten.
+
+<p float="left">
+  <img src="https://stijnrobben.nl/img/home.png" alt="Homepage" width="300">
+  <img src="https://stijnrobben.nl/img/menu.png" alt="Menu Weergave" width="300">
+  <img src="https://stijnrobben.nl/img/menuitem.png" alt="Product Reviews" width="300">
+  <img src="https://stijnrobben.nl/img/cart.png" alt="Winkelmandje" width="300">
+</p>
 
 ## Installatie
 
