@@ -1,6 +1,6 @@
 # Stijn's Burgers Webapplicatie 🍔
 
-Tijdens periode 2.2 ligt de focus op het individueel ontwikkelen van een full-stack JavaScript/TypeScript webapplicatie voor **Stijn's Burgers**. Dit project omvat het bouwen van een backend server met NestJS, gevoed door een MongoDB NoSQL database met JSON-geformatteerde data. De frontend wordt gehost door een Angular webapplicatie, gebruikmakend van TypeScript en Bootstrap. Zowel de backend als de frontend zitten in één NX repository. Alles is gehost in Azure.
+Tijdens periode 2.2 ligt de focus op het individueel ontwikkelen van een full-stack JavaScript/TypeScript webapplicatie voor **Stijn's Burgers**. Dit project omvat het bouwen van een backend server met NestJS, gevoed door een MongoDB NoSQL database met JSON-geformatteerde data. De frontend wordt gehost door een Angular webapplicatie, gebruikmakend van TypeScript en Bootstrap. Zowel de backend als de frontend zitten in één NX repository. Alles is gehost in Azure. 
 
 ## Casus
 
